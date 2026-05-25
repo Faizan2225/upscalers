@@ -103,9 +103,7 @@ export default function Hero() {
       }px)`;
 
       // cards rise upward through the stage
-      cardsScroll.style.transform = `translateY(${
-        -smoothP * CARD_TRAVEL_VH * vh
-      }px)`;
+      cardsScroll.style.transform = `translateY(calc(-${smoothP} * var(--travel-vh, 200vh)))`;
 
       // mouse-reactive 3D tilt of the whole track
       if (!reduce) {
@@ -159,9 +157,8 @@ export default function Hero() {
       className="card"
       style={{
         left: c.left,
-        top: `${c.topVh}vh`,
-        // cap width to the viewport on small screens, keep the aspect ratio
-        width: `min(${c.w}px, 58vw)`,
+        top: `calc(104vh + (${c.topVh - 104}vh * var(--y-spread, 1)))`,
+        width: `calc(min(${c.w}px, 58vw) * var(--card-scale, 1))`,
         aspectRatio: `${c.w} / ${c.h}`,
       }}
     >

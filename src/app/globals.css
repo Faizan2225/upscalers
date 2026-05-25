@@ -509,12 +509,32 @@ body {
   .hero__list li {
     font-size: 14px;
   }
+  .hero-wrap {
+    height: 280vh;
+  }
+  .hero {
+    --travel-vh: 170vh;
+  }
+  .card {
+    --card-scale: 0.8;
+    --y-spread: 0.8;
+  }
 }
 
 /* hide the decorative word lists once they'd collide with the CTAs */
 @media (max-width: 860px) {
   .hero__list {
     display: none;
+  }
+  .hero-wrap {
+    height: 250vh;
+  }
+  .hero {
+    --travel-vh: 140vh;
+  }
+  .card {
+    --card-scale: 0.6;
+    --y-spread: 0.6;
   }
 }
 
@@ -555,6 +575,17 @@ body {
 
   .hero__object-inner img {
     width: clamp(190px, 62vw, 300px);
+  }
+
+  .hero-wrap {
+    height: 200vh;
+  }
+  .hero {
+    --travel-vh: 120vh;
+  }
+  .card {
+    --card-scale: 0.45;
+    --y-spread: 0.45;
   }
 
   .hero__bottom {
@@ -758,7 +789,8 @@ body {
     top: auto;
     min-height: auto;
     margin-inline: 12px;
-    border-radius: 26px 26px 0 0;
+    margin-bottom: 24px;
+    border-radius: 26px;
   }
   .svc__cards {
     flex: none;
