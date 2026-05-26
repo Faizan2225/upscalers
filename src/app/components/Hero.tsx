@@ -33,18 +33,18 @@ type Card = {
 };
 const CARDS: Card[] = [
   // Line 1 (3 images): 1st is highest, 2nd is lowest, 3rd is between them
-  { left: "4%", topVh: 104, w: 450, h: 200, src: "/images/IMG_3368.PNG", from: "#1c1c22", to: "#3a3a44" },
-  { left: "35%", topVh: 108, w: 500, h: 260, src: "/images/IMG_3369.PNG", from: "#0d0d10", to: "#2b2b33" },
-  { left: "70%", topVh: 106, w: 430, h: 320, src: "/images/IMG_3370.PNG", from: "#9a9a9a", to: "#cfcfcf" },
+  { left: "4%", topVh: 104, w: 450, h: 200, src: "/images/image_Cards/IMG_3427.PNG", from: "#1c1c22", to: "#3a3a44" },
+  { left: "35%", topVh: 108, w: 500, h: 260, src: "/images/image_Cards/IMG_3433.PNG", from: "#0d0d10", to: "#2b2b33" },
+  { left: "70%", topVh: 106, w: 430, h: 320, src: "/images/image_Cards/IMG_3431.PNG", from: "#9a9a9a", to: "#cfcfcf" },
   
   // Line 2 (2 images): 1st is normal, 2nd is higher and bigger
-  { left: "8%", topVh: 160, w: 620, h: 280, src: "/images/IMG_3371.PNG", from: "#161616", to: "#3a3a3a" },
-  { left: "55%", topVh: 155, w: 700, h: 480, src: "/images/IMG_3372.PNG", from: "#7fbf38", to: "#cdee7e" },
+  { left: "8%", topVh: 160, w: 620, h: 280, src: "/images/image_Cards/IMG_3428.PNG", from: "#161616", to: "#3a3a3a" },
+  { left: "55%", topVh: 155, w: 700, h: 480, src: "/images/image_Cards/IMG_3436.PNG", from: "#7fbf38", to: "#cdee7e" },
 
   // Line 3 (3 images): Same pattern as line 1
-  { left: "4%", topVh: 220, w: 450, h: 320, src: "/images/IMG_3373.PNG", from: "#6d5bd0", to: "#a78bff" },
-  { left: "35%", topVh: 228, w: 500, h: 260, src: "/images/IMG_3374.PNG", from: "#4a5b6b", to: "#9fb2c4" },
-  { left: "70%", topVh: 226, w: 430, h: 320, src: "/images/IMG_3375.PNG", from: "#241712", to: "#e0853a" },
+  { left: "4%", topVh: 220, w: 450, h: 320, src: "/images/image_Cards/IMG_3434.PNG", from: "#6d5bd0", to: "#a78bff" },
+  { left: "35%", topVh: 228, w: 500, h: 260, src: "/images/image_Cards/IMG_3433.PNG", from: "#4a5b6b", to: "#9fb2c4" },
+  { left: "70%", topVh: 226, w: 430, h: 320, src: "/images/image_Cards/IMG_3432.PNG", from: "#241712", to: "#e0853a" },
 ];
 
 const clamp = (v: number, min: number, max: number) =>
