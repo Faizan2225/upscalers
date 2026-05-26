@@ -41,9 +41,9 @@ const CASES: CaseStudy[] = [
   },
   {
     theme: "light",
-    name: "A&B Locksmiths LLC",
-    meta: "Locksmith — Twin Falls, ID",
-    keywords: ["Locksmith in Twin Falls, ID"],
+    name: "Louisville Auto Glass and Tint",
+    meta: "Auto Glass Replacement - Louisville, KY",
+    keywords: ["Auto Glass in Louisville, KY"],
     results: [
       "Higher local rankings",
       "More leads from Google",
@@ -69,9 +69,9 @@ const CASES: CaseStudy[] = [
   },
   {
     theme: "light",
-    name: "Zero Gravity Autospa",
-    meta: "Car Detailing — Sylvan Lake, MI",
-    keywords: ["Car Detailing in Sylvan Lake MI"],
+    name: "Tree Maniac Tree Service Inc.",
+    meta: "Tree Service - Fresno, CA",
+    keywords: ["Tree Service in Fresno, CA"],
     results: [
       "More inbound leads",
       "Better Google Maps reach",
