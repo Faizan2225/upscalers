@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import { useRef } from "react";
 import PixelEye from "./PixelEye";
 
 /* guide.md · Section 5 — Results / Case Studies.
@@ -16,6 +15,14 @@ type CaseStudy = {
   from: string;
   to: string;
 };
+
+const TEXT_WORDS = [
+  "Mobile Apps",
+  "Development",
+  "Design",
+  "SEO",
+  "Ranking",
+];
 
 const CASES: CaseStudy[] = [
   {
@@ -91,15 +98,6 @@ function Check() {
 }
 
 export default function CaseStudies() {
-  const trackRef = useRef<HTMLDivElement>(null);
-
-  const scrollBy = (dir: 1 | -1) => {
-    const track = trackRef.current;
-    if (!track) return;
-    const card = track.querySelector<HTMLElement>(".cs-card");
-    const step = card ? card.offsetWidth + 24 : track.clientWidth * 0.8;
-    track.scrollBy({ left: dir * step, behavior: "smooth" });
-  };
 
   return (
     <section className="cases" aria-label="Results and case studies">
@@ -111,41 +109,11 @@ export default function CaseStudies() {
             businesses across the U.S.
           </p>
         </div>
-        <div className="cases__nav">
-          <button
-            className="cases__arrow"
-            aria-label="Previous"
-            onClick={() => scrollBy(-1)}
-          >
-            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path
-                d="M15 5l-7 7 7 7"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </button>
-          <button
-            className="cases__arrow"
-            aria-label="Next"
-            onClick={() => scrollBy(1)}
-          >
-            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path
-                d="M9 5l7 7-7 7"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </button>
-        </div>
       </div>
 
-      <div className="cases__track" ref={trackRef}>
+      <div className="cases__track">
+        <div className="cases__marquee">
+          <div className="cases__marquee-group">
         {CASES.map((c) => (
           <article key={c.name} className="cs-card" data-theme={c.theme}>
             <div className="cs-card__media">
@@ -192,7 +160,76 @@ export default function CaseStudies() {
             </div>
           </article>
         ))}
+        </div>
+        
+        <div className="cases__marquee-group" aria-hidden="true">
+          {CASES.map((c) => (
+            <article key={`${c.name}-dup`} className="cs-card" data-theme={c.theme}>
+              <div className="cs-card__media">
+                {c.src ? (
+                  <Image
+                    className="cs-card__img"
+                    src={c.src}
+                    alt=""
+                    fill
+                    sizes="(max-width: 640px) 80vw, 40vw"
+                    style={{ objectFit: "cover" }}
+                  />
+                ) : (
+                  <div
+                    className="cs-card__img"
+                    style={{
+                      background: `linear-gradient(150deg, ${c.from}, ${c.to})`,
+                    }}
+                  />
+                )}
+                <div className="cs-card__eye">
+                  <div className="cs-card__eye-circle">
+                    <PixelEye />
+                  </div>
+                </div>
+                <div className="cs-card__kw">
+                  {c.keywords.map((k) => (
+                    <span key={k}>{k}</span>
+                  ))}
+                </div>
+              </div>
+
+              <div className="cs-card__body">
+                <h3 className="cs-card__name">{c.name}</h3>
+                <p className="cs-card__meta">{c.meta}</p>
+                <ul className="cs-card__results">
+                  {c.results.map((r) => (
+                    <li key={r}>
+                      <Check />
+                      {r}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </article>
+          ))}
+        </div>
       </div>
+    </div>
+
+    <div className="cases__text-marquee">
+      <div className="cases__text-group">
+        {[...TEXT_WORDS, ...TEXT_WORDS, ...TEXT_WORDS, ...TEXT_WORDS].map((w, i) => (
+          <div key={i} className="cases__text-item">
+            {w} <span className="cases__text-star">✦</span>
+          </div>
+        ))}
+      </div>
+      <div className="cases__text-group" aria-hidden="true">
+        {[...TEXT_WORDS, ...TEXT_WORDS, ...TEXT_WORDS, ...TEXT_WORDS].map((w, i) => (
+          <div key={i + 100} className="cases__text-item">
+            {w} <span className="cases__text-star">✦</span>
+          </div>
+        ))}
+      </div>
+    </div>
+
     </section>
   );
 }

@@ -1,5 +1,7 @@
-import Image from "next/image";
+"use client";
 
+import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
 /* guide.md · Section 6 — Stats Cards.
    Add `src` (file in /public) to a card to swap its gradient visual. */
 type Stat = {
@@ -75,16 +77,46 @@ function ArrowUR() {
 }
 
 export default function StatsCards() {
+  const [visibleIndexes, setVisibleIndexes] = useState<number[]>([]);
+  const cardRefs = useRef<(HTMLElement | null)[]>([]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const index = Number(entry.target.getAttribute("data-index"));
+          if (entry.isIntersecting) {
+            setVisibleIndexes((prev) => (prev.includes(index) ? prev : [...prev, index]));
+          } else {
+            setVisibleIndexes((prev) => prev.filter((i) => i !== index));
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: "0px 0px -50px 0px" }
+    );
+
+    cardRefs.current.forEach((card) => {
+      if (card) observer.observe(card);
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <section className="stats" aria-label="Results in numbers">
       <div className="stats__grid">
         {STATS.map((s, i) => (
           <article
             key={s.value}
+            data-index={i}
+            ref={(el) => {
+              cardRefs.current[i] = el;
+            }}
             className={`stat stat--media-${s.mediaSide} ${
               i === 1 || i === 2 ? "stat--wide" : "stat--narrow"
-            }`}
+            } ${visibleIndexes.includes(i) ? "stat--visible" : ""}`}
             data-theme={s.theme}
+            style={{ animationDelay: `${i * 0.25}s` }}
           >
             {s.avatars && (
               <div className="stat__avatars" aria-hidden="true">

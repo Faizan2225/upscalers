@@ -1,3 +1,7 @@
+"use client";
+
+import { useScrollReveal } from "../hooks/useScrollReveal";
+
 const NAV: { label: string; badge?: string }[] = [
   { label: "Home" },
   { label: "Services" },
@@ -29,14 +33,20 @@ function Plus() {
 }
 
 export default function Footer() {
+  const { containerRef, isVisible } = useScrollReveal();
+
   return (
-    <footer id="site-footer" className="footer" aria-label="Footer">
+    <footer id="site-footer" className="footer" aria-label="Footer" ref={containerRef}>
       <div className="footer__inner">
         <div className="footer__wordmark">upscalers</div>
 
         <div className="footer__grid">
         {/* nav */}
-        <nav className="footer__card footer__nav" aria-label="Footer navigation">
+        <nav 
+          data-index="0" 
+          className={`footer__card footer__nav reveal-up ${isVisible(0) ? "is-visible" : ""}`} 
+          aria-label="Footer navigation"
+        >
           {NAV.map((n) => (
             <a key={n.label} href="#" className="footer__nav-link">
               {n.label}
@@ -46,7 +56,11 @@ export default function Footer() {
         </nav>
 
         {/* contact + subscribe */}
-        <div className="footer__mid">
+        <div 
+          data-index="1" 
+          className={`footer__mid reveal-up ${isVisible(1) ? "is-visible" : ""}`}
+          style={{ animationDelay: "0.3s" }}
+        >
           <a href="mailto:hello@upscalers.com" className="footer__card footer__contact">
             <Plus />
             hello@upscalers.com
@@ -79,7 +93,11 @@ export default function Footer() {
         </div>
 
         {/* ecosystem */}
-        <div className="footer__card footer__eco">
+        <div 
+          data-index="2" 
+          className={`footer__card footer__eco reveal-up ${isVisible(2) ? "is-visible" : ""}`}
+          style={{ animationDelay: "0.6s" }}
+        >
           <h3>Ecosystem</h3>
           <ul>
             {ECOSYSTEM.map((e) => (

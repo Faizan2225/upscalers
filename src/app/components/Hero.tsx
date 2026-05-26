@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import HeroLists from "./HeroLists";
 import PixelEye from "./PixelEye";
 
 /* ---- editable copy ----------------------------------------- */
@@ -15,7 +14,6 @@ const MARQUEE_REPS = 3; // copies of the phrase set in one half
 
 /* ---- timeline tuning --------------------------------------- */
 const CARD_TRAVEL_VH = 2.0; // how far (in viewport heights) the cards rise
-const MARQUEE_TRAVEL_VW = 0.55; // how far the giant text slides left
 
 /* ---- floating cards: scattered across a tall canvas --------
    topVh >= 102 so none are visible at the very top of the page;
@@ -34,15 +32,19 @@ type Card = {
   to: string; // placeholder gradient end
 };
 const CARDS: Card[] = [
-  { left: "4%", topVh: 104, w: 300, h: 360, src: "/images/IMG_3368.PNG", from: "#1c1c22", to: "#3a3a44" },
-  { left: "37%", topVh: 116, w: 360, h: 300, src: "/images/IMG_3369.PNG", from: "#0d0d10", to: "#2b2b33" },
-  { left: "80%", topVh: 104, w: 240, h: 330, src: "/images/IMG_3370.PNG", from: "#9a9a9a", to: "#cfcfcf" },
-  { left: "3%", topVh: 156, w: 380, h: 260, src: "/images/IMG_3371.PNG", from: "#161616", to: "#3a3a3a" },
-  { left: "62%", topVh: 150, w: 400, h: 300, src: "/images/IMG_3372.PNG", from: "#7fbf38", to: "#cdee7e" },
-  { left: "4%", topVh: 204, w: 330, h: 320, src: "/images/IMG_3373.PNG", from: "#6d5bd0", to: "#a78bff" },
-  { left: "36%", topVh: 198, w: 380, h: 300, src: "/images/IMG_3374.PNG", from: "#4a5b6b", to: "#9fb2c4" },
-  { left: "79%", topVh: 206, w: 330, h: 360, src: "/images/IMG_3375.PNG", from: "#241712", to: "#e0853a" },
-  { left: "56%", topVh: 252, w: 320, h: 330, src: "/images/IMG_3376.PNG", from: "#222", to: "#444" },
+  // Line 1 (3 images): 1st is highest, 2nd is lowest, 3rd is between them
+  { left: "4%", topVh: 104, w: 450, h: 200, src: "/images/IMG_3368.PNG", from: "#1c1c22", to: "#3a3a44" },
+  { left: "35%", topVh: 108, w: 500, h: 260, src: "/images/IMG_3369.PNG", from: "#0d0d10", to: "#2b2b33" },
+  { left: "70%", topVh: 106, w: 430, h: 320, src: "/images/IMG_3370.PNG", from: "#9a9a9a", to: "#cfcfcf" },
+  
+  // Line 2 (2 images): 1st is normal, 2nd is higher and bigger
+  { left: "8%", topVh: 160, w: 620, h: 280, src: "/images/IMG_3371.PNG", from: "#161616", to: "#3a3a3a" },
+  { left: "55%", topVh: 155, w: 700, h: 480, src: "/images/IMG_3372.PNG", from: "#7fbf38", to: "#cdee7e" },
+
+  // Line 3 (3 images): Same pattern as line 1
+  { left: "4%", topVh: 220, w: 450, h: 320, src: "/images/IMG_3373.PNG", from: "#6d5bd0", to: "#a78bff" },
+  { left: "35%", topVh: 228, w: 500, h: 260, src: "/images/IMG_3374.PNG", from: "#4a5b6b", to: "#9fb2c4" },
+  { left: "70%", topVh: 226, w: 430, h: 320, src: "/images/IMG_3375.PNG", from: "#241712", to: "#e0853a" },
 ];
 
 const clamp = (v: number, min: number, max: number) =>
@@ -53,7 +55,6 @@ export default function Hero() {
   const stageRef = useRef<HTMLElement>(null);
   const parallaxRef = useRef<HTMLDivElement>(null);
   const cardsScrollRef = useRef<HTMLDivElement>(null);
-  const marqueeRef = useRef<HTMLDivElement>(null);
 
   const [dark, setDark] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -63,8 +64,7 @@ export default function Hero() {
     const stage = stageRef.current;
     const parallax = parallaxRef.current;
     const cardsScroll = cardsScrollRef.current;
-    const marquee = marqueeRef.current;
-    if (!wrap || !stage || !parallax || !cardsScroll || !marquee) return;
+    if (!wrap || !stage || !parallax || !cardsScroll) return;
 
     const reduce = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
@@ -95,12 +95,6 @@ export default function Hero() {
       smoothP += (rawP - smoothP) * 0.09;
 
       const vh = window.innerHeight;
-      const vw = window.innerWidth;
-
-      // giant text slides left
-      marquee.style.transform = `translateX(${
-        -smoothP * MARQUEE_TRAVEL_VW * vw
-      }px)`;
 
       // cards rise upward through the stage
       cardsScroll.style.transform = `translateY(calc(-${smoothP} * var(--travel-vh, 200vh)))`;
@@ -159,24 +153,24 @@ export default function Hero() {
         left: c.left,
         top: `calc(104vh + (${c.topVh - 104}vh * var(--y-spread, 1)))`,
         width: `calc(min(${c.w}px, 58vw) * var(--card-scale, 1))`,
-        aspectRatio: `${c.w} / ${c.h}`,
+        height: "auto"
       }}
     >
       <div className="card__media">
         {c.src ? (
-          <Image
+          <img
             className="card__fill"
             src={c.src}
             alt=""
-            fill
-            sizes="420px"
-            style={{ objectFit: "cover" }}
+            style={{ width: "100%", height: "auto", display: "block" }}
           />
         ) : (
           <div
             className="card__fill"
             style={{
               background: `linear-gradient(145deg, ${c.from}, ${c.to})`,
+              aspectRatio: `${c.w} / ${c.h}`,
+              width: "100%",
             }}
           />
         )}
@@ -250,9 +244,6 @@ export default function Hero() {
           </p>
         </div>
 
-        {/* ---- bottom-left + bottom-right word lists (Section 2) ---- */}
-        <HeroLists />
-
         {/* ---- bottom-center: supporting line + CTAs ---- */}
         <div className="hero__bottom">
           <p className="hero__support">
@@ -280,7 +271,7 @@ export default function Hero() {
 
         {/* ---- giant marquee (deepest) ---- */}
         <div className="hero__marquee" aria-hidden="true">
-          <div className="marquee__inner" ref={marqueeRef}>
+          <div className="marquee__inner">
             {marqueeHalf}
             {marqueeHalf}
           </div>

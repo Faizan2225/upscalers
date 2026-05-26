@@ -167,7 +167,7 @@ body {
 /* ---- top-left intro heading -------------------------------- */
 .hero__intro {
   position: absolute;
-  top: clamp(96px, 11vw, 150px);
+  top: clamp(70px, 8vw, 100px);
   left: clamp(20px, 4vw, 64px);
   z-index: 40;
   max-width: min(90vw, 470px);
@@ -189,10 +189,11 @@ body {
   letter-spacing: -0.01em;
 }
 .hero__support {
-  max-width: 42ch;
-  font-size: clamp(12.5px, 0.95vw, 14px);
-  line-height: 1.55;
-  color: var(--muted);
+  max-width: 52ch;
+  font-size: clamp(14px, 1.2vw, 17px);
+  font-weight: 600;
+  line-height: 1.5;
+  color: var(--fg);
 }
 
 /* bottom word lists — one anchored left, one right */
@@ -231,14 +232,14 @@ body {
 .hero__bottom {
   position: absolute;
   left: 50%;
-  bottom: clamp(28px, 5vw, 56px);
+  bottom: clamp(16px, 3vw, 32px);
   transform: translateX(-50%);
   z-index: 40;
   width: min(92vw, 560px);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 18px;
+  gap: 32px;
   text-align: center;
   transition: opacity 0.45s ease, transform 0.45s ease;
 }
@@ -323,6 +324,16 @@ body {
   display: flex;
   width: max-content;
   will-change: transform;
+  animation: marquee-scroll 40s linear infinite;
+}
+
+@keyframes marquee-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
 }
 .marquee__inner span {
   display: inline-flex;
@@ -372,7 +383,6 @@ body {
   overflow: hidden;
   border-radius: 26px;
   width: 100%;
-  height: 100%;
   box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.35);
   /* clear & opaque by default */
   filter: blur(0) saturate(1) brightness(1);
@@ -562,7 +572,7 @@ body {
   }
 
   .hero__intro {
-    top: 86px;
+    top: 70px;
     max-width: 90vw;
   }
   .hero__intro h1 {
@@ -590,7 +600,7 @@ body {
 
   .hero__bottom {
     width: 90vw;
-    bottom: 24px;
+    bottom: 16px;
     gap: 14px;
   }
   .hero__support {
@@ -632,13 +642,15 @@ body {
   position: sticky;
   /* pin below the fixed hamburger; each panel a touch lower (deck peek) */
   top: calc(104px + var(--i) * 20px);
-  min-height: 100vh;
+  /* dynamically subtract the top offset so ALL cards align their bottom edges perfectly above the viewport floor */
+  height: calc(100vh - 150px - var(--i) * 20px);
+  margin-bottom: 80px;
   /* inset box: off-white gutters around each panel (matches reference) */
   margin-inline: clamp(16px, 3.8vw, 72px);
   display: flex;
   align-items: stretch;
   padding: clamp(36px, 6vh, 76px) clamp(20px, 3.4vw, 64px);
-  border-radius: 34px 34px 0 0;
+  border-radius: 34px;
   box-shadow: 0 -24px 60px -34px rgba(0, 0, 0, 0.5);
   overflow: hidden;
 }
@@ -836,46 +848,81 @@ body {
   font-size: clamp(14px, 1.1vw, 18px);
   line-height: 1.5;
 }
-.cases__nav {
-  flex: none;
-  display: flex;
-  gap: 12px;
-}
-.cases__arrow {
-  display: grid;
-  place-items: center;
-  width: 52px;
-  height: 52px;
-  border-radius: 999px;
-  border: 1.5px solid var(--foreground);
-  background: transparent;
-  color: var(--foreground);
-  cursor: pointer;
-  transition: background 0.3s ease, color 0.3s ease;
-}
-.cases__arrow:hover {
-  background: var(--foreground);
-  color: var(--background);
-}
-.cases__arrow svg {
-  width: 20px;
-  height: 20px;
+.cases__track {
+  overflow: hidden;
+  margin-inline: clamp(16px, 3.8vw, 72px);
+  padding: 16px 0 56px;
+  -webkit-mask-image: linear-gradient(to right, transparent, black 3%, black 97%, transparent);
+  mask-image: linear-gradient(to right, transparent, black 3%, black 97%, transparent);
 }
 
-.cases__track {
+.cases__marquee {
   display: flex;
   gap: clamp(18px, 2vw, 28px);
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  /* inset the scroll viewport so cards stay within the site gutters
-     (contained — not bleeding to the screen edges) */
-  margin-inline: clamp(16px, 3.8vw, 72px);
-  padding: 6px 0 16px;
-  scrollbar-width: none;
-  -webkit-overflow-scrolling: touch;
+  width: max-content;
 }
-.cases__track::-webkit-scrollbar {
-  display: none;
+.cases__marquee:hover .cases__marquee-group {
+  animation-play-state: paused;
+}
+.cases__marquee-group {
+  display: flex;
+  flex: 0 0 auto;
+  gap: clamp(18px, 2vw, 28px);
+  will-change: transform;
+  animation: cases-scroll 25s linear infinite;
+}
+
+@keyframes cases-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-100% - clamp(18px, 2vw, 28px)));
+  }
+}
+
+.cases__text-marquee {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 32px;
+  overflow: hidden;
+  margin-top: clamp(40px, 8vh, 80px);
+  padding: 16px 0;
+  -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+.cases__text-group {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 32px;
+  will-change: transform;
+  animation: text-scroll 25s linear infinite;
+  white-space: nowrap;
+}
+.cases__text-item {
+  font-size: clamp(2rem, 5vw, 4.5rem);
+  color: #a0a0a0;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  display: flex;
+  align-items: center;
+  gap: 32px; /* space between text and star */
+}
+.cases__text-star {
+  font-weight: 300;
+  color: #c4c4c4; /* faint star color */
+  font-size: 1.1em;
+}
+@keyframes text-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-100% - 32px));
+  }
 }
 
 .cs-card {
@@ -1048,7 +1095,46 @@ body {
   padding: clamp(24px, 2.6vw, 40px);
   border-radius: 28px;
   overflow: hidden;
+
+  /* Initial state before scroll */
+  opacity: 0;
 }
+
+@keyframes stat-reveal {
+  0% {
+    opacity: 0;
+    filter: blur(20px);
+    transform: perspective(1000px) translate3d(0, -30px, 150px) scale(1.1);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0);
+    transform: perspective(1000px) translate3d(0, 0, 0) scale(1);
+  }
+}
+
+.stat.stat--visible {
+  animation: stat-reveal 3.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Generic Reusable Fade-Up Reveal */
+.reveal-up {
+  opacity: 0;
+}
+.reveal-up.is-visible {
+  animation: reveal-up-anim 2.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@keyframes reveal-up-anim {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .stat[data-theme="accent"] {
   background: var(--accent);
   color: #ffffff;
