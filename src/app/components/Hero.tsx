@@ -66,16 +66,13 @@ export default function Hero() {
     const cardsScroll = cardsScrollRef.current;
     if (!wrap || !stage || !parallax || !cardsScroll) return;
 
-    const reduce = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
-
     // mouse target / current (lerped) and scroll progress (lerped)
     const target = { x: 0, y: 0 };
     const current = { x: 0, y: 0 };
     let smoothP = 0;
     let scrolledLatch = false;
     let raf = 0;
+    let running = false;
 
     const onMove = (e: PointerEvent) => {
       const r = stage.getBoundingClientRect();
@@ -100,13 +97,11 @@ export default function Hero() {
       cardsScroll.style.transform = `translateY(calc(-${smoothP} * var(--travel-vh, 200vh)))`;
 
       // mouse-reactive 3D tilt of the whole track
-      if (!reduce) {
-        current.x += (target.x - current.x) * 0.06;
-        current.y += (target.y - current.y) * 0.06;
-        parallax.style.transform = `rotateX(${-current.y * 12}deg) rotateY(${
-          current.x * 12
-        }deg) translate3d(${current.x * 46}px, ${current.y * 30}px, 0)`;
-      }
+      current.x += (target.x - current.x) * 0.06;
+      current.y += (target.y - current.y) * 0.06;
+      parallax.style.transform = `rotateX(${-current.y * 12}deg) rotateY(${
+        current.x * 12
+      }deg) translate3d(${current.x * 46}px, ${current.y * 30}px, 0)`;
 
       // swap to scroll-to-top + fade chrome once scrolling starts
       const sc = smoothP > 0.03;
@@ -115,17 +110,33 @@ export default function Hero() {
         setScrolled(sc);
       }
 
-      raf = requestAnimationFrame(tick);
+      if (running) raf = requestAnimationFrame(tick);
     };
 
-    if (!reduce) {
-      stage.addEventListener("pointermove", onMove, { passive: true });
-      stage.addEventListener("pointerleave", onLeave);
-    }
-    raf = requestAnimationFrame(tick);
+    const start = () => {
+      if (running) return;
+      running = true;
+      raf = requestAnimationFrame(tick);
+    };
+    const stop = () => {
+      running = false;
+      cancelAnimationFrame(raf);
+    };
+
+    // only burn frames while the hero is actually on (or near) screen —
+    // once you've scrolled past it the loop idles instead of stealing frames
+    const vis = new IntersectionObserver(
+      ([entry]) => (entry.isIntersecting ? start() : stop()),
+      { rootMargin: "200px 0px" }
+    );
+    vis.observe(wrap);
+
+    stage.addEventListener("pointermove", onMove, { passive: true });
+    stage.addEventListener("pointerleave", onLeave);
 
     return () => {
-      cancelAnimationFrame(raf);
+      stop();
+      vis.disconnect();
       stage.removeEventListener("pointermove", onMove);
       stage.removeEventListener("pointerleave", onLeave);
     };

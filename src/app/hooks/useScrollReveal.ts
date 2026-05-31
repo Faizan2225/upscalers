@@ -8,15 +8,16 @@ export function useScrollReveal() {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
           const index = Number(entry.target.getAttribute("data-index"));
-          if (entry.isIntersecting) {
-            setVisibleIndexes((prev) => (prev.includes(index) ? prev : [...prev, index]));
-          } else {
-            setVisibleIndexes((prev) => prev.filter((i) => i !== index));
-          }
+          setVisibleIndexes((prev) => (prev.includes(index) ? prev : [...prev, index]));
+          // reveal once, then stop observing so it never replays on scroll-back
+          observer.unobserve(entry.target);
         });
       },
-      { threshold: 0.1, rootMargin: "0px 0px -50px 0px" }
+      // fire later: element must be ~20% up from the viewport bottom,
+      // so the reveal plays while it's actually in view, not before
+      { threshold: 0.15, rootMargin: "0px 0px -20% 0px" }
     );
 
     const elements = containerRef.current?.querySelectorAll(".reveal-up");

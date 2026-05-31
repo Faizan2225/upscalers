@@ -624,12 +624,6 @@ body {
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .hero__object-inner {
-    animation: none !important;
-  }
-}
-
 /* ============================================================
    SERVICES  —  guide.md Section 4: stacking scroll cards
    ============================================================ */
@@ -899,7 +893,8 @@ body {
   align-items: center;
   gap: 32px;
   will-change: transform;
-  animation: text-scroll 25s linear infinite;
+  /* reverse → scrolls left-to-right, opposite the card carousel above */
+  animation: text-scroll 25s linear infinite reverse;
   white-space: nowrap;
 }
 .cases__text-item {
@@ -1121,7 +1116,7 @@ body {
   opacity: 0;
 }
 .reveal-up.is-visible {
-  animation: reveal-up-anim 2.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: reveal-up-anim 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 @keyframes reveal-up-anim {
   from {
