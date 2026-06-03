@@ -161,6 +161,7 @@ export default function Hero() {
       key={i}
       className="card"
       style={{
+        ["--i" as string]: i,
         left: c.left,
         top: `calc(104vh + (${c.topVh - 104}vh * var(--y-spread, 1)))`,
         width: `calc(min(${c.w}px, 58vw) * var(--card-scale, 1))`,

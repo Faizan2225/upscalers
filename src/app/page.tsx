@@ -3,6 +3,7 @@ import Services from "./components/Services";
 import CaseStudies from "./components/CaseStudies";
 import StatsCards from "./components/StatsCards";
 import About from "./components/About";
+import CtaBlock from "./components/CtaBlock";
 import Footer from "./components/Footer";
 import MenuButton from "./components/MenuButton";
 
@@ -15,6 +16,7 @@ export default function Home() {
       <CaseStudies />
       <StatsCards />
       <About />
+      <CtaBlock />
       <Footer />
     </>
   );

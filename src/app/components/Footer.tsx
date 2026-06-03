@@ -185,7 +185,40 @@ export default function Footer() {
             </ul>
           </div>
         </div>
+
+        {/* bottom utility bar */}
+        <div
+          data-index="3"
+          className={`footer__utility reveal-up ${isVisible(3) ? "is-visible" : ""}`}
+          style={{ animationDelay: "0.8s" }}
+        >
+          <div className="footer__legal">
+            <a href="#">
+              Privacy Policy
+              <Arrow />
+            </a>
+            <a href="#">
+              Terms &amp; Conditions
+              <Arrow />
+            </a>
+          </div>
+          <p className="footer__credit">© {new Date().getFullYear()} Upscalers. All rights reserved.</p>
+        </div>
       </div>
     </footer>
+  );
+}
+
+function Arrow() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path
+        d="M7 17 17 7M9 7h8v8"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
   );
 }
