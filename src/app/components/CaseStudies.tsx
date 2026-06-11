@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import PixelEye from "./PixelEye";
+import ScrollRevealText from "./ScrollRevealText";
 
 /* guide.md · Section 5 — Results / Case Studies.
    Add `src` (file in /public) to swap a gradient for a real screenshot. */
@@ -103,7 +104,9 @@ export default function CaseStudies() {
     <section className="cases" aria-label="Results and case studies">
       <div className="cases__head">
         <div>
-          <h2 className="cases__heading">Real Rankings. Real Growth.</h2>
+          <h2 className="cases__heading">
+            <ScrollRevealText text="Real Rankings. Real Growth." />
+          </h2>
           <p className="cases__sub">
             Real Google Maps visibility improvements for local service
             businesses across the U.S.

@@ -50,13 +50,12 @@ const CARDS: Card[] = [
 const clamp = (v: number, min: number, max: number) =>
   Math.min(max, Math.max(min, v));
 
-export default function Hero() {
+export default function Hero({ dark }: { dark: boolean }) {
   const wrapRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<HTMLElement>(null);
   const parallaxRef = useRef<HTMLDivElement>(null);
   const cardsScrollRef = useRef<HTMLDivElement>(null);
 
-  const [dark, setDark] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -161,7 +160,7 @@ export default function Hero() {
       key={i}
       className="card"
       style={{
-        ["--i" as string]: i,
+        ["--i" as string]: String(i),
         left: c.left,
         top: `calc(104vh + (${c.topVh - 104}vh * var(--y-spread, 1)))`,
         width: `calc(min(${c.w}px, 58vw) * var(--card-scale, 1))`,
@@ -205,44 +204,7 @@ export default function Hero() {
         aria-label="Upscalers hero"
       >
         {/* ---- nav ---- */}
-        <header className="hero__nav">
-          <div className="hero__logo">upscalers</div>
 
-          <div className="hero__nav-actions">
-            <button
-              className="hero__icon-btn hero__theme"
-              aria-label="Toggle theme"
-              aria-pressed={dark}
-              onClick={() => setDark((d) => !d)}
-            >
-              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <path
-                  d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5Z"
-                  fill="currentColor"
-                />
-                <path
-                  d="M18 3v4M16 5h4"
-                  stroke="currentColor"
-                  strokeWidth="1.6"
-                  strokeLinecap="round"
-                />
-              </svg>
-            </button>
-
-            <button className="hero__pill">
-              Book Free Audit
-              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <path
-                  d="M7 17 17 7M9 7h8v8"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </button>
-          </div>
-        </header>
 
         {/* ---- top-left intro (guide.md · Section 1) ---- */}
         <div className="hero__intro">
@@ -251,9 +213,6 @@ export default function Hero() {
             <br />
             <span className="muted">Generate More Local Calls.</span>
           </h1>
-          <p className="hero__sub">
-            AI-Powered GEO for Local Service Businesses.
-          </p>
         </div>
 
         {/* ---- bottom-center: supporting line + CTAs ---- */}

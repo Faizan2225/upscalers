@@ -1,7 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
+import ScrollRevealText from "./ScrollRevealText";
 /* guide.md · Section 6 — Stats Cards.
    Add `src` (file in /public) to a card to swap its gradient visual. */
 type Stat = {
@@ -77,29 +78,62 @@ function ArrowUR() {
 }
 
 export default function StatsCards() {
-  const [visibleIndexes, setVisibleIndexes] = useState<number[]>([]);
   const cardRefs = useRef<(HTMLElement | null)[]>([]);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          const index = Number(entry.target.getAttribute("data-index"));
-          setVisibleIndexes((prev) => (prev.includes(index) ? prev : [...prev, index]));
-          // reveal once, then stop observing so the bento cards don't re-animate
-          observer.unobserve(entry.target);
-        });
-      },
-      // fire later: card must be ~20% up from the viewport bottom before it animates
-      { threshold: 0.15, rootMargin: "0px 0px -20% 0px" }
-    );
+    const cards = cardRefs.current;
+    if (cards.length === 0) return;
 
-    cardRefs.current.forEach((card) => {
-      if (card) observer.observe(card);
-    });
+    let rafId = 0;
 
-    return () => observer.disconnect();
+    const handleScroll = () => {
+      const viewportHeight = window.innerHeight;
+      const startFraction = 0.95; // starts when card top is 95% down the screen
+      const endFraction = 0.45;   // settles when card top is 45% down the screen
+
+      cards.forEach((card) => {
+        if (!card) return;
+        const rect = card.getBoundingClientRect();
+
+        // If card is completely out of view, set to boundary values
+        if (rect.bottom < 0) {
+          card.style.setProperty("--card-progress", "1");
+          return;
+        }
+        if (rect.top > viewportHeight) {
+          card.style.setProperty("--card-progress", "0");
+          return;
+        }
+
+        const currentFraction = rect.top / viewportHeight;
+        let progress = 0;
+        if (currentFraction >= startFraction) {
+          progress = 0;
+        } else if (currentFraction <= endFraction) {
+          progress = 1;
+        } else {
+          progress = (startFraction - currentFraction) / (startFraction - endFraction);
+        }
+
+        card.style.setProperty("--card-progress", progress.toString());
+      });
+    };
+
+    const onScroll = () => {
+      cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(handleScroll);
+    };
+
+    handleScroll();
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
   }, []);
 
   return (
@@ -114,9 +148,8 @@ export default function StatsCards() {
             }}
             className={`stat stat--media-${s.mediaSide} ${
               i === 1 || i === 2 ? "stat--wide" : "stat--narrow"
-            } ${visibleIndexes.includes(i) ? "stat--visible" : ""}`}
+            }`}
             data-theme={s.theme}
-            style={{ animationDelay: `${i * 0.25}s` }}
           >
             {s.avatars && (
               <div className="stat__avatars" aria-hidden="true">
@@ -133,7 +166,7 @@ export default function StatsCards() {
             <div className="stat__body">
               <div className="stat__text">
                 <div className={`stat__num${s.word ? " stat__num--word" : ""}`}>
-                  {s.value}
+                  <ScrollRevealText text={s.value} />
                 </div>
                 <p className="stat__label">{s.label}</p>
               </div>

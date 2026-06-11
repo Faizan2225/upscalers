@@ -121,7 +121,7 @@ export default function Footer() {
           {/* nav */}
           <nav
             data-index="0"
-            className={`footer__card footer__nav reveal-up ${isVisible(0) ? "is-visible" : ""}`}
+            className={`footer__card footer__nav reveal-up ${isVisible(0) ? "is-visible" : ""}`.trim()}
             aria-label="Footer navigation"
           >
             {NAV.map((n) => (
@@ -135,7 +135,7 @@ export default function Footer() {
           {/* contact + subscribe */}
           <div
             data-index="1"
-            className={`footer__mid reveal-up ${isVisible(1) ? "is-visible" : ""}`}
+            className={`footer__mid reveal-up ${isVisible(1) ? "is-visible" : ""}`.trim()}
             style={{ animationDelay: "0.3s" }}
           >
             <a href="mailto:hello@upscalers.com" className="footer__card footer__contact">
@@ -172,7 +172,7 @@ export default function Footer() {
           {/* ecosystem */}
           <div
             data-index="2"
-            className={`footer__card footer__eco reveal-up ${isVisible(2) ? "is-visible" : ""}`}
+            className={`footer__card footer__eco reveal-up ${isVisible(2) ? "is-visible" : ""}`.trim()}
             style={{ animationDelay: "0.6s" }}
           >
             <h3>Ecosystem</h3>
@@ -189,7 +189,7 @@ export default function Footer() {
         {/* bottom utility bar */}
         <div
           data-index="3"
-          className={`footer__utility reveal-up ${isVisible(3) ? "is-visible" : ""}`}
+          className={`footer__utility reveal-up ${isVisible(3) ? "is-visible" : ""}`.trim()}
           style={{ animationDelay: "0.8s" }}
         >
           <div className="footer__legal">

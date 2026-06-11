@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useRef } from "react";
+import ScrollRevealText from "./ScrollRevealText";
 
 // clamp a value to ±max while keeping its sign
 const clampMag = (v: number, max: number) =>
@@ -11,6 +12,30 @@ const clampMag = (v: number, max: number) =>
    magnetic accent button, and the floating chrome object (reused hero asset). */
 export default function CtaBlock() {
   const btnRef = useRef<HTMLButtonElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  // Scroll progress listener to drive width-shrinking transition
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const handleScroll = () => {
+      const rect = section.getBoundingClientRect();
+      const viewportHeight = window.innerHeight;
+      const start = viewportHeight;
+      const end = viewportHeight * 0.2;
+      const current = rect.top;
+
+      let progress = (start - current) / (start - end);
+      progress = Math.max(0, Math.min(1, progress));
+      section.style.setProperty("--cta-progress", progress.toString());
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   /* magnetic button: the pill is gently pulled toward the cursor when it
      gets close, lerped each frame so the motion stays buttery. */
@@ -73,14 +98,11 @@ export default function CtaBlock() {
   }, []);
 
   return (
-    <section className="cta" aria-label="Get in touch">
+    <section ref={sectionRef} className="cta" aria-label="Get in touch">
       <div className="cta__inner">
         <div className="cta__content">
           <h2 className="cta__title">
-            <span className="cta__heart" aria-hidden="true">
-              ♥
-            </span>
-            Let&apos;s grow your business.
+            <ScrollRevealText text="Let's grow your business." />
           </h2>
           <button ref={btnRef} type="button" className="cta__btn">
             <span className="cta__btn-label">

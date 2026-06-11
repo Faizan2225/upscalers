@@ -1,6 +1,7 @@
 "use client";
 
 import { useScrollReveal } from "../hooks/useScrollReveal";
+import ScrollRevealText from "./ScrollRevealText";
 
 // guide.md · Section 7 — Company / About
 export default function About() {
@@ -9,17 +10,14 @@ export default function About() {
   return (
     <section className="about" aria-label="About Upscalers" ref={containerRef}>
       <div className="about__inner">
-        <h2 
-          data-index="0" 
-          className={`about__title reveal-up ${isVisible(0) ? "is-visible" : ""}`}
-        >
-          Company
+        <h2 className="about__title">
+          <ScrollRevealText text="Company" />
         </h2>
 
         <div className="about__content">
           <p 
             data-index="1" 
-            className={`about__lead reveal-up ${isVisible(1) ? "is-visible" : ""}`}
+            className={`about__lead reveal-up ${isVisible(1) ? "is-visible" : ""}`.trim()}
             style={{ animationDelay: "0.3s" }}
           >
             We help local service businesses rank higher on Google and generate
@@ -27,7 +25,7 @@ export default function About() {
           </p>
           <p 
             data-index="2" 
-            className={`about__text reveal-up ${isVisible(2) ? "is-visible" : ""}`}
+            className={`about__text reveal-up ${isVisible(2) ? "is-visible" : ""}`.trim()}
             style={{ animationDelay: "0.6s" }}
           >
             Our focus is simple: more visibility, more rankings, and more
@@ -38,7 +36,7 @@ export default function About() {
           <button 
             type="button" 
             data-index="3" 
-            className={`about__btn reveal-up ${isVisible(3) ? "is-visible" : ""}`}
+            className={`about__btn reveal-up ${isVisible(3) ? "is-visible" : ""}`.trim()}
             style={{ animationDelay: "0.9s" }}
           >
             More About Us
