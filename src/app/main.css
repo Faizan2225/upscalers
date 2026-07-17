@@ -28,7 +28,7 @@ body {
 .hero-wrap {
   position: relative;
   width: 100%;
-  height: 320vh;
+  height: 280vh;
 }
 
 .hero {
@@ -458,25 +458,37 @@ body {
 .card {
   position: absolute;
   pointer-events: auto;
-  --card-scale: 0.75;
-  --y-spread: 1.12;
+  --card-scale: 1;
+  --y-spread: 1;
+  transform: rotate(var(--rot, 0deg));
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.card:nth-child(1) { --rot: -2.5deg; }
+.card:nth-child(2) { --rot: 2deg; }
+.card:nth-child(3) { --rot: -1.5deg; }
+.card:nth-child(4) { --rot: 3deg; }
+.card:hover {
+  transform: rotate(0deg) scale(1.01);
+  z-index: 10;
 }
 .card__media {
   position: relative;
   overflow: hidden;
-  border-radius: 26px;
+  border-radius: 20px;
   width: 100%;
-  box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.35);
-  /* clear & opaque by default */
+  box-shadow:
+    0 30px 70px -18px rgba(0, 0, 0, 0.45),
+    0 0 0 1px rgba(255, 255, 255, 0.06);
   filter: blur(0) saturate(1) brightness(1);
   opacity: 1;
   transform: scale(1);
-  transition: filter 0.45s ease, transform 0.45s ease;
+  transition: filter 0.45s ease, transform 0.45s ease, box-shadow 0.45s ease;
 }
 .card:hover .card__media {
-  /* slight pop only — the blur is a glass overlay, not an element blur,
-     so the card's rounded edges stay crisp */
   transform: scale(1.02);
+  box-shadow:
+    0 40px 80px -20px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(255, 255, 255, 0.1);
 }
 .card__fill {
   width: 100%;
@@ -603,14 +615,14 @@ body {
     font-size: 14px;
   }
   .hero-wrap {
-    height: 280vh;
+    height: 250vh;
   }
   .hero {
     --travel-vh: 170vh;
   }
   .card {
-    --card-scale: 0.65;
-    --y-spread: 0.95;
+    --card-scale: 0.8;
+    --y-spread: 0.9;
   }
 }
 
@@ -620,14 +632,14 @@ body {
     display: none;
   }
   .hero-wrap {
-    height: 250vh;
+    height: 230vh;
   }
   .hero {
     --travel-vh: 140vh;
   }
   .card {
-    --card-scale: 0.55;
-    --y-spread: 0.85;
+    --card-scale: 0.65;
+    --y-spread: 0.8;
   }
 }
 
@@ -665,17 +677,18 @@ body {
      cards are re-stacked into ONE big 90vw column so they lift in
      one-by-one instead of the multi-column scatter. ---- */
   .hero-wrap {
-    height: 460vh; /* long enough to scroll the whole column through */
+    height: 360vh;
   }
   .hero {
-    --travel-vh: 380vh; /* how far the column rises during the pin */
+    --travel-vh: 280vh;
   }
   /* each card: full-width, centered, stacked vertically by index.
      start just below the first screen (106vh) and step down per card. */
   .card {
     left: 10vw !important;
     width: 80vw !important;
-    top: calc(106vh + var(--i) * 40vh) !important;
+    top: calc(106vh + var(--i) * 50vh) !important;
+    transform: rotate(0deg) !important;
   }
   .hero__support {
     font-size: 13px;

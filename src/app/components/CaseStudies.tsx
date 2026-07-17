@@ -105,11 +105,10 @@ export default function CaseStudies() {
       <div className="cases__head">
         <div>
           <h2 className="cases__heading">
-            <ScrollRevealText text="Real Rankings. Real Growth." />
+            <ScrollRevealText text="Websites that Convert. Designs that Sell." />
           </h2>
           <p className="cases__sub">
-            Real Google Maps visibility improvements for local service
-            businesses across the U.S.
+            Converstion-focused websites tailored for local service businesses.
           </p>
         </div>
       </div>
