@@ -24,8 +24,8 @@ const SERVICES: Service[] = [
     theme: "dark",
     desc: "We optimize your Google Business Profile to improve local visibility, increase rankings, and generate consistent inbound calls from nearby customers.",
     cards: [
-      { src: "/images/svc_maps_gbp.png", from: "#1c1c22", to: "#3a3a44", tags: ["GBP", "Local SEO"] },
-      { src: "/images/svc_maps_calls.png", from: "#2a2a30", to: "#5a5a66", tags: ["Maps", "Calls"] },
+      { src: "/images/services/IMG_3716.PNG", from: "#1c1c22", to: "#3a3a44", tags: ["GBP", "Local SEO"] },
+      { src: "/images/services/IMG_3714.PNG", from: "#2a2a30", to: "#5a5a66", tags: ["Maps", "Calls"] },
     ],
   },
   {
@@ -34,8 +34,8 @@ const SERVICES: Service[] = [
     theme: "purple",
     desc: "We structure your online presence using Generative Engine Optimization strategies designed for modern search visibility and long-term local authority.",
     cards: [
-      { src: "/images/AI1.png", from: "#4a3aa0", to: "#7c5cff", tags: ["GEO", "AI"] },
-      { src: "/images/AI2.png", from: "#5b49c0", to: "#b6a2ff", tags: ["Visibility", "Authority"] },
+      { src: "/images/AI1.PNG", from: "#4a3aa0", to: "#7c5cff", tags: ["GEO", "AI"] },
+      { src: "/images/AI2.PNG", from: "#5b49c0", to: "#b6a2ff", tags: ["Visibility", "Authority"] },
     ],
   },
   {
@@ -44,8 +44,8 @@ const SERVICES: Service[] = [
     theme: "light",
     desc: "Fast, modern websites built to turn visitors into leads while supporting stronger Google visibility and local trust.",
     cards: [
-      { src: "/images/svc_websites_frontend.png", from: "#c9c4ba", to: "#efece3", tags: ["Frontend", "CRO"] },
-      { src: "/images/svc_websites_leads.png", from: "#cfd6dd", to: "#eef2f6", tags: ["Speed", "Leads"] },
+      { src: "/websites/express_towing.PNG", from: "#c9c4ba", to: "#efece3", tags: ["Frontend", "CRO"] },
+      { src: "/websites/life_restoration.PNG", from: "#cfd6dd", to: "#eef2f6", tags: ["Speed", "Leads"] },
     ],
   },
   {
@@ -54,8 +54,8 @@ const SERVICES: Service[] = [
     theme: "dark",
     desc: "We strengthen your business credibility through review optimization, trust signals, local relevance, and consistent online authority building.",
     cards: [
-      { src: "/images/LA1.png", from: "#241712", to: "#e0853a", tags: ["Reviews", "Trust"] },
-      { src: "/images/LA2.png", from: "#15151a", to: "#3a3a46", tags: ["Local", "Brand"] },
+      { src: "/images/LA1.PNG", from: "#241712", to: "#e0853a", tags: ["Reviews", "Trust"] },
+      { src: "/images/LA2.PNG", from: "#15151a", to: "#3a3a46", tags: ["Local", "Brand"] },
     ],
   },
 ];

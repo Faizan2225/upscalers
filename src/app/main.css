@@ -28,7 +28,8 @@ body {
 .hero-wrap {
   position: relative;
   width: 100%;
-  height: 280vh;
+  height: 380vh;
+  z-index: 1;
 }
 
 .hero {
@@ -39,12 +40,15 @@ body {
   --accent: #7c5cff;
   --btn-fg: #ffffff;
   --btn-bg: #0c0c0d;
+  --travel-vh: 260vh;
 
   position: sticky;
   top: 0;
   height: 100svh;
   width: 100%;
   overflow: hidden;
+  isolation: isolate;
+  clip-path: inset(0 0 0 0);
   background: var(--bg);
   color: var(--fg);
   transition: background 0.5s ease, color 0.5s ease;
@@ -461,74 +465,32 @@ body {
   --card-scale: 1;
   --y-spread: 1;
   transform: rotate(var(--rot, 0deg));
-  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
-.card:nth-child(1) { --rot: -2.5deg; }
-.card:nth-child(2) { --rot: 2deg; }
-.card:nth-child(3) { --rot: -1.5deg; }
-.card:nth-child(4) { --rot: 3deg; }
+.card:nth-child(odd) { --rot: -1.5deg; }
+.card:nth-child(even) { --rot: 1.5deg; }
 .card:hover {
-  transform: rotate(0deg) scale(1.01);
+  transform: rotate(0deg) scale(1.02);
   z-index: 10;
 }
 .card__media {
   position: relative;
   overflow: hidden;
-  border-radius: 20px;
+  border-radius: 16px;
   width: 100%;
-  box-shadow:
-    0 30px 70px -18px rgba(0, 0, 0, 0.45),
-    0 0 0 1px rgba(255, 255, 255, 0.06);
-  filter: blur(0) saturate(1) brightness(1);
-  opacity: 1;
+  background: transparent;
   transform: scale(1);
-  transition: filter 0.45s ease, transform 0.45s ease, box-shadow 0.45s ease;
+  transition: transform 0.35s ease;
 }
 .card:hover .card__media {
   transform: scale(1.02);
-  box-shadow:
-    0 40px 80px -20px rgba(0, 0, 0, 0.5),
-    0 0 0 1px rgba(255, 255, 255, 0.1);
 }
 .card__fill {
   width: 100%;
-  height: 100%;
-}
-
-/* frosted-glass + pixel "eye" reveal overlay.
-   backdrop-filter blurs the card content beneath the glass; the parent
-   .card__media (overflow:hidden + radius) clips it so edges stay crisp. */
-.card__eye {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  opacity: 0;
-  background: rgba(18, 18, 22, 0.18);
-  backdrop-filter: blur(10px) saturate(1.1);
-  -webkit-backdrop-filter: blur(10px) saturate(1.1);
-  transition: opacity 0.4s ease;
-}
-.card:hover .card__eye {
-  opacity: 1;
-}
-.card__eye-circle {
-  display: grid;
-  place-items: center;
-  width: 64px;
-  height: 64px;
-  border-radius: 999px;
-  background: rgba(0, 0, 0, 0.45);
-  transform: scale(0.8);
-  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-.card:hover .card__eye-circle {
-  transform: scale(1);
-}
-.card__eye-circle svg {
-  width: 34px;
-  height: 22px;
-  shape-rendering: crispEdges;
+  height: auto;
+  display: block;
+  image-rendering: -webkit-optimize-contrast;
+  object-fit: cover;
 }
 
 /* ---- central 3D object (above cards) ----------------------- */
@@ -673,23 +635,25 @@ body {
     width: clamp(190px, 62vw, 300px);
   }
 
-  /* ---- mobile hero: same scroll-scrub rise-up as desktop, but the
-     cards are re-stacked into ONE big 90vw column so they lift in
-     one-by-one instead of the multi-column scatter. ---- */
+  /* ---- mobile hero: two columns side-by-side (rankings left, calls right) ---- */
   .hero-wrap {
-    height: 360vh;
+    height: 400vh;
   }
   .hero {
-    --travel-vh: 280vh;
+    --travel-vh: 270vh;
   }
-  /* each card: full-width, centered, stacked vertically by index.
-     start just below the first screen (106vh) and step down per card. */
   .card {
-    left: 10vw !important;
-    width: 80vw !important;
-    top: calc(106vh + var(--i) * 50vh) !important;
+    width: 44.5vw !important;
+    top: calc(104vh + var(--pair-i) * 58vh) !important;
     transform: rotate(0deg) !important;
   }
+  .card.card--ranking {
+    left: 3.5vw !important;
+  }
+  .card.card--calls {
+    left: 52vw !important;
+  }
+
   .hero__support {
     font-size: 13px;
   }
@@ -718,7 +682,8 @@ body {
    ============================================================ */
 .services {
   position: relative;
-  background: var(--background);
+  z-index: 30;
+  background: var(--bg, #f4f1ec);
 }
 
 .svc {

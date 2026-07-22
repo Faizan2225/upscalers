@@ -10,7 +10,6 @@ type CaseStudy = {
   theme: "dark" | "light";
   name: string;
   meta: string;
-  keywords: string[];
   results: string[];
   src?: string;
   from: string;
@@ -30,7 +29,6 @@ const CASES: CaseStudy[] = [
     theme: "dark",
     name: "Life Restoration Inc.",
     meta: "Roofing & Siding — Roosevelt, NY",
-    keywords: ["Siding in Roosevelt NY"],
     results: [
       "Increased local visibility",
       "More inbound calls",
@@ -44,7 +42,6 @@ const CASES: CaseStudy[] = [
     theme: "light",
     name: "Louisville Auto Glass and Tint",
     meta: "Auto Glass Replacement - Louisville, KY",
-    keywords: ["Auto Glass in Louisville, KY"],
     results: [
       "Higher local rankings",
       "More leads from Google",
@@ -58,7 +55,6 @@ const CASES: CaseStudy[] = [
     theme: "dark",
     name: "Express Towing",
     meta: "Towing Company — California",
-    keywords: ["Towing in Concord", "Towing in Pleasanton"],
     results: [
       "Increased search visibility",
       "More local calls",
@@ -72,7 +68,6 @@ const CASES: CaseStudy[] = [
     theme: "light",
     name: "Tree Maniac Tree Service Inc.",
     meta: "Tree Service - Fresno, CA",
-    keywords: ["Tree Service in Fresno, CA"],
     results: [
       "More inbound leads",
       "Better Google Maps reach",
@@ -141,11 +136,6 @@ export default function CaseStudies() {
                   <PixelEye />
                 </div>
               </div>
-              <div className="cs-card__kw">
-                {c.keywords.map((k) => (
-                  <span key={k}>{k}</span>
-                ))}
-              </div>
             </div>
 
             <div className="cs-card__body">
@@ -189,11 +179,6 @@ export default function CaseStudies() {
                   <div className="cs-card__eye-circle">
                     <PixelEye />
                   </div>
-                </div>
-                <div className="cs-card__kw">
-                  {c.keywords.map((k) => (
-                    <span key={k}>{k}</span>
-                  ))}
                 </div>
               </div>
 

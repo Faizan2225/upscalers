@@ -27,18 +27,92 @@ type Card = {
   topVh: number;
   w: number;
   h: number;
-  src?: string; // real image (in /public) — falls back to the gradient
-  from: string; // placeholder gradient start
-  to: string; // placeholder gradient end
+  src: string;
+  alt: string;
+  company: string;
+  label: "Google Ranking" | "Calls";
+  from: string;
+  to: string;
 };
-const CARDS: Card[] = [
-  // Pair 1: staggered left–right, centered composition
-  { left: "10%", topVh: 105, w: 560, h: 340, src: "/images/image_Cards/IMG_3427.PNG", from: "#1c1c22", to: "#3a3a44" },
-  { left: "52%", topVh: 116, w: 540, h: 380, src: "/images/image_Cards/IMG_3431.PNG", from: "#9a9a9a", to: "#cfcfcf" },
 
-  // Pair 2: staggered left–right, second wave
-  { left: "8%",  topVh: 158, w: 600, h: 360, src: "/images/image_Cards/IMG_3428.PNG", from: "#161616", to: "#3a3a3a" },
-  { left: "50%", topVh: 172, w: 560, h: 380, src: "/images/image_Cards/IMG_3432.PNG", from: "#241712", to: "#e0853a" },
+const CARDS: Card[] = [
+  // Pair 1: Express Towing (Google Ranking left, Calls right)
+  {
+    left: "6%",
+    topVh: 104,
+    w: 520,
+    h: 390,
+    src: "/images/image_Cards/EXPRESS_TOWING_RANKING.PNG",
+    alt: "Express Towing Google Ranking",
+    company: "Express Towing",
+    label: "Google Ranking",
+    from: "#1c1c22",
+    to: "#3a3a44",
+  },
+  {
+    left: "52%",
+    topVh: 104,
+    w: 520,
+    h: 390,
+    src: "/images/image_Cards/EXPRESS_TOWING_CALLS.PNG",
+    alt: "Express Towing Calls",
+    company: "Express Towing",
+    label: "Calls",
+    from: "#1c1c22",
+    to: "#3a3a44",
+  },
+
+  // Pair 2: Life Restoration (Google Ranking left, Calls right)
+  {
+    left: "6%",
+    topVh: 162,
+    w: 520,
+    h: 390,
+    src: "/images/image_Cards/LIFE_RESTORATION_RANKING.PNG",
+    alt: "Life Restoration Google Ranking",
+    company: "Life Restoration",
+    label: "Google Ranking",
+    from: "#161616",
+    to: "#3a3a3a",
+  },
+  {
+    left: "52%",
+    topVh: 162,
+    w: 520,
+    h: 390,
+    src: "/images/image_Cards/LIFE_RESTORATION_CALLS.PNG",
+    alt: "Life Restoration Calls",
+    company: "Life Restoration",
+    label: "Calls",
+    from: "#161616",
+    to: "#3a3a3a",
+  },
+
+  // Pair 3: Zero Gravity (Google Ranking left, Calls right)
+  {
+    left: "6%",
+    topVh: 220,
+    w: 520,
+    h: 390,
+    src: "/images/image_Cards/ZERO_GRAVITY_RANKING.PNG",
+    alt: "Zero Gravity Google Ranking",
+    company: "Zero Gravity",
+    label: "Google Ranking",
+    from: "#241712",
+    to: "#e0853a",
+  },
+  {
+    left: "52%",
+    topVh: 220,
+    w: 520,
+    h: 390,
+    src: "/images/image_Cards/ZERO_GRAVITY_CALLS.PNG",
+    alt: "Zero Gravity Calls",
+    company: "Zero Gravity",
+    label: "Calls",
+    from: "#241712",
+    to: "#e0853a",
+  },
 ];
 
 const clamp = (v: number, min: number, max: number) =>
@@ -82,19 +156,16 @@ export default function Hero({ dark }: { dark: boolean }) {
       const rect = wrap.getBoundingClientRect();
       const dist = wrap.offsetHeight - window.innerHeight;
       const rawP = dist > 0 ? clamp(-rect.top / dist, 0, 1) : 0;
-      smoothP += (rawP - smoothP) * 0.09;
-
-      const vh = window.innerHeight;
+      smoothP += (rawP - smoothP) * 0.08;
 
       // cards rise upward through the stage
-      cardsScroll.style.transform = `translateY(calc(-${smoothP} * var(--travel-vh, 200vh)))`;
+      cardsScroll.style.transform = `translate3d(0, calc(-${smoothP} * var(--travel-vh, 255vh)), 0)`;
 
       // mouse-reactive 3D tilt of the whole track
       current.x += (target.x - current.x) * 0.06;
       current.y += (target.y - current.y) * 0.06;
-      parallax.style.transform = `rotateX(${-current.y * 12}deg) rotateY(${
-        current.x * 12
-      }deg) translate3d(${current.x * 46}px, ${current.y * 30}px, 0)`;
+      parallax.style.transform = `rotateX(${-current.y * 10}deg) rotateY(${current.x * 10
+        }deg) translate3d(${current.x * 36}px, ${current.y * 24}px, 0)`;
 
       // swap to scroll-to-top + fade chrome once scrolling starts
       const sc = smoothP > 0.03;
@@ -152,38 +223,23 @@ export default function Hero({ dark }: { dark: boolean }) {
   const cards = CARDS.map((c, i) => (
     <div
       key={i}
-      className="card"
+      className={`card card--${c.label === "Google Ranking" ? "ranking" : "calls"}`}
       style={{
         ["--i" as string]: String(i),
+        ["--pair-i" as string]: String(Math.floor(i / 2)),
         left: c.left,
         top: `calc(104vh + (${c.topVh - 104}vh * var(--y-spread, 1)))`,
-        width: `calc(min(${c.w}px, 58vw) * var(--card-scale, 1))`,
-        height: "auto"
+        width: `calc(min(${c.w}px, 42vw) * var(--card-scale, 1))`,
+        height: "auto",
       }}
     >
       <div className="card__media">
-        {c.src ? (
-          <img
-            className="card__fill"
-            src={c.src}
-            alt=""
-            style={{ width: "100%", height: "auto", display: "block" }}
-          />
-        ) : (
-          <div
-            className="card__fill"
-            style={{
-              background: `linear-gradient(145deg, ${c.from}, ${c.to})`,
-              aspectRatio: `${c.w} / ${c.h}`,
-              width: "100%",
-            }}
-          />
-        )}
-        <div className="card__eye">
-          <div className="card__eye-circle">
-            <PixelEye />
-          </div>
-        </div>
+        <img
+          className="card__fill"
+          src={c.src}
+          alt={c.alt}
+          style={{ width: "100%", height: "auto", display: "block" }}
+        />
       </div>
     </div>
   ));
@@ -192,9 +248,8 @@ export default function Hero({ dark }: { dark: boolean }) {
     <div className="hero-wrap" ref={wrapRef}>
       <section
         ref={stageRef}
-        className={`hero${dark ? " is-dark" : ""}${
-          scrolled ? " is-scrolled" : ""
-        }`}
+        className={`hero${dark ? " is-dark" : ""}${scrolled ? " is-scrolled" : ""
+          }`}
         aria-label="Upscalers hero"
       >
         {/* ---- nav ---- */}
