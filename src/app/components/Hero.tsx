@@ -39,7 +39,7 @@ const CARDS: Card[] = [
   // Pair 1: Express Towing (Google Ranking left, Calls right)
   {
     left: "6%",
-    topVh: 104,
+    topVh: 126,
     w: 520,
     h: 390,
     src: "/images/image_Cards/EXPRESS_TOWING_RANKING.PNG",
@@ -51,7 +51,7 @@ const CARDS: Card[] = [
   },
   {
     left: "52%",
-    topVh: 104,
+    topVh: 126,
     w: 520,
     h: 390,
     src: "/images/image_Cards/EXPRESS_TOWING_CALLS.PNG",
@@ -65,7 +65,7 @@ const CARDS: Card[] = [
   // Pair 2: Life Restoration (Google Ranking left, Calls right)
   {
     left: "6%",
-    topVh: 162,
+    topVh: 184,
     w: 520,
     h: 390,
     src: "/images/image_Cards/LIFE_RESTORATION_RANKING.PNG",
@@ -77,7 +77,7 @@ const CARDS: Card[] = [
   },
   {
     left: "52%",
-    topVh: 162,
+    topVh: 184,
     w: 520,
     h: 390,
     src: "/images/image_Cards/LIFE_RESTORATION_CALLS.PNG",
@@ -91,7 +91,7 @@ const CARDS: Card[] = [
   // Pair 3: Zero Gravity (Google Ranking left, Calls right)
   {
     left: "6%",
-    topVh: 220,
+    topVh: 242,
     w: 520,
     h: 390,
     src: "/images/image_Cards/ZERO_GRAVITY_RANKING.PNG",
@@ -103,7 +103,7 @@ const CARDS: Card[] = [
   },
   {
     left: "52%",
-    topVh: 220,
+    topVh: 242,
     w: 520,
     h: 390,
     src: "/images/image_Cards/ZERO_GRAVITY_CALLS.PNG",
@@ -159,7 +159,7 @@ export default function Hero({ dark }: { dark: boolean }) {
       smoothP += (rawP - smoothP) * 0.08;
 
       // cards rise upward through the stage
-      cardsScroll.style.transform = `translate3d(0, calc(-${smoothP} * var(--travel-vh, 255vh)), 0)`;
+      cardsScroll.style.transform = `translate3d(0, calc(-${smoothP} * var(--travel-vh, 275vh)), 0)`;
 
       // mouse-reactive 3D tilt of the whole track
       current.x += (target.x - current.x) * 0.06;
@@ -228,7 +228,7 @@ export default function Hero({ dark }: { dark: boolean }) {
         ["--i" as string]: String(i),
         ["--pair-i" as string]: String(Math.floor(i / 2)),
         left: c.left,
-        top: `calc(104vh + (${c.topVh - 104}vh * var(--y-spread, 1)))`,
+        top: `calc(126vh + (${c.topVh - 126}vh * var(--y-spread, 1)))`,
         width: `calc(min(${c.w}px, 42vw) * var(--card-scale, 1))`,
         height: "auto",
       }}

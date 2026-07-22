@@ -96,10 +96,10 @@ export default function Footer() {
 
       // Fade in and slide up smoothly as the footer enters the viewport
       const opacity = Math.max(0, Math.min(1, (progress - 0.1) * 2.5));
-      const translateY = Math.max(0, 40 * (1 - opacity)); // Starts 40px down and slides to 0
+      const translateY = Math.max(0, 16 * (1 - opacity)); // Starts 16px down and slides to 0
       
       wordmark.style.opacity = `${opacity}`;
-      wordmark.style.transform = `translateY(${translateY}px)`;
+      wordmark.style.transform = `translate3d(0, ${translateY}px, 0)`;
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -122,31 +122,69 @@ export default function Footer() {
           <nav
             data-index="0"
             className={`footer__card footer__nav reveal-up ${isVisible(0) ? "is-visible" : ""}`.trim()}
+            style={{ ["--reveal-delay" as string]: "0s" }}
             aria-label="Footer navigation"
           >
-            {NAV.map((n) => (
-              <a key={n.label} href="#" className="footer__nav-link">
-                {n.label}
-                {n.badge && <span className="footer__badge">{n.badge}</span>}
+            <div className="footer__nav-links">
+              {NAV.map((n, idx) => (
+                <a
+                  key={n.label}
+                  href="#"
+                  className="footer__nav-link"
+                  style={{ ["--text-delay" as string]: `${0.08 + idx * 0.06}s` }}
+                >
+                  {n.label}
+                  {n.badge && <span className="footer__badge">{n.badge}</span>}
+                </a>
+              ))}
+            </div>
+
+            <div className="footer__nav-legal-wrap">
+              <a
+                href="#"
+                className="footer__nav-legal"
+                style={{ ["--text-delay" as string]: "0.46s" }}
+              >
+                Privacy Policy
+                <RightArrow />
               </a>
-            ))}
+              <a
+                href="#"
+                className="footer__nav-legal"
+                style={{ ["--text-delay" as string]: "0.52s" }}
+              >
+                Terms &amp; conditions
+                <RightArrow />
+              </a>
+            </div>
           </nav>
 
           {/* contact + subscribe */}
           <div
             data-index="1"
             className={`footer__mid reveal-up ${isVisible(1) ? "is-visible" : ""}`.trim()}
-            style={{ animationDelay: "0.3s" }}
+            style={{ ["--reveal-delay" as string]: "0.25s" }}
           >
-            <a href="mailto:hello@upscalers.com" className="footer__card footer__contact">
+            <a
+              href="mailto:hello@upscalers.com"
+              className="footer__card footer__contact"
+              style={{ ["--text-delay" as string]: "0.08s" }}
+            >
               <Plus />
               hello@upscalers.com
             </a>
-            <a href="tel:+12127089400" className="footer__card footer__contact">
+            <a
+              href="tel:+12127089400"
+              className="footer__card footer__contact"
+              style={{ ["--text-delay" as string]: "0.16s" }}
+            >
               <Plus />
               +1 212-708-9400
             </a>
-            <div className="footer__card footer__subscribe">
+            <div
+              className="footer__card footer__subscribe"
+              style={{ ["--text-delay" as string]: "0.24s" }}
+            >
               <h3>Subscribe to our insights:</h3>
               <form className="footer__sub-form">
                 <input
@@ -173,12 +211,15 @@ export default function Footer() {
           <div
             data-index="2"
             className={`footer__card footer__eco reveal-up ${isVisible(2) ? "is-visible" : ""}`.trim()}
-            style={{ animationDelay: "0.6s" }}
+            style={{ ["--reveal-delay" as string]: "0.50s" }}
           >
-            <h3>Ecosystem</h3>
+            <h3 style={{ ["--text-delay" as string]: "0.08s" }}>Ecosystem</h3>
             <ul>
-              {ECOSYSTEM.map((e) => (
-                <li key={e}>
+              {ECOSYSTEM.map((e, idx) => (
+                <li
+                  key={e}
+                  style={{ ["--text-delay" as string]: `${0.14 + idx * 0.06}s` }}
+                >
                   <a href="#">{e}</a>
                 </li>
               ))}
@@ -190,22 +231,26 @@ export default function Footer() {
         <div
           data-index="3"
           className={`footer__utility reveal-up ${isVisible(3) ? "is-visible" : ""}`.trim()}
-          style={{ animationDelay: "0.8s" }}
+          style={{ ["--reveal-delay" as string]: "0.72s" }}
         >
-          <div className="footer__legal">
-            <a href="#">
-              Privacy Policy
-              <Arrow />
-            </a>
-            <a href="#">
-              Terms &amp; Conditions
-              <Arrow />
-            </a>
-          </div>
           <p className="footer__credit">© {new Date().getFullYear()} Upscalers. All rights reserved.</p>
         </div>
       </div>
     </footer>
+  );
+}
+
+function RightArrow() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path
+        d="M5 12h14M13 5l7 7-7 7"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
   );
 }
 

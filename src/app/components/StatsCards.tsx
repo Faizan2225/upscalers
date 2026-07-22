@@ -3,63 +3,57 @@
 import Image from "next/image";
 import { useEffect, useRef } from "react";
 import ScrollRevealText from "./ScrollRevealText";
-/* guide.md · Section 6 — Stats Cards.
-   Add `src` (file in /public) to a card to swap its gradient visual. */
+
 type Stat = {
+  id: string;
   value: string;
   label: string;
   theme: "accent" | "light";
-  word?: boolean; // word-style value (e.g. "Thousands") → smaller type
   cta?: string;
   avatars?: boolean;
-  mediaSide: "left" | "right";
-  src?: string;
-  from: string;
-  to: string;
+  src: string;
+  alt: string;
+  word?: boolean;
 };
 
 const STATS: Stat[] = [
   {
+    id: "card-1",
     value: "150+",
     label: "Keywords Ranked on Google",
     theme: "accent",
     cta: "Book Free Audit",
-    mediaSide: "left",
-    src: "/images/stat_keywords_ranked.png",
-    from: "#8a6bff",
-    to: "#c3b2ff",
+    src: "/images/stat_3d_pin_v4.png",
+    alt: "3D Chrome Google Maps Location Pin & Ranking Stars",
   },
   {
+    id: "card-2",
     value: "80%",
     label: "Clients Continue Long-Term",
     theme: "light",
     avatars: true,
-    mediaSide: "left",
-    src: "/images/stat_clients_longterm.png",
-    from: "#e6e2da",
-    to: "#f6f4ef",
+    src: "/images/stat_3d_phone_v4.png",
+    alt: "3D Phone Call & 5-Star Rating Notification",
   },
   {
+    id: "card-3",
     value: "Thousands",
     label: "Of Local Leads Generated",
     theme: "light",
     word: true,
     cta: "View Results",
-    mediaSide: "right",
-    src: "/images/stat_local_leads.png",
-    from: "#dfe7ee",
-    to: "#f3f6f9",
+    src: "/images/stat_3d_target_v4.png",
+    alt: "3D Target & AI Lead Generation Chart",
   },
   {
+    id: "card-4",
     value: "Multi-State",
     label: "Businesses Ranked Across the U.S.",
     theme: "light",
     word: true,
     cta: "Case Studies",
-    mediaSide: "right",
-    src: "/images/stat_multistate.png",
-    from: "#e7ddf6",
-    to: "#f4eefb",
+    src: "/images/stat_3d_globe_v4.png",
+    alt: "3D Glass USA Multi-State Map Network Globe",
   },
 ];
 
@@ -88,14 +82,13 @@ export default function StatsCards() {
 
     const handleScroll = () => {
       const viewportHeight = window.innerHeight;
-      const startFraction = 0.95; // starts when card top is 95% down the screen
-      const endFraction = 0.45;   // settles when card top is 45% down the screen
+      const startFraction = 0.95;
+      const endFraction = 0.45;
 
       cards.forEach((card) => {
         if (!card) return;
         const rect = card.getBoundingClientRect();
 
-        // If card is completely out of view, set to boundary values
         if (rect.bottom < 0) {
           card.style.setProperty("--card-progress", "1");
           return;
@@ -141,12 +134,12 @@ export default function StatsCards() {
       <div className="stats__grid">
         {STATS.map((s, i) => (
           <article
-            key={s.value}
+            key={s.id}
             data-index={i}
             ref={(el) => {
               cardRefs.current[i] = el;
             }}
-            className={`stat stat--media-${s.mediaSide} ${
+            className={`stat stat--${s.id} ${
               i === 1 || i === 2 ? "stat--wide" : "stat--narrow"
             }`}
             data-theme={s.theme}
@@ -163,7 +156,19 @@ export default function StatsCards() {
               </div>
             )}
 
-            <div className="stat__body">
+            {/* 3D Render Media Asset */}
+            <div className="stat__media-wrap">
+              <Image
+                src={s.src}
+                alt={s.alt}
+                width={700}
+                height={700}
+                className="stat__media-img"
+              />
+            </div>
+
+            {/* Content Body */}
+            <div className="stat__content">
               <div className="stat__text">
                 <div className={`stat__num${s.word ? " stat__num--word" : ""}`}>
                   <ScrollRevealText text={s.value} />
@@ -171,34 +176,15 @@ export default function StatsCards() {
                 <p className="stat__label">{s.label}</p>
               </div>
 
-              <div className="stat__media">
-                {s.src ? (
-                  <Image
-                    src={s.src}
-                    alt=""
-                    fill
-                    sizes="(max-width: 760px) 90vw, 22vw"
-                    style={{ objectFit: "cover" }}
-                  />
-                ) : (
-                  <div
-                    className="stat__media-fill"
-                    style={{
-                      background: `linear-gradient(150deg, ${s.from}, ${s.to})`,
-                    }}
-                  />
-                )}
-              </div>
+              {s.cta && (
+                <div className="stat__actions">
+                  <button type="button" className="stat__pill">
+                    {s.cta}
+                    <ArrowUR />
+                  </button>
+                </div>
+              )}
             </div>
-
-            {s.cta && (
-              <div className="stat__actions">
-                <button type="button" className="stat__pill">
-                  {s.cta}
-                  <ArrowUR />
-                </button>
-              </div>
-            )}
           </article>
         ))}
       </div>

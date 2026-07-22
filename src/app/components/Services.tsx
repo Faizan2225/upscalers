@@ -34,8 +34,8 @@ const SERVICES: Service[] = [
     theme: "purple",
     desc: "We structure your online presence using Generative Engine Optimization strategies designed for modern search visibility and long-term local authority.",
     cards: [
-      { src: "/images/AI1.PNG", from: "#4a3aa0", to: "#7c5cff", tags: ["GEO", "AI"] },
-      { src: "/images/AI2.PNG", from: "#5b49c0", to: "#b6a2ff", tags: ["Visibility", "Authority"] },
+      { src: "/images/services/AI1.PNG", from: "#4a3aa0", to: "#7c5cff", tags: ["GEO", "AI"] },
+      { src: "/images/services/AI2.PNG", from: "#5b49c0", to: "#b6a2ff", tags: ["Visibility", "Authority"] },
     ],
   },
   {
@@ -54,8 +54,8 @@ const SERVICES: Service[] = [
     theme: "dark",
     desc: "We strengthen your business credibility through review optimization, trust signals, local relevance, and consistent online authority building.",
     cards: [
-      { src: "/images/LA1.PNG", from: "#241712", to: "#e0853a", tags: ["Reviews", "Trust"] },
-      { src: "/images/LA2.PNG", from: "#15151a", to: "#3a3a46", tags: ["Local", "Brand"] },
+      { src: "/images/services/LA1.PNG", from: "#241712", to: "#e0853a", tags: ["Reviews", "Trust"] },
+      { src: "/images/services/LA2.PNG", from: "#15151a", to: "#3a3a46", tags: ["Local", "Brand"] },
     ],
   },
 ];
