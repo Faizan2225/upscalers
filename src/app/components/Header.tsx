@@ -1,16 +1,29 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
-type MenuItem = { label: string };
+type MenuItem = {
+  label: string;
+  href?: string;
+  subItems?: { label: string; href: string }[];
+};
 
 const MENU: MenuItem[] = [
-  { label: "Home" },
-  { label: "Works" },
-  { label: "Pages" },
-  { label: "Insights" },
-  { label: "Contact" },
+  { label: "Home", href: "/" },
+  {
+    label: "Services",
+    href: "/services",
+    subItems: [
+      { label: "Overview", href: "/services" },
+      { label: "Digital Marketing", href: "/services/digital-marketing" },
+      { label: "Development", href: "/services/development" },
+      { label: "Design", href: "/services/design" },
+    ],
+  },
+  { label: "About", href: "/about" },
+  { label: "Contact", href: "/contact" },
 ];
 
 interface HeaderProps {
@@ -21,6 +34,7 @@ interface HeaderProps {
 export default function Header({ dark, setDark }: HeaderProps) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [expandedItem, setExpandedItem] = useState<string | null>(null);
 
   /* track page scroll for header styling */
   useEffect(() => {
@@ -174,19 +188,41 @@ export default function Header({ dark, setDark }: HeaderProps) {
                 className="menu-item"
                 style={{ ["--d" as string]: `${i * 0.05}s` }}
               >
-                <button
-                  type="button"
-                  className="menu-item__head"
-                  onClick={() => setOpen(false)}
-                >
-                  <span>{item.label}</span>
-                  {i < MENU.length - 1 && (
-                    <span className="menu-item__plus" aria-hidden="true">
-                      <i />
-                      <i />
-                    </span>
-                  )}
-                </button>
+                {item.subItems ? (
+                  <>
+                    <button
+                      type="button"
+                      className="menu-item__head"
+                      onClick={() => setExpandedItem(expandedItem === item.label ? null : item.label)}
+                    >
+                      <span>{item.label}</span>
+                      <span className={`menu-item__plus${expandedItem === item.label ? " is-expanded" : ""}`} aria-hidden="true">
+                        <i />
+                        <i />
+                      </span>
+                    </button>
+                    <div className={`menu-item__sub${expandedItem === item.label ? " is-open" : ""}`}>
+                      {item.subItems.map((sub) => (
+                        <Link
+                          key={sub.label}
+                          href={sub.href}
+                          className="menu-item__sub-link"
+                          onClick={() => setOpen(false)}
+                        >
+                          {sub.label}
+                        </Link>
+                      ))}
+                    </div>
+                  </>
+                ) : (
+                  <Link
+                    href={item.href || "#"}
+                    className="menu-item__head"
+                    onClick={() => setOpen(false)}
+                  >
+                    <span>{item.label}</span>
+                  </Link>
+                )}
               </div>
             ))}
           </nav>

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./main.css";
+import LayoutWrapper from "./components/LayoutWrapper";
 
 const geistSans = { variable: "--font-geist-sans" };
 const geistMono = { variable: "--font-geist-mono" };
@@ -22,8 +23,9 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col" suppressHydrationWarning>
-        {children}
+        <LayoutWrapper>{children}</LayoutWrapper>
       </body>
     </html>
   );
 }
+

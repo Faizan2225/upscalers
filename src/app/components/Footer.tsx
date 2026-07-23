@@ -1,15 +1,15 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import Link from "next/link";
 import { useScrollReveal } from "../hooks/useScrollReveal";
 
-const NAV: { label: string; badge?: string }[] = [
-  { label: "Home" },
-  { label: "About us" },
-  { label: "Works", badge: "+10" },
-  { label: "Services" },
-  { label: "Insights" },
-  { label: "Contact" },
+const NAV: { label: string; href: string; badge?: string }[] = [
+  { label: "Home", href: "/" },
+  { label: "About us", href: "/about" },
+  { label: "Works", href: "/#works", badge: "+10" },
+  { label: "Services", href: "/services" },
+  { label: "Contact", href: "/contact" },
 ];
 
 const ECOSYSTEM = [
@@ -127,15 +127,15 @@ export default function Footer() {
           >
             <div className="footer__nav-links">
               {NAV.map((n, idx) => (
-                <a
+                <Link
                   key={n.label}
-                  href="#"
+                  href={n.href}
                   className="footer__nav-link"
                   style={{ ["--text-delay" as string]: `${0.08 + idx * 0.06}s` }}
                 >
                   {n.label}
                   {n.badge && <span className="footer__badge">{n.badge}</span>}
-                </a>
+                </Link>
               ))}
             </div>
 
