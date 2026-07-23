@@ -271,8 +271,8 @@ export default function Hero({ dark }: { dark: boolean }) {
             using AI-powered optimization systems.
           </p>
           <div className="hero__cta">
-            <button type="button" className="hero__btn hero__btn--primary">
-              Book Free Audit
+            <a href="tel:+12127089400" className="hero__btn hero__btn--primary">
+              Get More Calls
               <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <path
                   d="M7 17 17 7M9 7h8v8"
@@ -282,8 +282,21 @@ export default function Hero({ dark }: { dark: boolean }) {
                   strokeLinejoin="round"
                 />
               </svg>
-            </button>
-            <button type="button" className="hero__btn hero__btn--ghost">
+            </a>
+            <button
+              type="button"
+              className="hero__btn hero__btn--ghost"
+              onClick={() => {
+                const wrap = wrapRef.current;
+                if (!wrap) return;
+                const dist = wrap.offsetHeight - window.innerHeight;
+                const targetScroll = dist * 0.35;
+                window.scrollTo({
+                  top: targetScroll,
+                  behavior: "smooth",
+                });
+              }}
+            >
               View Results
             </button>
           </div>

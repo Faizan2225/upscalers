@@ -22,7 +22,7 @@ const STATS: Stat[] = [
     value: "150+",
     label: "Keywords Ranked on Google",
     theme: "accent",
-    cta: "Book Free Audit",
+    cta: "Get More Calls",
     src: "/images/stat_3d_pin_v4.png",
     alt: "3D Chrome Google Maps Location Pin & Ranking Stars",
   },
@@ -178,10 +178,10 @@ export default function StatsCards() {
 
               {s.cta && (
                 <div className="stat__actions">
-                  <button type="button" className="stat__pill">
+                  <a href="tel:+12127089400" className="stat__pill">
                     {s.cta}
                     <ArrowUR />
-                  </button>
+                  </a>
                 </div>
               )}
             </div>

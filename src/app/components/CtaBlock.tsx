@@ -11,7 +11,7 @@ const clampMag = (v: number, max: number) =>
 /* Pre-footer call-to-action — black round-top panel, giant headline,
    magnetic accent button, and the floating chrome object (reused hero asset). */
 export default function CtaBlock() {
-  const btnRef = useRef<HTMLButtonElement>(null);
+  const btnRef = useRef<HTMLAnchorElement>(null);
   const sectionRef = useRef<HTMLElement>(null);
 
   // Scroll progress listener to drive width-shrinking transition
@@ -104,9 +104,9 @@ export default function CtaBlock() {
           <h2 className="cta__title">
             <ScrollRevealText text="Let's grow your business." />
           </h2>
-          <button ref={btnRef} type="button" className="cta__btn">
+          <a ref={btnRef} href="tel:+12127089400" className="cta__btn">
             <span className="cta__btn-label">
-              Book Free Audit
+              Get More Calls
               <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <path
                   d="M7 17 17 7M9 7h8v8"
@@ -117,7 +117,7 @@ export default function CtaBlock() {
                 />
               </svg>
             </span>
-          </button>
+          </a>
         </div>
 
         <div className="cta__art" aria-hidden="true">

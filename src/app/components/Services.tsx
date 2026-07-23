@@ -62,22 +62,20 @@ const SERVICES: Service[] = [
 
 function Card({ card }: { card: SvcCard }) {
   return (
-    <div className="scard">
-      {card.src ? (
+    <div
+      className="scard"
+      style={{
+        background: `linear-gradient(150deg, ${card.from}, ${card.to})`,
+      }}
+    >
+      {card.src && (
         <Image
           className="scard__img"
           src={card.src}
           alt=""
           fill
           sizes="(max-width: 760px) 90vw, 45vw"
-          style={{ objectFit: "cover" }}
-        />
-      ) : (
-        <div
-          className="scard__img"
-          style={{
-            background: `linear-gradient(150deg, ${card.from}, ${card.to})`,
-          }}
+          style={{ objectFit: "contain" }}
         />
       )}
       <div className="scard__eye">

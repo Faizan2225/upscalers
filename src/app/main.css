@@ -73,7 +73,7 @@ body {
   top: 0;
   left: 0;
   width: 100%;
-  z-index: 180;
+  z-index: 250;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -84,6 +84,14 @@ body {
 }
 
 .header.is-menu-open {
+  background: transparent;
+  border-bottom: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+.header.is-menu-open .header__logo,
+.header.is-menu-open .header__icon-btn,
+.header.is-menu-open .header__pill {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
@@ -160,45 +168,45 @@ body {
 .header__icon-btn {
   display: grid;
   place-items: center;
-  width: 52px;
-  height: 52px;
+  width: 48px;
+  height: 48px;
   border-radius: 999px;
-  background: var(--fg-color);
-  color: var(--bg-color);
+  background: transparent;
+  color: var(--fg-color);
   border: none;
   cursor: pointer;
-  transition: transform 0.25s ease, background 0.25s ease, color 0.25s ease;
+  transition: transform 0.25s ease, color 0.25s ease, opacity 0.35s ease, visibility 0.35s ease;
 }
 .header__icon-btn:hover {
   transform: scale(1.07);
 }
 .header__icon-btn svg {
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: 22px;
 }
 
 .header__pill {
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  height: 52px;
-  padding: 0 22px;
+  height: 48px;
+  padding: 0 24px;
   border-radius: 999px;
   border: 1.5px solid var(--fg-color);
   background: transparent;
   color: var(--fg-color);
   font-weight: 600;
-  font-size: 16px;
+  font-size: 15px;
   cursor: pointer;
-  transition: background 0.3s ease, color 0.3s ease, transform 0.25s ease;
+  transition: background 0.3s ease, color 0.3s ease, transform 0.25s ease, opacity 0.35s ease, visibility 0.35s ease;
 }
 .header__pill:hover {
   background: var(--fg-color);
   color: var(--bg-color);
 }
 .header__pill svg {
-  width: 16px;
-  height: 16px;
+  width: 15px;
+  height: 15px;
   transition: transform 0.3s ease;
 }
 .header__pill:hover svg {
@@ -365,8 +373,13 @@ body {
   transform: translate(2px, -2px);
 }
 .hero__btn--primary {
-  background: var(--fg);
-  color: var(--bg);
+  background: var(--accent);
+  color: #ffffff;
+  border-color: var(--accent);
+}
+.hero__btn--primary:hover {
+  background: var(--accent);
+  filter: brightness(1.08);
 }
 .hero__btn--ghost {
   background: transparent;
@@ -611,12 +624,18 @@ body {
     padding: 16px 18px;
   }
   .header__pill {
-    display: none; /* CTA lives in body on mobile */
+    padding: 0;
+    width: 48px;
+    height: 48px;
+    justify-content: center;
+  }
+  .header__pill-text {
+    display: none;
   }
   .header__icon-btn,
   .menu-fab {
-    width: 46px;
-    height: 46px;
+    width: 48px;
+    height: 48px;
   }
 
   .hero__intro {
@@ -637,15 +656,15 @@ body {
 
   /* ---- mobile hero: cards rise ONE BY ONE, 90vw width centered ---- */
   .hero-wrap {
-    height: 500vh;
+    height: 280vh;
   }
   .hero {
-    --travel-vh: 380vh;
+    --travel-vh: 180vh;
   }
   .card {
     left: 5vw !important;
     width: 90vw !important;
-    top: calc(125vh + var(--i) * 48vh) !important;
+    top: calc(112vh + var(--i) * 12vh) !important;
     transform: translateY(-50%) rotate(0deg) !important;
   }
   .card.card--ranking,
@@ -1775,7 +1794,7 @@ body {
   margin-inline: auto;
   width: calc(100% - (var(--cta-progress, 0) * 2 * clamp(16px, 3.8vw, 72px)));
   will-change: width, border-radius;
-  transition: width 0.12s ease-out, border-radius 0.12s ease-out;
+  transition: width 0.12s ease-out, border-radius 0.12s ease-out, background 0.4s ease, color 0.4s ease;
 }
 .cta__content {
   position: relative;
@@ -1913,45 +1932,49 @@ body {
    HAMBURGER → full-screen overlay menu (clip-path liquid sweep)
    ============================================================ */
 
-/* ── Standalone floating burger / close button ── */
 .menu-fab {
-  position: fixed;
-  top: clamp(16px, 2.5vw, 24px);
-  right: clamp(20px, 4vw, 64px);
-  width: 52px;
-  height: 52px;
+  position: relative;
+  width: 48px;
+  height: 48px;
   border-radius: 999px;
-  background: #0d0d10;
-  color: #f4f1ec;
+  background: var(--fg-color);
+  color: var(--bg-color);
   border: none;
   cursor: pointer;
-  z-index: 300;
+  z-index: 310;
   display: grid;
   place-items: center;
   transition: transform 0.25s ease, background 0.35s ease, color 0.35s ease;
+  flex-shrink: 0;
 }
 .menu-fab:hover:not(.is-open) {
   transform: scale(1.07);
 }
 .menu-fab svg {
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: 22px;
 }
 .menu-fab svg path {
   transform-origin: center;
   transition: transform 0.35s cubic-bezier(0.65, 0, 0.35, 1);
 }
+.menu-fab svg path.menu-fab__top {
+  transform: translateY(-3px);
+}
+.menu-fab svg path.menu-fab__bottom {
+  transform: translateY(3px);
+}
 /* burger → X morph */
 .menu-fab.is-open .menu-fab__top {
-  transform: translateY(3px) rotate(45deg);
+  transform: rotate(45deg) scaleX(1.3);
 }
 .menu-fab.is-open .menu-fab__bottom {
-  transform: translateY(-3px) rotate(-45deg);
+  transform: rotate(-45deg) scaleX(1.3);
 }
 /* dark context: invert button colours */
 .menu-fab.is-dark {
-  background: #f2efe9;
-  color: #0c0c0d;
+  background: var(--fg-color);
+  color: var(--bg-color);
 }
 /* when overlay is open: transparent bg, white icon */
 .menu-fab.is-open {
@@ -2031,8 +2054,10 @@ body {
 }
 
 .menu-overlay__right {
+  position: relative;
   align-items: flex-end;
   text-align: right;
+  justify-content: center;
 }
 
 /* ── Top-left intro ── */
@@ -2160,9 +2185,6 @@ body {
   position: relative;
   width: clamp(260px, 25vw, 380px);
   aspect-ratio: 1.6 / 1;
-  border-radius: 20px;
-  overflow: hidden;
-  background: #28282c;
   display: grid;
   place-items: center;
   transform: scale(0.95);
@@ -2198,6 +2220,9 @@ body {
 .menu-overlay__copy {
   font-size: 13px;
   color: rgba(255, 255, 255, 0.4);
+  position: absolute;
+  bottom: 0;
+  right: 0;
 }
 
 /* ── Mobile breakpoints ── */
@@ -2223,18 +2248,16 @@ body {
 }
 @media (max-width: 768px) {
   .menu-fab {
-    top: 16px;
-    right: 18px;
-    width: 46px;
-    height: 46px;
+    width: 48px;
+    height: 48px;
   }
   .menu-fab svg {
-    width: 18px;
-    height: 18px;
+    width: 20px;
+    height: 20px;
   }
   .menu-overlay {
-    --fab-cx: calc(100% - 18px - 23px + 14px);
-    --fab-cy: calc(16px + 23px - 14px);
+    --fab-cx: calc(100% - 18px - 24px + 14px);
+    --fab-cy: calc(16px + 24px - 14px);
   }
 }
 
@@ -3440,3 +3463,483 @@ body {
 }
 
 
+/* ============================================================
+   GLOBAL DARK MODE  —  [data-theme="dark"]
+   Covers every section, every card, every detail.
+   ============================================================ */
+
+/* ── Root variable overrides ── */
+[data-theme="dark"] {
+  --background: #0a0a0c;
+  --foreground: #f2efe9;
+  --muted: #8c8a82;
+  --accent: #9b87f5;
+}
+[data-theme="dark"] body {
+  background: #0a0a0c;
+  color: #f2efe9;
+}
+
+/* ── Header ── */
+[data-theme="dark"] .header {
+  --fg-color: #f2efe9;
+  --bg-color: #0a0a0c;
+}
+[data-theme="dark"] .header.is-scrolled {
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border-bottom: none !important;
+}
+[data-theme="dark"] .header__logo-icon {
+  filter: invert(1) brightness(1.1);
+}
+
+/* ── Hero (homepage) ── */
+[data-theme="dark"] .hero {
+  --bg: #0a0a0c;
+  --fg: #f2efe9;
+  --muted: #8c8a82;
+  --btn-fg: #0c0c0d;
+  --btn-bg: #f2efe9;
+}
+
+/* ── Services scroll cards (homepage) ── */
+[data-theme="dark"] .services {
+  background: #0a0a0c;
+}
+[data-theme="dark"] .svc[data-theme="light"] {
+  background: #18181b;
+  color: #f2efe9;
+  --num: rgba(255, 255, 255, 0.35);
+  --desc: rgba(255, 255, 255, 0.7);
+}
+
+/* ── Case Studies ── */
+[data-theme="dark"] .cases {
+  background: #0a0a0c;
+}
+[data-theme="dark"] .case {
+  background: #18181b;
+  border-color: rgba(255, 255, 255, 0.06);
+}
+[data-theme="dark"] .case__metric {
+  color: #f2efe9;
+}
+[data-theme="dark"] .case__label {
+  color: #8c8a82;
+}
+
+/* ── Stats section ── */
+[data-theme="dark"] .stats {
+  background: #0a0a0c;
+}
+[data-theme="dark"] .stat[data-theme="light"] {
+  background: #18181b;
+  color: #f2efe9;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15);
+}
+[data-theme="dark"] .stat__value {
+  color: #f2efe9;
+}
+[data-theme="dark"] .stat__label {
+  color: #8c8a82;
+}
+
+/* ── About (homepage section) ── */
+[data-theme="dark"] .about {
+  background: #0a0a0c;
+  color: #f2efe9;
+}
+[data-theme="dark"] .about__btn {
+  border-color: #f2efe9;
+  color: #f2efe9;
+}
+[data-theme="dark"] .about__btn:hover {
+  background: #f2efe9;
+  color: #0a0a0c;
+}
+
+/* ── CTA block ── */
+[data-theme="dark"] .cta {
+  background: #0a0a0c;
+}
+[data-theme="dark"] .cta__inner {
+  background: #18181b;
+  color: #f2efe9;
+  border-color: rgba(255, 255, 255, 0.06);
+}
+[data-theme="dark"] .cta__btn-label {
+  background: var(--accent) !important;
+  color: #0c0c0d !important;
+}
+
+/* ── Footer ── */
+[data-theme="dark"] .footer {
+  background: #0a0a0c;
+  color: #f2efe9;
+}
+[data-theme="dark"] .footer__card {
+  background: #18181b;
+  border-color: rgba(255, 255, 255, 0.06);
+}
+[data-theme="dark"] .footer__nav-link {
+  color: #f2efe9;
+}
+[data-theme="dark"] .footer__nav-legal {
+  color: #8c8a82;
+}
+[data-theme="dark"] .footer__nav-legal:hover {
+  color: #f2efe9;
+}
+[data-theme="dark"] .footer__contact {
+  color: #f2efe9;
+}
+[data-theme="dark"] .footer__contact:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+[data-theme="dark"] .footer__sub-form {
+  border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+[data-theme="dark"] .footer__sub-form input {
+  color: #f2efe9;
+}
+[data-theme="dark"] .footer__sub-form input::placeholder {
+  color: #8c8a82;
+}
+[data-theme="dark"] .footer__sub-form button {
+  background: #f2efe9;
+  color: #0a0a0c;
+}
+[data-theme="dark"] .footer__eco a {
+  color: #f2efe9;
+}
+[data-theme="dark"] .footer__utility {
+  border-top-color: rgba(255, 255, 255, 0.08);
+}
+[data-theme="dark"] .footer__legal a {
+  color: #f2efe9;
+}
+
+/* ── Page Hero (inner pages) ── */
+[data-theme="dark"] .page-hero {
+  background: #0a0a0c;
+  color: #f2efe9;
+  border-bottom-color: rgba(255, 255, 255, 0.05);
+}
+[data-theme="dark"] .page-hero__breadcrumb-sep {
+  color: rgba(255, 255, 255, 0.15);
+}
+
+/* ── Services Hub (bento grid) ── */
+[data-theme="dark"] .services-hub {
+  background: #0a0a0c;
+}
+[data-theme="dark"] .services-hub__card--light {
+  background: #18181b;
+  color: #f2efe9;
+  border-color: rgba(255, 255, 255, 0.06);
+}
+[data-theme="dark"] .services-hub__card--light .services-hub__card-arrow,
+[data-theme="dark"] .services-hub__card--light .services-hub__card-tags span {
+  background: rgba(255, 255, 255, 0.08);
+  color: #f2efe9;
+}
+[data-theme="dark"] .services-hub__card:hover {
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+}
+
+/* ── Service Detail Pages ── */
+[data-theme="dark"] .service-detail {
+  background: #0a0a0c;
+  color: #f2efe9;
+}
+[data-theme="dark"] .service-detail__desc {
+  color: #c4c2ba;
+}
+[data-theme="dark"] .service-detail__benefits li {
+  color: #f2efe9;
+}
+[data-theme="dark"] .service-detail__visual {
+  background: #18181b;
+  border-color: rgba(255, 255, 255, 0.06);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* ── About Page ── */
+[data-theme="dark"] .about-page {
+  background: #0a0a0c;
+  color: #f2efe9;
+}
+[data-theme="dark"] .about-page__story-visual {
+  background: #18181b;
+  border-color: rgba(255, 255, 255, 0.06);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15);
+}
+[data-theme="dark"] .about-page__metric-card {
+  background: #18181b;
+  border-color: rgba(255, 255, 255, 0.06);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+}
+[data-theme="dark"] .about-page__metric-card-glow {
+  background: radial-gradient(circle, rgba(155, 135, 245, 0.06) 0%, rgba(0, 0, 0, 0) 70%);
+}
+[data-theme="dark"] .about-page__metric-card:hover {
+  border-color: rgba(155, 135, 245, 0.3);
+}
+[data-theme="dark"] .about-page__value-card {
+  background: #18181b;
+  border-color: rgba(255, 255, 255, 0.06);
+}
+[data-theme="dark"] .about-page__value-card p {
+  color: #c4c2ba;
+}
+
+/* ── About Hero (redesigned) ── */
+/* Already dark by design — no changes needed */
+
+/* ── About Blueprint ── */
+[data-theme="dark"] .about-blueprint {
+  background: #18181b;
+  border-color: rgba(255, 255, 255, 0.06);
+}
+[data-theme="dark"] .about-blueprint__header h2 {
+  color: #f2efe9;
+}
+[data-theme="dark"] .about-blueprint__nav-btn {
+  border-color: transparent;
+}
+[data-theme="dark"] .about-blueprint__nav-btn:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+[data-theme="dark"] .about-blueprint__nav-btn.is-active {
+  background: #f2efe9;
+  border-color: #f2efe9;
+}
+[data-theme="dark"] .about-blueprint__nav-btn.is-active .about-blueprint__nav-num {
+  color: #0a0a0c;
+}
+[data-theme="dark"] .about-blueprint__nav-btn.is-active .about-blueprint__nav-title {
+  color: #0a0a0c;
+}
+[data-theme="dark"] .about-blueprint__nav-title {
+  color: #f2efe9;
+}
+[data-theme="dark"] .about-blueprint__pane {
+  background: #111113;
+}
+[data-theme="dark"] .about-blueprint__pane h3 {
+  color: #f2efe9;
+}
+[data-theme="dark"] .about-blueprint__pane p {
+  color: #c4c2ba;
+}
+
+/* ── Contact Page ── */
+[data-theme="dark"] .contact-page {
+  background: #0a0a0c;
+  color: #f2efe9;
+}
+[data-theme="dark"] .contact-page__form-container {
+  background: rgba(24, 24, 27, 0.6);
+  backdrop-filter: blur(20px);
+  border-color: rgba(255, 255, 255, 0.06);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15);
+}
+[data-theme="dark"] .contact-form__field input,
+[data-theme="dark"] .contact-form__field select,
+[data-theme="dark"] .contact-form__field textarea {
+  background: #111113;
+  border-color: rgba(255, 255, 255, 0.08);
+  color: #f2efe9;
+}
+[data-theme="dark"] .contact-form__field input::placeholder,
+[data-theme="dark"] .contact-form__field textarea::placeholder {
+  color: #8c8a82;
+}
+[data-theme="dark"] .contact-form__field select option {
+  background: #18181b;
+  color: #f2efe9;
+}
+[data-theme="dark"] .contact-form__submit {
+  background: #f2efe9;
+  color: #0a0a0c;
+}
+[data-theme="dark"] .contact-page__reset-btn {
+  background: #f2efe9;
+  color: #0a0a0c;
+}
+
+[data-theme="dark"] .contact-page__info-card {
+  background: #18181b;
+  border-color: rgba(255, 255, 255, 0.06);
+}
+[data-theme="dark"] .contact-page__info-card a,
+[data-theme="dark"] .contact-page__info-card span {
+  color: #f2efe9;
+}
+[data-theme="dark"] .contact-page__info-icon {
+  background: #111113;
+}
+[data-theme="dark"] .contact-page__info-card:hover {
+  border-color: rgba(155, 135, 245, 0.2);
+}
+
+/* ── Contact Hero — already dark by design ── */
+
+/* ── Contact preview card — already dark by design ── */
+
+/* ── Scroll reveal animations ── */
+[data-theme="dark"] .reveal-up {
+  /* keep the same animation, just ensure colors are inherited */
+}
+
+/* ── Success checkmark on contact page ── */
+[data-theme="dark"] .contact-page__success-checkmark {
+  background: rgba(155, 135, 245, 0.15);
+}
+[data-theme="dark"] .contact-page__success-checkmark span {
+  color: var(--accent);
+}
+
+/* ── Smooth transition on theme switch ── */
+body,
+.header,
+.footer,
+.footer__card,
+.page-hero,
+.services-hub,
+.service-detail,
+.service-detail__visual,
+.about-page,
+.about-page__story-visual,
+.about-page__metric-card,
+.about-page__value-card,
+.about-blueprint,
+.about-blueprint__pane,
+.about-blueprint__nav-btn,
+.contact-page,
+.contact-page__form-container,
+.contact-page__info-card,
+.contact-form__field input,
+.contact-form__field select,
+.contact-form__field textarea,
+.contact-form__submit,
+.contact-page__reset-btn,
+.stats,
+.stat,
+.about,
+.about__btn,
+.cta,
+.services {
+  transition: background 0.4s ease, color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+/* ── Case Studies cards (dark mode) ── */
+[data-theme="dark"] .cs-card[data-theme="light"] {
+  background: #18181b;
+  color: #f2efe9;
+  --meta: rgba(255, 255, 255, 0.5);
+  border-color: rgba(255, 255, 255, 0.06);
+}
+[data-theme="dark"] .cs-card__kw span {
+  background: rgba(255, 255, 255, 0.1);
+  color: #f2efe9;
+  backdrop-filter: blur(6px);
+}
+
+/* ── Cases text marquee ── */
+[data-theme="dark"] .cases__text-item {
+  color: #555555;
+}
+[data-theme="dark"] .cases__text-star {
+  color: #444444;
+}
+
+/* ── CTA art object in dark mode ── */
+[data-theme="dark"] .cta__art-object img {
+  filter: invert(1);
+  mix-blend-mode: screen;
+}
+
+/* ── Stat cards small details ── */
+[data-theme="dark"] .stat__sub {
+  color: #8c8a82;
+}
+[data-theme="dark"] .stat__img {
+  opacity: 0.9;
+}
+
+/* ── Stat pill buttons in dark mode ── */
+[data-theme="dark"] .stat[data-theme="light"] .stat__pill {
+  border-color: rgba(242, 239, 233, 0.8) !important;
+  color: #f2efe9 !important;
+}
+[data-theme="dark"] .stat[data-theme="light"] .stat__pill:hover {
+  background: #f2efe9 !important;
+  color: #0a0a0c !important;
+}
+[data-theme="dark"] .stat__num,
+[data-theme="dark"] .stat__num * {
+  color: #f2efe9 !important;
+}
+[data-theme="dark"] .stat__label,
+[data-theme="dark"] .stat__label * {
+  color: rgba(242, 239, 233, 0.75) !important;
+}
+.reveal-char {
+  color: inherit !important;
+}
+
+/* ── Cases nav arrows ── */
+[data-theme="dark"] .cases__nav-btn {
+  background: #18181b;
+  color: #f2efe9;
+  border-color: rgba(255, 255, 255, 0.06);
+}
+[data-theme="dark"] .cases__nav-btn:hover {
+  background: #222225;
+}
+
+/* ── ScrollRevealText (used in about hero) ── */
+[data-theme="dark"] .scroll-reveal-text,
+[data-theme="dark"] .scroll-reveal-text * {
+  color: #f2efe9 !important;
+}
+
+/* ── Contact success page ── */
+[data-theme="dark"] .contact-page__success h2 {
+  color: #f2efe9;
+}
+[data-theme="dark"] .contact-page__success p {
+  color: #8c8a82;
+}
+
+/* ── Map placeholder on contact ── */
+[data-theme="dark"] .contact-page__map-placeholder {
+  background: #111113;
+}
+
+/* ── Selection colour in dark mode ── */
+[data-theme="dark"] ::selection {
+  background: rgba(155, 135, 245, 0.35);
+  color: #ffffff;
+}
+
+/* ── Input placeholder colours in footer ── */
+[data-theme="dark"] .footer__sub-form input::placeholder {
+  color: #666;
+}
+
+/* ── Breadcrumb separator on page-hero ── */
+[data-theme="dark"] .page-hero__breadcrumb-sep {
+  color: rgba(255, 255, 255, 0.15);
+}
+
+/* ── Header scrolled in dark pages ── */
+[data-theme="dark"] .header.is-scrolled.is-dark-header {
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}

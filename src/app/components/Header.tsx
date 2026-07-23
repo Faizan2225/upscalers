@@ -59,7 +59,7 @@ export default function Header({ dark, setDark }: HeaderProps) {
     };
   }, [open]);
 
-  const isDarkHeader = (dark && !scrolled) || open;
+  const isDarkHeader = dark || open;
 
   const headerClass = [
     "header",
@@ -82,9 +82,13 @@ export default function Header({ dark, setDark }: HeaderProps) {
     <>
       {/* ── Fixed top header bar ── */}
       <header className={headerClass}>
-        <div
+        <Link
+          href="/"
           className="header__logo"
-          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          onClick={() => {
+            setOpen(false);
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }}
         >
           <img
             src="/favicon.PNG"
@@ -94,7 +98,7 @@ export default function Header({ dark, setDark }: HeaderProps) {
           <div className="header__logo-text">
             <span className="header__logo-brand">upscalers</span>
           </div>
-        </div>
+        </Link>
 
         <div className="header__actions">
           <button
@@ -103,62 +107,52 @@ export default function Header({ dark, setDark }: HeaderProps) {
             aria-pressed={dark}
             onClick={() => setDark((d) => !d)}
           >
-            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path
-                d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5Z"
-                fill="currentColor"
-              />
-              <path
-                d="M18 3v4M16 5h4"
-                stroke="currentColor"
-                strokeWidth="1.6"
-                strokeLinecap="round"
-              />
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z" />
+              <path d="M19 4v4M17 6h4" strokeWidth="1.8" />
+              <path d="M14 2v2M13 3h2" strokeWidth="1.2" />
             </svg>
           </button>
 
           <button className="header__pill" type="button">
-            Book Free Audit
+            <span className="header__pill-text">Say Hello</span>
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <path
                 d="M7 17 17 7M9 7h8v8"
                 stroke="currentColor"
-                strokeWidth="2"
+                strokeWidth="2.5"
                 strokeLinecap="round"
                 strokeLinejoin="round"
               />
             </svg>
           </button>
 
-          {/* Space reservation for the floating burger button */}
-          <div className="menu-fab-spacer" />
+          {/* Inline burger close button for 100% flex alignment */}
+          <button
+            className={fabClass}
+            aria-label={open ? "Close menu" : "Open menu"}
+            aria-expanded={open}
+            onClick={() => setOpen((o) => !o)}
+          >
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path
+                className="menu-fab__top"
+                d="M5 12h14"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+              />
+              <path
+                className="menu-fab__bottom"
+                d="M5 12h14"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+              />
+            </svg>
+          </button>
         </div>
       </header>
-
-      {/* ── Standalone floating burger / close button ── */}
-      <button
-        className={fabClass}
-        aria-label={open ? "Close menu" : "Open menu"}
-        aria-expanded={open}
-        onClick={() => setOpen((o) => !o)}
-      >
-        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path
-            className="menu-fab__top"
-            d="M4 9h16"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-          />
-          <path
-            className="menu-fab__bottom"
-            d="M4 15h16"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-          />
-        </svg>
-      </button>
 
       {/* ── Full-screen overlay menu ── */}
       <div
@@ -170,17 +164,8 @@ export default function Header({ dark, setDark }: HeaderProps) {
         {/* Animated vertical column divider */}
         <div className="menu-overlay__divider" />
 
-        {/* Left column: intro + navigation + credits */}
+        {/* Left column: navigation */}
         <div className="menu-overlay__left">
-          <div className="menu-overlay__intro">
-            <span className="menu-overlay__intro-bold">
-              🦄 Innovative design
-            </span>
-            <span className="menu-overlay__intro-muted">
-              and cutting-edge development
-            </span>
-          </div>
-
           <nav className="menu-overlay__nav" aria-label="Primary">
             {MENU.map((item, i) => (
               <div
@@ -226,24 +211,10 @@ export default function Header({ dark, setDark }: HeaderProps) {
               </div>
             ))}
           </nav>
-
-          <div className="menu-overlay__credits">
-            Made with <span className="menu-overlay__heart">💚</span> by{" "}
-            <span className="menu-overlay__brand">upscalers</span>
-          </div>
         </div>
 
-        {/* Right column: promo text + preview card + copyright */}
+        {/* Right column: preview card + copyright */}
         <div className="menu-overlay__right">
-          <div className="menu-overlay__promo">
-            <span className="menu-overlay__promo-bold">
-              👋 New Rayo template is here!
-            </span>
-            <span className="menu-overlay__promo-muted">
-              Showcase your projects, services and expertise with impact.
-            </span>
-          </div>
-
           <div className="menu-overlay__art" aria-hidden="true">
             <div className="menu-overlay__art-spin">
               <Image
@@ -256,7 +227,7 @@ export default function Header({ dark, setDark }: HeaderProps) {
             </div>
           </div>
 
-          <div className="menu-overlay__copy">©2025</div>
+          <div className="menu-overlay__copy">©{new Date().getFullYear()}</div>
         </div>
       </div>
     </>
