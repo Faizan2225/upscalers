@@ -41,8 +41,8 @@ const SERVICES: Service[] = [
     theme: "purple",
     desc: "We structure your online presence using Generative Engine Optimization strategies designed for modern search visibility and long-term local authority.",
     cards: [
-      { src: "/images/services/AI1.PNG", from: "#4a3aa0", to: "#7c5cff", tags: ["GEO", "AI"] },
-      { src: "/images/services/AI2.PNG", from: "#5b49c0", to: "#b6a2ff", tags: ["Visibility", "Authority"] },
+      { src: "/images/services/AI1.jpeg", from: "#4a3aa0", to: "#7c5cff", tags: ["GEO", "AI"] },
+      { src: "/images/services/AI2.jpeg", from: "#5b49c0", to: "#b6a2ff", tags: ["Visibility", "Authority"] },
     ],
   },
   {
@@ -73,8 +73,8 @@ const SERVICES: Service[] = [
     theme: "dark",
     desc: "We strengthen your business credibility through review optimization, trust signals, local relevance, and consistent online authority building.",
     cards: [
-      { src: "/images/services/LA1.PNG", from: "#241712", to: "#e0853a", tags: ["Reviews", "Trust"] },
-      { src: "/images/services/LA2.PNG", from: "#15151a", to: "#3a3a46", tags: ["Local", "Brand"] },
+      { src: "/images/services/LA1.png", from: "#241712", to: "#e0853a", tags: ["Reviews", "Trust"], href: "https://www.google.com/search?q=first+strike+pest+elimination&oq=First+Strike+Pest+Elimination&gs_lcrp=EgZjaHJvbWUqBwgAEAAYgAQyBwgAEAAYgAQyBwgBEAAYgAQyBwgCEAAYgAQyCAgDEAAYFhgeMggIBBAAGBYYHjIICAUQABgWGB4yCAgGEAAYFhgeMg0IBxAAGIYDGIAEGIoFMg0ICBAAGIYDGIAEGIoFMgoICRAAGIAEGKIE0gEIODMzN2owajmoAgCwAgA&sourceid=chrome&source=chrome.ob&ie=UTF-8" },
+      { src: "/images/services/LA2.png", from: "#15151a", to: "#3a3a46", tags: ["Local", "Brand"], href: "https://www.google.com/search?q=Prince+Asong+Moving&oq=Prince+Asong+Moving&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIGCAEQRRg8MgYIAhBFGDwyBggDEEUYPNIBCDU4OTVqMGo3qAIAsAIA&sourceid=chrome&source=chrome.ob&ie=UTF-8" },
     ],
   },
 ];

@@ -23,8 +23,8 @@ const STATS: Stat[] = [
     label: "Keywords Ranked on Google",
     theme: "accent",
     cta: "Get More Calls",
-    src: "",
-    alt: "3D Chrome Google Maps Location Pin & Ranking Stars",
+    src: "/images/image_Cards/college.png",
+    alt: "College & local search keywords background graphic",
   },
   {
     id: "card-2",
