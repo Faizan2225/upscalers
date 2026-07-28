@@ -33,6 +33,7 @@ type Card = {
   label: "Google Ranking" | "Calls";
   from: string;
   to: string;
+  href?: string;
 };
 
 const CARDS: Card[] = [
@@ -48,6 +49,7 @@ const CARDS: Card[] = [
     label: "Google Ranking",
     from: "#1c1c22",
     to: "#3a3a44",
+    href: "https://www.google.com/search?q=Towing+in+Pleasanton&oq=Towing+in+Pleasanton&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIGCAEQABgeMgYIAhAAGB4yCAgDEAAYBRgeMggIBBAAGAgYHjIICAUQABgIGB4yBwgGEAAY7wXSAQkxMjc0M2owajeoAgCwAgA&sourceid=chrome&source=chrome.ob&ie=UTF-8"
   },
   {
     left: "52%",
@@ -74,6 +76,7 @@ const CARDS: Card[] = [
     label: "Google Ranking",
     from: "#161616",
     to: "#3a3a3a",
+    href: "https://www.google.com/search?q=Siding+in+Roosevelt+NY&sca_esv=7333fc682edc1104&biw=1536&bih=746&sxsrf=APpeQnuRSCLkkUO8HPI3GlipAwZXjxxSRw%3A1785208634778&ei=Oh9oaquGL-j_7_UPps7FiQY&ved=0ahUKEwiri5q0tPSVAxXo_7sIHSZnMWEQ4dUDCBA&uact=5&oq=Siding+in+Roosevelt+NY&gs_lp=Egxnd3Mtd2l6LXNlcnAiFlNpZGluZyBpbiBSb29zZXZlbHQgTlkyBRAAGIAEMgsQABiABBiKBRiGAzIFEAAY7wUyBRAAGO8FMgUQABjvBUj1BlD8AViUBXABeACQAQCYAYYCoAH2A6oBAzItMrgBA8gBAPgBAZgCA6AClQTCAggQABiABBiwA8ICDhAAGIAEGIoFGIYDGLADwgIIEAAY7wUYsAPCAgsQABiABBiiBBiwA8ICCBAAGIAEGKIEmAMAiAYBkAYHkgcFMS4wLjKgB6kHsgcDMi0yuAeNBMIHBTItMS4yyAcVgAgB&sclient=gws-wiz-serp"
   },
   {
     left: "52%",
@@ -100,6 +103,7 @@ const CARDS: Card[] = [
     label: "Google Ranking",
     from: "#241712",
     to: "#e0853a",
+    href: "https://www.google.com/search?q=Car+Detailing+in+Sylvan+Lake+Michigan&sca_esv=7333fc682edc1104&biw=1536&bih=746&sxsrf=APpeQnsvtFHFq5hV-Nq8UJVS5fTaU6vlbA%3A1785208655444&ei=Tx9oaoLfGqSI9u8PyIXtKQ&ved=0ahUKEwjCwoe-tPSVAxUkhP0HHchCOwUQ4dUDCBA&uact=5&oq=Car+Detailing+in+Sylvan+Lake+Michigan&gs_lp=Egxnd3Mtd2l6LXNlcnAiJUNhciBEZXRhaWxpbmcgaW4gU3lsdmFuIExha2UgTWljaGlnYW4yBRAhGKABMgUQIRigAUiLlAFQ0QVYxJEBcAJ4AJABAJgB1QKgAdFNqgEGMi0zNy4xuAEDyAEA-AEBmAIooAL5UcICCBAAGIAEGLADwgIOEAAYgAQYigUYhgMYsAPCAggQABjvBRiwA8ICBBAjGCfCAgsQABiABBiKBRiRAsICDRAAGIAEGIoFGEMYsQPCAhEQLhiABBixAxiDARjHARjRA8ICCxAAGIAEGLEDGIMBwgIQEC4YgAQYigUYQxjHARjRA8ICBRAAGIAEwgIKECMY8AUYyQIYJ8ICChAjGMkCGPAFGCfCAhEQABiABBiKBRiRAhixAxiDAcICCxAAGIAEGIoFGJIDwgIOEAAYgAQYigUYkQIYyQPCAgoQLhiABBiKBRhDwgIKEAAYgAQYigUYQ8ICDRAAGIAEGIoFGEMYyQPCAggQABiABBixA8ICBRAuGIAEwgIIEAAYgAQYkgPCAgYQABgWGB7CAgUQABjvBcICCBAAGIkFGKIEwgIIEAAYgAQYogTCAgcQIRgKGKABmAMAiAYBkAYFkgcIMi4wLjM1LjOgB5TrAbIHBjItMzUuM7gH6lHCBwkwLjEuMTguMjHIB5EDgAgB&sclient=gws-wiz-serp"
   },
   {
     left: "52%",
@@ -220,19 +224,8 @@ export default function Hero({ dark }: { dark: boolean }) {
     </span>
   );
 
-  const cards = CARDS.map((c, i) => (
-    <div
-      key={i}
-      className={`card card--${c.label === "Google Ranking" ? "ranking" : "calls"}`}
-      style={{
-        ["--i" as string]: String(i),
-        ["--pair-i" as string]: String(Math.floor(i / 2)),
-        left: c.left,
-        top: `calc(126vh + (${c.topVh - 126}vh * var(--y-spread, 1)))`,
-        width: `calc(min(${c.w}px, 42vw) * var(--card-scale, 1))`,
-        height: "auto",
-      }}
-    >
+  const cards = CARDS.map((c, i) => {
+    const media = (
       <div className="card__media">
         <img
           className="card__fill"
@@ -241,8 +234,36 @@ export default function Hero({ dark }: { dark: boolean }) {
           style={{ width: "100%", height: "auto", display: "block" }}
         />
       </div>
-    </div>
-  ));
+    );
+
+    return (
+      <div
+        key={i}
+        className={`card card--${c.label === "Google Ranking" ? "ranking" : "calls"}`}
+        style={{
+          ["--i" as string]: String(i),
+          ["--pair-i" as string]: String(Math.floor(i / 2)),
+          left: c.left,
+          top: `calc(126vh + (${c.topVh - 126}vh * var(--y-spread, 1)))`,
+          width: `calc(min(${c.w}px, 42vw) * var(--card-scale, 1))`,
+          height: "auto",
+        }}
+      >
+        {c.href ? (
+          <a
+            href={c.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ display: "block", cursor: "pointer", width: "100%", height: "100%" }}
+          >
+            {media}
+          </a>
+        ) : (
+          media
+        )}
+      </div>
+    );
+  });
 
   return (
     <div className="hero-wrap" ref={wrapRef}>

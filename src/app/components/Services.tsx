@@ -8,6 +8,7 @@ type SvcCard = {
   from: string;
   to: string;
   tags: string[];
+  href?: string;
 };
 type Service = {
   n: string;
@@ -24,7 +25,13 @@ const SERVICES: Service[] = [
     theme: "dark",
     desc: "We optimize your Google Business Profile to improve local visibility, increase rankings, and generate consistent inbound calls from nearby customers.",
     cards: [
-      { src: "/images/services/IMG_3716.PNG", from: "#1c1c22", to: "#3a3a44", tags: ["GBP", "Local SEO"] },
+      {
+        src: "/images/services/IMG_3716.PNG",
+        from: "#1c1c22",
+        to: "#3a3a44",
+        tags: ["GBP", "Local SEO"],
+        href: "https://www.google.com/search?q=Locksmith+in+Twin+Falls%2C+ID&oq=Locksmith+in+Twin+Falls%2C+ID&gs_lcrp=EgZjaHJvbWUyBggAEEUYOdIBCDEwNDdqMGo5qAIAsAIA&sourceid=chrome&source=chrome.ob&ie=UTF-8"
+      },
       { src: "/images/services/IMG_3714.PNG", from: "#2a2a30", to: "#5a5a66", tags: ["Maps", "Calls"] },
     ],
   },
@@ -44,8 +51,20 @@ const SERVICES: Service[] = [
     theme: "light",
     desc: "Fast, modern websites built to turn visitors into leads while supporting stronger Google visibility and local trust.",
     cards: [
-      { src: "/websites/express_towing.PNG", from: "#c9c4ba", to: "#efece3", tags: ["Frontend", "CRO"] },
-      { src: "/websites/life_restoration.PNG", from: "#cfd6dd", to: "#eef2f6", tags: ["Speed", "Leads"] },
+      {
+        src: "/websites/express_towing.PNG",
+        from: "#c9c4ba",
+        to: "#efece3",
+        tags: ["Frontend", "CRO"],
+        href: "https://expresstowingcalifornia.com/"
+      },
+      {
+        src: "/websites/life_restoration.PNG",
+        from: "#cfd6dd",
+        to: "#eef2f6",
+        tags: ["Speed", "Leads"],
+        href: "https://liferestorationinc.com/"
+      },
     ],
   },
   {
@@ -61,13 +80,8 @@ const SERVICES: Service[] = [
 ];
 
 function Card({ card }: { card: SvcCard }) {
-  return (
-    <div
-      className="scard"
-      style={{
-        background: `linear-gradient(150deg, ${card.from}, ${card.to})`,
-      }}
-    >
+  const content = (
+    <>
       {card.src && (
         <Image
           className="scard__img"
@@ -88,6 +102,28 @@ function Card({ card }: { card: SvcCard }) {
           <span key={t}>{t}</span>
         ))}
       </div>
+    </>
+  );
+
+  return (
+    <div
+      className="scard"
+      style={{
+        background: `linear-gradient(150deg, ${card.from}, ${card.to})`,
+      }}
+    >
+      {card.href ? (
+        <a
+          href={card.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ display: "block", position: "relative", width: "100%", height: "100%", color: "inherit" }}
+        >
+          {content}
+        </a>
+      ) : (
+        content
+      )}
     </div>
   );
 }

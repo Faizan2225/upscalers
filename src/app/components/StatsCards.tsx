@@ -23,7 +23,7 @@ const STATS: Stat[] = [
     label: "Keywords Ranked on Google",
     theme: "accent",
     cta: "Get More Calls",
-    src: "/images/stat_3d_pin_v4.png",
+    src: "",
     alt: "3D Chrome Google Maps Location Pin & Ranking Stars",
   },
   {
@@ -42,7 +42,7 @@ const STATS: Stat[] = [
     theme: "light",
     word: true,
     cta: "View Results",
-    src: "/images/stat_3d_target_v4.png",
+    src: "",
     alt: "3D Target & AI Lead Generation Chart",
   },
   {
@@ -139,9 +139,8 @@ export default function StatsCards() {
             ref={(el) => {
               cardRefs.current[i] = el;
             }}
-            className={`stat stat--${s.id} ${
-              i === 1 || i === 2 ? "stat--wide" : "stat--narrow"
-            }`}
+            className={`stat stat--${s.id} ${i === 1 || i === 2 ? "stat--wide" : "stat--narrow"
+              }`}
             data-theme={s.theme}
           >
             {s.avatars && (

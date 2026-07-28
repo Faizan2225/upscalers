@@ -10,7 +10,7 @@ const SERVICES = [
   {
     id: "geo",
     title: "Generative Engine Optimization (GEO)",
-    src: "/images/svc_3d_geo.png",
+    src: "/images/svc_geo_llms_colored.png",
     description:
       "Traditional SEO is evolving. GEO prepares your business for the next generation of search — where AI-powered engines like Google SGE, ChatGPT, and Perplexity determine visibility. We structure your content, schema, and digital footprint so AI models surface your brand as the authoritative answer.",
     benefits: [
@@ -24,7 +24,7 @@ const SERVICES = [
   {
     id: "ppl",
     title: "Pay Per Lead (PPL)",
-    src: "/images/svc_3d_ppl.png",
+    src: "/images/svc_ppl_logos_colored.png",
     description:
       "Stop paying for clicks that don't convert. Our Pay Per Lead model ensures you only invest in real, qualified leads — verified phone calls and form submissions from customers actively searching for your services. Zero wasted ad spend, maximum ROI.",
     benefits: [
@@ -38,7 +38,7 @@ const SERVICES = [
   {
     id: "smm",
     title: "Social Media Marketing",
-    src: "/images/svc_3d_smm.png",
+    src: "/images/svc_smm_logos_colored.png",
     description:
       "Build a loyal local following and turn social engagement into real-world customers. We craft scroll-stopping content strategies tailored for local service businesses — from Instagram reels that showcase your work to Facebook campaigns that drive appointment bookings.",
     benefits: [

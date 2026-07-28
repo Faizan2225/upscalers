@@ -14,6 +14,7 @@ type CaseStudy = {
   src?: string;
   from: string;
   to: string;
+  href?: string;
 };
 
 const TEXT_WORDS = [
@@ -37,6 +38,7 @@ const CASES: CaseStudy[] = [
     src: "/websites/life_restoration.PNG",
     from: "#1c1c22",
     to: "#3a3a44",
+    href: "https://liferestorationinc.com/"
   },
   {
     theme: "light",
@@ -50,6 +52,7 @@ const CASES: CaseStudy[] = [
     src: "/websites/louisville.PNG",
     from: "#dfe7ee",
     to: "#f3f6f9",
+    href: "https://louisvilleautoglassandtint.com"
   },
   {
     theme: "dark",
@@ -63,6 +66,7 @@ const CASES: CaseStudy[] = [
     src: "/websites/express_towing.PNG",
     from: "#15151a",
     to: "#33333d",
+    href: "https://expresstowingcalifornia.com"
   },
   {
     theme: "light",
@@ -76,6 +80,7 @@ const CASES: CaseStudy[] = [
     src: "/websites/treemaniac.PNG",
     from: "#e7ddf6",
     to: "#f4eefb",
+    href: "https://treemaniac.com"
   },
 ];
 
@@ -111,9 +116,9 @@ export default function CaseStudies() {
       <div className="cases__track">
         <div className="cases__marquee">
           <div className="cases__marquee-group">
-        {CASES.map((c) => (
-          <article key={c.name} className="cs-card" data-theme={c.theme}>
-            <div className="cs-card__media">
+        {CASES.map((c) => {
+          const mediaContent = (
+            <>
               {c.src ? (
                 <Image
                   className="cs-card__img"
@@ -136,28 +141,47 @@ export default function CaseStudies() {
                   <PixelEye />
                 </div>
               </div>
-            </div>
+            </>
+          );
 
-            <div className="cs-card__body">
-              <h3 className="cs-card__name">{c.name}</h3>
-              <p className="cs-card__meta">{c.meta}</p>
-              <ul className="cs-card__results">
-                {c.results.map((r) => (
-                  <li key={r}>
-                    <Check />
-                    {r}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </article>
-        ))}
+          return (
+            <article key={c.name} className="cs-card" data-theme={c.theme}>
+              <div className="cs-card__media">
+                {c.href ? (
+                  <a
+                    href={c.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ display: "block", position: "relative", width: "100%", height: "100%" }}
+                  >
+                    {mediaContent}
+                  </a>
+                ) : (
+                  mediaContent
+                )}
+              </div>
+
+              <div className="cs-card__body">
+                <h3 className="cs-card__name">{c.name}</h3>
+                <p className="cs-card__meta">{c.meta}</p>
+                <ul className="cs-card__results">
+                  {c.results.map((r) => (
+                    <li key={r}>
+                      <Check />
+                      {r}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </article>
+          );
+        })}
         </div>
         
         <div className="cases__marquee-group" aria-hidden="true">
-          {CASES.map((c) => (
-            <article key={`${c.name}-dup`} className="cs-card" data-theme={c.theme}>
-              <div className="cs-card__media">
+          {CASES.map((c) => {
+            const mediaContent = (
+              <>
                 {c.src ? (
                   <Image
                     className="cs-card__img"
@@ -180,22 +204,41 @@ export default function CaseStudies() {
                     <PixelEye />
                   </div>
                 </div>
-              </div>
+              </>
+            );
 
-              <div className="cs-card__body">
-                <h3 className="cs-card__name">{c.name}</h3>
-                <p className="cs-card__meta">{c.meta}</p>
-                <ul className="cs-card__results">
-                  {c.results.map((r) => (
-                    <li key={r}>
-                      <Check />
-                      {r}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </article>
-          ))}
+            return (
+              <article key={`${c.name}-dup`} className="cs-card" data-theme={c.theme}>
+                <div className="cs-card__media">
+                  {c.href ? (
+                    <a
+                      href={c.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{ display: "block", position: "relative", width: "100%", height: "100%" }}
+                    >
+                      {mediaContent}
+                    </a>
+                  ) : (
+                    mediaContent
+                  )}
+                </div>
+
+                <div className="cs-card__body">
+                  <h3 className="cs-card__name">{c.name}</h3>
+                  <p className="cs-card__meta">{c.meta}</p>
+                  <ul className="cs-card__results">
+                    {c.results.map((r) => (
+                      <li key={r}>
+                        <Check />
+                        {r}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </article>
+            );
+          })}
         </div>
       </div>
     </div>
