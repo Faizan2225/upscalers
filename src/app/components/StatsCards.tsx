@@ -8,68 +8,50 @@ type Stat = {
   id: string;
   value: string;
   label: string;
-  theme: "accent" | "light";
-  cta?: string;
-  avatars?: boolean;
+  theme: "dark" | "light";
   src: string;
   alt: string;
-  word?: boolean;
+  title?: string;
+  tags?: string[];
 };
 
 const STATS: Stat[] = [
   {
     id: "card-1",
-    value: "150+",
-    label: "Keywords Ranked on Google",
-    theme: "accent",
-    cta: "Get More Calls",
-    src: "/images/image_Cards/college.png",
-    alt: "College & local search keywords background graphic",
+    value: "",
+    label: "",
+    theme: "dark",
+    src: "/images/svc_3d_logo.png",
+    alt: "Upscalers stylized 3D brand logo composition with floating glassmorphic tiles",
   },
   {
     id: "card-2",
-    value: "80%",
-    label: "Clients Continue Long-Term",
+    value: "400+",
+    label: "Trusted by service businesses working to improve local visibility.",
     theme: "light",
-    avatars: true,
-    src: "/images/stat_3d_phone_v4.png",
-    alt: "3D Phone Call & 5-Star Rating Notification",
+    src: "",
+    alt: "",
+    tags: ["Roofing", "Remodelers", "Chiropractic", "Dental", "Auto Repair", "Roofing"],
   },
   {
     id: "card-3",
-    value: "Thousands",
-    label: "Of Local Leads Generated",
-    theme: "light",
-    word: true,
-    cta: "View Results",
+    value: "24/7",
+    label: "Online estimate and job booking forms capture leads anytime, even after hours.",
+    theme: "dark",
     src: "",
-    alt: "3D Target & AI Lead Generation Chart",
+    alt: "",
+    title: "Lead Capture",
   },
   {
     id: "card-4",
-    value: "Multi-State",
-    label: "Businesses Ranked Across the U.S.",
+    value: "2",
+    label: "Your website and Google Business Profile power the system.",
     theme: "light",
-    word: true,
-    cta: "Case Studies",
-    src: "/images/stat_3d_globe_v4.png",
-    alt: "3D Glass USA Multi-State Map Network Globe",
+    src: "/images/svc_3d_gbp.png",
+    alt: "Core connections with custom Web and GBP 3D assets",
+    title: "Core Connections",
   },
 ];
-
-function ArrowUR() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path
-        d="M7 17 17 7M9 7h8v8"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
 
 export default function StatsCards() {
   const cardRefs = useRef<(HTMLElement | null)[]>([]);
@@ -143,46 +125,73 @@ export default function StatsCards() {
               }`}
             data-theme={s.theme}
           >
-            {s.avatars && (
-              <div className="stat__avatars" aria-hidden="true">
-                <span
-                  style={{ background: "linear-gradient(135deg,#c9b8a0,#e7dcc8)" }}
-                />
-                <span className="stat__avatars-mark">✦</span>
-                <span
-                  style={{ background: "linear-gradient(135deg,#7a8794,#b9c4ce)" }}
-                />
-              </div>
-            )}
-
             {/* 3D Render Media Asset */}
             <div className="stat__media-wrap">
-              <Image
-                src={s.src}
-                alt={s.alt}
-                width={700}
-                height={700}
-                className="stat__media-img"
-              />
+              {s.id === "card-4" ? (
+                <>
+                  <div className="stat__media-img-container stat__media-img-container--web">
+                    <Image
+                      src="/images/svc_3d_web.png"
+                      alt="3D Web asset"
+                      width={180}
+                      height={180}
+                      className="stat__media-img stat__media-img--web"
+                    />
+                  </div>
+                  <div className="stat__media-img-container stat__media-img-container--gbp">
+                    <Image
+                      src="/images/svc_3d_gbp.png"
+                      alt="3D GBP asset"
+                      width={220}
+                      height={220}
+                      className="stat__media-img stat__media-img--gbp"
+                    />
+                  </div>
+                </>
+              ) : (
+                s.src && (
+                  <Image
+                    src={s.src}
+                    alt={s.alt}
+                    width={700}
+                    height={700}
+                    className="stat__media-img"
+                  />
+                )
+              )}
             </div>
 
             {/* Content Body */}
             <div className="stat__content">
-              <div className="stat__text">
-                <div className={`stat__num${s.word ? " stat__num--word" : ""}`}>
-                  <ScrollRevealText text={s.value} />
-                </div>
-                <p className="stat__label">{s.label}</p>
-              </div>
+              {s.title && <div className="stat__title">{s.title}</div>}
 
-              {s.cta && (
-                <div className="stat__actions">
-                  <a href="tel:+12127089400" className="stat__pill">
-                    {s.cta}
-                    <ArrowUR />
-                  </a>
+              {s.tags && (
+                <div className="stat__tags-marquee">
+                  <div className="stat__tags-group">
+                    {s.tags.map((t, idx) => (
+                      <span key={idx} className="stat__tag-pill">
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+                  <div className="stat__tags-group" aria-hidden="true">
+                    {s.tags.map((t, idx) => (
+                      <span key={`dup-${idx}`} className="stat__tag-pill">
+                        {t}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               )}
+
+              <div className="stat__text">
+                {s.value && (
+                  <div className="stat__num">
+                    <ScrollRevealText text={s.value} />
+                  </div>
+                )}
+                {s.label && <p className="stat__label">{s.label}</p>}
+              </div>
             </div>
           </article>
         ))}

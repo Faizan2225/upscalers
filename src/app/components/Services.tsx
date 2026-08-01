@@ -5,6 +5,7 @@ import PixelEye from "./PixelEye";
    To use real images, add `src` (file in /public) to a card. */
 type SvcCard = {
   src?: string;
+  videoSrc?: string;
   from: string;
   to: string;
   tags: string[];
@@ -15,7 +16,7 @@ type Service = {
   title: string;
   desc: string;
   theme: "dark" | "purple" | "light";
-  cards: [SvcCard, SvcCard];
+  cards: SvcCard[];
 };
 
 const SERVICES: Service[] = [
@@ -77,20 +78,53 @@ const SERVICES: Service[] = [
       { src: "/images/services/LA2.png", from: "#15151a", to: "#3a3a46", tags: ["Local", "Brand"], href: "https://www.google.com/search?q=Prince+Asong+Moving&oq=Prince+Asong+Moving&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIGCAEQRRg8MgYIAhBFGDwyBggDEEUYPNIBCDU4OTVqMGo3qAIAsAIA&sourceid=chrome&source=chrome.ob&ie=UTF-8" },
     ],
   },
+  {
+    n: "/05",
+    title: "Lead Capture Automation",
+    theme: "dark",
+    desc: "Capture estimate requests and job bookings 24/7 through high-converting website forms that never miss an opportunity.",
+    cards: [
+      {
+        videoSrc: "https://res.cloudinary.com/dcylaqbxa/video/upload/v1785567603/IMG_4427_qk4mnp.mp4",
+        from: "#241712",
+        to: "#e0853a",
+        tags: ["Bookings", "Estimates"],
+        href: "https://www.google.com/search?q=first+strike+pest+elimination&oq=First+Strike+Pest+Elimination&gs_lcrp=EgZjaHJvbWUqBwgAEAAYgAQyBwgAEAAYgAQyBwgBEAAYgAQyBwgCEAAYgAQyCAgDEAAYFhgeMggIBBAAGBYYHjIICAUQABgWGB4yCAgGEAAYFhgeMg0IBxAAGIYDGIAEGIoFMg0ICBAAGIYDGIAEGIoFMgoICRAAGIAEGKIE0gEIODMzN2owajmoAgCwAgA&sourceid=chrome&source=chrome.ob&ie=UTF-8"
+      },
+    ],
+  },
 ];
 
 function Card({ card }: { card: SvcCard }) {
   const content = (
     <>
-      {card.src && (
-        <Image
-          className="scard__img"
-          src={card.src}
-          alt=""
-          fill
-          sizes="(max-width: 760px) 90vw, 45vw"
-          style={{ objectFit: "contain" }}
+      {card.videoSrc ? (
+        <video
+          src={card.videoSrc}
+          autoPlay
+          loop
+          muted
+          playsInline
+          style={{
+            position: "absolute",
+            inset: 0,
+            width: "100%",
+            height: "100%",
+            objectFit: "contain",
+            borderRadius: "inherit",
+          }}
         />
+      ) : (
+        card.src && (
+          <Image
+            className="scard__img"
+            src={card.src}
+            alt=""
+            fill
+            sizes="(max-width: 760px) 90vw, 45vw"
+            style={{ objectFit: "contain" }}
+          />
+        )
       )}
       <div className="scard__eye">
         <div className="scard__eye-circle">
@@ -145,8 +179,9 @@ export default function Services() {
             </header>
             <p className="svc__desc">{s.desc}</p>
             <div className="svc__cards">
-              <Card card={s.cards[0]} />
-              <Card card={s.cards[1]} />
+              {s.cards.map((c, idx) => (
+                <Card key={idx} card={c} />
+              ))}
             </div>
           </div>
         </article>
