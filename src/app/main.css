@@ -715,17 +715,17 @@ body {
 
   /* ---- mobile hero: cards rise ONE BY ONE, 90vw width centered ---- */
   .hero-wrap {
-    height: 520vh;
+    height: 420vh;
   }
 
   .hero {
-    --travel-vh: 450vh;
+    --travel-vh: 320vh;
   }
 
   .card {
     left: 5vw !important;
     width: 90vw !important;
-    top: calc(112vh + var(--i) * 65vh) !important;
+    top: calc(112vh + var(--i) * 34vh) !important;
     transform: translateY(-50%) rotate(0deg) !important;
   }
 
