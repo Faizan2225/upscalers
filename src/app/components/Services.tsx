@@ -116,14 +116,17 @@ function Card({ card }: { card: SvcCard }) {
         />
       ) : (
         card.src && (
-          <Image
-            className="scard__img"
-            src={card.src}
-            alt=""
-            fill
-            sizes="(max-width: 760px) 90vw, 45vw"
-            style={{ objectFit: "contain" }}
-          />
+          <>
+            <div className="scard__glow-bg" style={{ backgroundImage: `url(${card.src})` }} aria-hidden="true" />
+            <Image
+              className="scard__img"
+              src={card.src}
+              alt=""
+              fill
+              sizes="(max-width: 760px) 90vw, 45vw"
+              style={{ objectFit: "contain" }}
+            />
+          </>
         )
       )}
       <div className="scard__eye">
