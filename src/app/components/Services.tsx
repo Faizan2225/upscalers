@@ -42,8 +42,8 @@ const SERVICES: Service[] = [
     theme: "purple",
     desc: "We structure your online presence using Generative Engine Optimization strategies designed for modern search visibility and long-term local authority.",
     cards: [
-      { src: "/images/services/AI1.jpeg", from: "#4a3aa0", to: "#7c5cff", tags: ["GEO", "AI"] },
-      { src: "/images/services/AI2.jpeg", from: "#5b49c0", to: "#b6a2ff", tags: ["Visibility", "Authority"] },
+      { src: "/images/services/AI1.jpeg", href: "https://www.google.com/search?q=Detailing+in+sylvan+lake+mi&oq=Detailing+in+sylvan+lake+mi&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIICAEQABgWGB4yCAgCEAAYFhgeMggIAxAAGBYYHjIICAQQABgWGB4yCAgFEAAYFhgeMggIBhAAGBYYHjIICAcQABgWGB4yCAgIEAAYFhgeMggICRAAGBYYHtIBCDQ5OTZqMGo3qAIAsAIA&sourceid=chrome&source=chrome.ob&ie=UTF-8", from: "#4a3aa0", to: "#7c5cff", tags: ["GEO", "AI"] },
+      { src: "/images/services/AI2.jpeg", href: "https://chatgpt.com/share/6a70f3fb-af68-83e8-a431-1c35d297d5d0", from: "#5b49c0", to: "#b6a2ff", tags: ["Visibility", "Authority"] },
     ],
   },
   {
@@ -89,7 +89,7 @@ const SERVICES: Service[] = [
         from: "#241712",
         to: "#e0853a",
         tags: ["Bookings", "Estimates"],
-        href: "https://www.google.com/search?q=first+strike+pest+elimination&oq=First+Strike+Pest+Elimination&gs_lcrp=EgZjaHJvbWUqBwgAEAAYgAQyBwgAEAAYgAQyBwgBEAAYgAQyBwgCEAAYgAQyCAgDEAAYFhgeMggIBBAAGBYYHjIICAUQABgWGB4yCAgGEAAYFhgeMg0IBxAAGIYDGIAEGIoFMg0ICBAAGIYDGIAEGIoFMgoICRAAGIAEGKIE0gEIODMzN2owajmoAgCwAgA&sourceid=chrome&source=chrome.ob&ie=UTF-8"
+        href: "https://greatmoverllc.com/instant-quote-form/"
       },
     ],
   },

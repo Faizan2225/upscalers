@@ -91,8 +91,8 @@ export default function AboutClient() {
             <div className="about-hero__card">
               <div className="about-hero__card-glow" />
               <Image
-                src="/images/svc_3d_about.png"
-                alt="Upscalers Rocket Lightbulb"
+                src="/images/svc_3d_gbp.png"
+                alt="Google Business Profile Optimization"
                 width={380}
                 height={380}
                 className="about-hero__3d-img"

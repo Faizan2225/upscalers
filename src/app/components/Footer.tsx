@@ -7,17 +7,16 @@ import { useScrollReveal } from "../hooks/useScrollReveal";
 const NAV: { label: string; href: string; badge?: string }[] = [
   { label: "Home", href: "/" },
   { label: "About us", href: "/about" },
-  { label: "Works", href: "/#works", badge: "+10" },
   { label: "Services", href: "/services" },
   { label: "Contact", href: "/contact" },
 ];
 
 const ECOSYSTEM = [
-  "Google Business",
-  "Instagram",
-  "LinkedIn",
-  "Facebook",
-  "YouTube",
+  { label: "Google Business", href: "https://share.google/9xzxgAvLACTEvG3TT" },
+  { label: "Instagram", href: "https://www.instagram.com/businessupscalers" },
+  { label: "LinkedIn", href: "https://www.linkedin.com/company/business-upscalers/" },
+  { label: "Facebook", href: "https://www.facebook.com/businessupscalerllc" },
+  { label: "YouTube", href: "https://www.youtube.com/channel/UCskqKIuc2OzY1AScKF5P0AQ" },
 ];
 
 function Plus() {
@@ -140,22 +139,22 @@ export default function Footer() {
             </div>
 
             <div className="footer__nav-legal-wrap">
-              <a
-                href="#"
+              <Link
+                href="/privacy"
                 className="footer__nav-legal"
                 style={{ ["--text-delay" as string]: "0.46s" }}
               >
                 Privacy Policy
                 <RightArrow />
-              </a>
-              <a
-                href="#"
+              </Link>
+              <Link
+                href="/terms"
                 className="footer__nav-legal"
                 style={{ ["--text-delay" as string]: "0.52s" }}
               >
-                Terms &amp; conditions
+                Terms of Service
                 <RightArrow />
-              </a>
+              </Link>
             </div>
           </nav>
 
@@ -166,44 +165,29 @@ export default function Footer() {
             style={{ ["--reveal-delay" as string]: "0.25s" }}
           >
             <a
-              href="mailto:hello@upscalers.com"
+              href="mailto:info@businessupscalers.com"
               className="footer__card footer__contact"
               style={{ ["--text-delay" as string]: "0.08s" }}
             >
               <Plus />
-              hello@upscalers.com
+              info@businessupscalers.com
             </a>
             <a
-              href="tel:+12127089400"
+              href="tel:+18323409080"
               className="footer__card footer__contact"
               style={{ ["--text-delay" as string]: "0.16s" }}
             >
               <Plus />
-              +1 212-708-9400
+              (832) 340-9080
             </a>
             <div
-              className="footer__card footer__subscribe"
-              style={{ ["--text-delay" as string]: "0.24s" }}
+              className="footer__card footer__contact footer__address-card"
+              style={{ ["--text-delay" as string]: "0.24s", display: "flex", gap: "10px", alignItems: "flex-start", padding: "20px 24px" }}
             >
-              <h3>Subscribe to our insights:</h3>
-              <form className="footer__sub-form">
-                <input
-                  type="email"
-                  placeholder="Your email"
-                  aria-label="Your email"
-                />
-                <button type="submit" aria-label="Subscribe">
-                  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                    <path
-                      d="M7 17 17 7M9 7h8v8"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                </button>
-              </form>
+              <Plus />
+              <span className="footer__address-text">
+                8115 Valburn Drive, Richmond Texas, 77406, USA
+              </span>
             </div>
           </div>
 
@@ -217,10 +201,12 @@ export default function Footer() {
             <ul>
               {ECOSYSTEM.map((e, idx) => (
                 <li
-                  key={e}
+                  key={e.label}
                   style={{ ["--text-delay" as string]: `${0.14 + idx * 0.06}s` }}
                 >
-                  <a href="#">{e}</a>
+                  <a href={e.href} target="_blank" rel="noopener noreferrer">
+                    {e.label}
+                  </a>
                 </li>
               ))}
             </ul>
@@ -233,7 +219,7 @@ export default function Footer() {
           className={`footer__utility reveal-up ${isVisible(3) ? "is-visible" : ""}`.trim()}
           style={{ ["--reveal-delay" as string]: "0.72s" }}
         >
-          <p className="footer__credit">© {new Date().getFullYear()} Upscalers. All rights reserved.</p>
+          <p className="footer__credit">© {new Date().getFullYear()} Business Upscalers LLC. All rights reserved.</p>
         </div>
       </div>
     </footer>
@@ -247,20 +233,6 @@ function RightArrow() {
         d="M5 12h14M13 5l7 7-7 7"
         stroke="currentColor"
         strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
-function Arrow() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path
-        d="M7 17 17 7M9 7h8v8"
-        stroke="currentColor"
-        strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
       />

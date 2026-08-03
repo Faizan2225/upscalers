@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 type MenuItem = {
@@ -9,7 +10,6 @@ type MenuItem = {
   href?: string;
   subItems?: { label: string; href: string }[];
 };
-
 const MENU: MenuItem[] = [
   { label: "Home", href: "/" },
   {
@@ -24,8 +24,9 @@ const MENU: MenuItem[] = [
   },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
+  { label: "Privacy Policy", href: "/privacy" },
+  { label: "Terms of Service", href: "/terms" },
 ];
-
 interface HeaderProps {
   dark: boolean;
   setDark: React.Dispatch<React.SetStateAction<boolean>>;
@@ -35,14 +36,28 @@ export default function Header({ dark, setDark }: HeaderProps) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [expandedItem, setExpandedItem] = useState<string | null>(null);
+  const [isOverDarkHero, setIsOverDarkHero] = useState(false);
+  const pathname = usePathname();
 
-  /* track page scroll for header styling */
+  /* track page scroll for header styling & dark hero overlays */
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 40);
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      setScrolled(scrollY > 40);
+
+      // Check if we are on a page route with a dark hero section
+      const isDarkRoute = pathname === "/about" || pathname === "/contact";
+      if (isDarkRoute) {
+        setIsOverDarkHero(scrollY < 420);
+      } else {
+        setIsOverDarkHero(false);
+      }
+    };
+
     window.addEventListener("scroll", handleScroll, { passive: true });
     handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [pathname]);
 
   /* lock body scroll while the overlay is open + close on Escape */
   useEffect(() => {
@@ -59,7 +74,7 @@ export default function Header({ dark, setDark }: HeaderProps) {
     };
   }, [open]);
 
-  const isDarkHeader = dark || open;
+  const isDarkHeader = dark || open || isOverDarkHero;
 
   const headerClass = [
     "header",

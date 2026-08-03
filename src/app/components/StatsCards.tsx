@@ -17,14 +17,6 @@ type Stat = {
 
 const STATS: Stat[] = [
   {
-    id: "card-1",
-    value: "",
-    label: "",
-    theme: "dark",
-    src: "/images/svc_3d_logo.png",
-    alt: "Upscalers stylized 3D brand logo composition with floating glassmorphic tiles",
-  },
-  {
     id: "card-2",
     value: "400+",
     label: "Trusted by service businesses working to improve local visibility.",
@@ -121,8 +113,9 @@ export default function StatsCards() {
             ref={(el) => {
               cardRefs.current[i] = el;
             }}
-            className={`stat stat--${s.id} ${i === 1 || i === 2 ? "stat--wide" : "stat--narrow"
-              }`}
+            className={`stat stat--${s.id} ${
+              s.id === "card-2" ? "stat--full" : s.id === "card-3" ? "stat--wide" : "stat--narrow"
+            }`}
             data-theme={s.theme}
           >
             {/* 3D Render Media Asset */}

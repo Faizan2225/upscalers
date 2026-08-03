@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useScrollReveal } from "../hooks/useScrollReveal";
 import ScrollRevealText from "./ScrollRevealText";
 
@@ -33,8 +34,8 @@ export default function About() {
             Business Profile optimization to high-converting websites, every
             system we build is designed around business growth.
           </p>
-          <button 
-            type="button" 
+          <Link 
+            href="/about"
             data-index="3" 
             className={`about__btn reveal-up ${isVisible(3) ? "is-visible" : ""}`.trim()}
             style={{ animationDelay: "0.9s" }}
@@ -49,7 +50,7 @@ export default function About() {
                 strokeLinejoin="round"
               />
             </svg>
-          </button>
+          </Link>
         </div>
       </div>
     </section>

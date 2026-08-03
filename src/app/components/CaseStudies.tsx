@@ -1,5 +1,6 @@
 "use client";
 
+import React, { useState } from "react";
 import Image from "next/image";
 import PixelEye from "./PixelEye";
 import ScrollRevealText from "./ScrollRevealText";
@@ -99,6 +100,7 @@ function Check() {
 }
 
 export default function CaseStudies() {
+  const [isPaused, setIsPaused] = useState(false);
 
   return (
     <section className="cases" aria-label="Results and case studies">
@@ -115,151 +117,158 @@ export default function CaseStudies() {
 
       <div className="cases__track">
         <div className="cases__marquee">
-          <div className="cases__marquee-group">
-        {CASES.map((c) => {
-          const mediaContent = (
-            <>
-              {c.src ? (
-                <Image
-                  className="cs-card__img"
-                  src={c.src}
-                  alt=""
-                  fill
-                  sizes="(max-width: 640px) 80vw, 40vw"
-                  style={{ objectFit: "cover" }}
-                />
-              ) : (
-                <div
-                  className="cs-card__img"
-                  style={{
-                    background: `linear-gradient(150deg, ${c.from}, ${c.to})`,
-                  }}
-                />
-              )}
-              <div className="cs-card__eye">
-                <div className="cs-card__eye-circle">
-                  <PixelEye />
-                </div>
-              </div>
-            </>
-          );
-
-          return (
-            <article key={c.name} className="cs-card" data-theme={c.theme}>
-              <div className="cs-card__media">
-                {c.href ? (
-                  <a
-                    href={c.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    style={{ display: "block", position: "relative", width: "100%", height: "100%" }}
-                  >
-                    {mediaContent}
-                  </a>
-                ) : (
-                  mediaContent
-                )}
-              </div>
-
-              <div className="cs-card__body">
-                <h3 className="cs-card__name">{c.name}</h3>
-                <p className="cs-card__meta">{c.meta}</p>
-                <ul className="cs-card__results">
-                  {c.results.map((r) => (
-                    <li key={r}>
-                      <Check />
-                      {r}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </article>
-          );
-        })}
-        </div>
-        
-        <div className="cases__marquee-group" aria-hidden="true">
-          {CASES.map((c) => {
-            const mediaContent = (
-              <>
-                {c.src ? (
-                  <Image
-                    className="cs-card__img"
-                    src={c.src}
-                    alt=""
-                    fill
-                    sizes="(max-width: 640px) 80vw, 40vw"
-                    style={{ objectFit: "cover" }}
-                  />
-                ) : (
-                  <div
-                    className="cs-card__img"
-                    style={{
-                      background: `linear-gradient(150deg, ${c.from}, ${c.to})`,
-                    }}
-                  />
-                )}
-                <div className="cs-card__eye">
-                  <div className="cs-card__eye-circle">
-                    <PixelEye />
-                  </div>
-                </div>
-              </>
-            );
-
-            return (
-              <article key={`${c.name}-dup`} className="cs-card" data-theme={c.theme}>
-                <div className="cs-card__media">
-                  {c.href ? (
-                    <a
-                      href={c.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      style={{ display: "block", position: "relative", width: "100%", height: "100%" }}
-                    >
-                      {mediaContent}
-                    </a>
+          <div className={`cases__marquee-group ${isPaused ? "is-paused" : ""}`}>
+            {CASES.map((c) => {
+              const mediaContent = (
+                <>
+                  {c.src ? (
+                    <Image
+                      className="cs-card__img"
+                      src={c.src}
+                      alt=""
+                      fill
+                      sizes="(max-width: 640px) 80vw, 40vw"
+                      style={{ objectFit: "cover" }}
+                    />
                   ) : (
-                    mediaContent
+                    <div
+                      className="cs-card__img"
+                      style={{
+                        background: `linear-gradient(150deg, ${c.from}, ${c.to})`,
+                      }}
+                    />
                   )}
-                </div>
+                  <div className="cs-card__eye">
+                    <div className="cs-card__eye-circle">
+                      <PixelEye />
+                    </div>
+                  </div>
+                </>
+              );
 
-                <div className="cs-card__body">
-                  <h3 className="cs-card__name">{c.name}</h3>
-                  <p className="cs-card__meta">{c.meta}</p>
-                  <ul className="cs-card__results">
-                    {c.results.map((r) => (
-                      <li key={r}>
-                        <Check />
-                        {r}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </article>
-            );
-          })}
+              return (
+                <article key={c.name} className="cs-card" data-theme={c.theme}>
+                  <div 
+                    className="cs-card__media"
+                    onMouseEnter={() => setIsPaused(true)}
+                    onMouseLeave={() => setIsPaused(false)}
+                  >
+                    {c.href ? (
+                      <a
+                        href={c.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{ display: "block", position: "relative", width: "100%", height: "100%" }}
+                      >
+                        {mediaContent}
+                      </a>
+                    ) : (
+                      mediaContent
+                    )}
+                  </div>
+
+                  <div className="cs-card__body">
+                    <h3 className="cs-card__name">{c.name}</h3>
+                    <p className="cs-card__meta">{c.meta}</p>
+                    <ul className="cs-card__results">
+                      {c.results.map((r) => (
+                        <li key={r}>
+                          <Check />
+                          {r}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+          
+          <div className={`cases__marquee-group ${isPaused ? "is-paused" : ""}`} aria-hidden="true">
+            {CASES.map((c) => {
+              const mediaContent = (
+                <>
+                  {c.src ? (
+                    <Image
+                      className="cs-card__img"
+                      src={c.src}
+                      alt=""
+                      fill
+                      sizes="(max-width: 640px) 80vw, 40vw"
+                      style={{ objectFit: "cover" }}
+                    />
+                  ) : (
+                    <div
+                      className="cs-card__img"
+                      style={{
+                        background: `linear-gradient(150deg, ${c.from}, ${c.to})`,
+                      }}
+                    />
+                  )}
+                  <div className="cs-card__eye">
+                    <div className="cs-card__eye-circle">
+                      <PixelEye />
+                    </div>
+                  </div>
+                </>
+              );
+
+              return (
+                <article key={`${c.name}-dup`} className="cs-card" data-theme={c.theme}>
+                  <div 
+                    className="cs-card__media"
+                    onMouseEnter={() => setIsPaused(true)}
+                    onMouseLeave={() => setIsPaused(false)}
+                  >
+                    {c.href ? (
+                      <a
+                        href={c.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{ display: "block", position: "relative", width: "100%", height: "100%" }}
+                      >
+                        {mediaContent}
+                      </a>
+                    ) : (
+                      mediaContent
+                    )}
+                  </div>
+
+                  <div className="cs-card__body">
+                    <h3 className="cs-card__name">{c.name}</h3>
+                    <p className="cs-card__meta">{c.meta}</p>
+                    <ul className="cs-card__results">
+                      {c.results.map((r) => (
+                        <li key={r}>
+                          <Check />
+                          {r}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
         </div>
       </div>
-    </div>
 
-    <div className="cases__text-marquee">
-      <div className="cases__text-group">
-        {[...TEXT_WORDS, ...TEXT_WORDS, ...TEXT_WORDS, ...TEXT_WORDS].map((w, i) => (
-          <div key={i} className="cases__text-item">
-            {w} <span className="cases__text-star">✦</span>
-          </div>
-        ))}
+      <div className="cases__text-marquee">
+        <div className="cases__text-group">
+          {[...TEXT_WORDS, ...TEXT_WORDS, ...TEXT_WORDS, ...TEXT_WORDS].map((w, i) => (
+            <div key={i} className="cases__text-item">
+              {w} <span className="cases__text-star">✦</span>
+            </div>
+          ))}
+        </div>
+        <div className="cases__text-group" aria-hidden="true">
+          {[...TEXT_WORDS, ...TEXT_WORDS, ...TEXT_WORDS, ...TEXT_WORDS].map((w, i) => (
+            <div key={i + 100} className="cases__text-item">
+              {w} <span className="cases__text-star">✦</span>
+            </div>
+          ))}
+        </div>
       </div>
-      <div className="cases__text-group" aria-hidden="true">
-        {[...TEXT_WORDS, ...TEXT_WORDS, ...TEXT_WORDS, ...TEXT_WORDS].map((w, i) => (
-          <div key={i + 100} className="cases__text-item">
-            {w} <span className="cases__text-star">✦</span>
-          </div>
-        ))}
-      </div>
-    </div>
-
     </section>
   );
 }
