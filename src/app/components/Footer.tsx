@@ -12,11 +12,11 @@ const NAV: { label: string; href: string; badge?: string }[] = [
 ];
 
 const ECOSYSTEM = [
-  { label: "Google Business", href: "https://share.google/9xzxgAvLACTEvG3TT" },
-  { label: "Instagram", href: "https://www.instagram.com/businessupscalers" },
-  { label: "LinkedIn", href: "https://www.linkedin.com/company/business-upscalers/" },
-  { label: "Facebook", href: "https://www.facebook.com/businessupscalerllc" },
-  { label: "YouTube", href: "https://www.youtube.com/channel/UCskqKIuc2OzY1AScKF5P0AQ" },
+  { label: "Google Business", href: "https://share.google/bYW6f3TWp3gqtKD0L" },
+  { label: "Instagram", href: "https://www.instagram.com/upscalers.us" },
+  { label: "LinkedIn", href: "https://www.linkedin.com/company/upscalersny/" },
+  { label: "Facebook", href: "https://web.facebook.com/businessupscalersllc" },
+  { label: "YouTube", href: "https://www.youtube.com/@upscalers.newyork" },
 ];
 
 function Plus() {
@@ -165,29 +165,36 @@ export default function Footer() {
             style={{ ["--reveal-delay" as string]: "0.25s" }}
           >
             <a
-              href="mailto:info@businessupscalers.com"
+              href="mailto:support@businessupscalersllc.com"
               className="footer__card footer__contact"
               style={{ ["--text-delay" as string]: "0.08s" }}
             >
               <Plus />
-              info@businessupscalers.com
+              support@businessupscalersllc.com
             </a>
             <a
-              href="tel:+18323409080"
+              href="tel:+19292449454"
               className="footer__card footer__contact"
               style={{ ["--text-delay" as string]: "0.16s" }}
             >
               <Plus />
-              (832) 340-9080
+              +1 (929) 244-9454
             </a>
             <div
               className="footer__card footer__contact footer__address-card"
               style={{ ["--text-delay" as string]: "0.24s", display: "flex", gap: "10px", alignItems: "flex-start", padding: "20px 24px" }}
             >
               <Plus />
-              <span className="footer__address-text">
-                8115 Valburn Drive, Richmond Texas, 77406, USA
-              </span>
+              <div className="footer__address-text" style={{ display: "flex", flexDirection: "column", gap: "12px", width: "100%" }}>
+                <div>
+                  <strong style={{ display: "block", fontSize: "11px", fontWeight: "700", textTransform: "uppercase", letterSpacing: "0.05em", color: "var(--accent)", marginBottom: "4px" }}>New York Office</strong>
+                  <span style={{ fontSize: "13.5px", lineHeight: "1.4", opacity: 0.95 }}>2442 Brigham Street Fl 2, Brooklyn, NY 11235, USA</span>
+                </div>
+                <div style={{ borderTop: "1px solid rgba(124, 92, 255, 0.12)", paddingTop: "12px" }}>
+                  <strong style={{ display: "block", fontSize: "11px", fontWeight: "700", textTransform: "uppercase", letterSpacing: "0.05em", color: "var(--accent)", marginBottom: "4px" }}>New Jersey Office</strong>
+                  <span style={{ fontSize: "13.5px", lineHeight: "1.4", opacity: 0.95 }}>32 Morningside Ave, South River, NJ 08882, USA</span>
+                </div>
+              </div>
             </div>
           </div>
 

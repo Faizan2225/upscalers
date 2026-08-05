@@ -54,7 +54,7 @@ export default function PrivacyPage() {
 
             <section className="legal-card" id="collect">
               <h2><span className="legal-card__num">2.</span> Information We Collect</h2>
-              <p>We collect the following types of information to serve you better:</p>
+              <p>We collect the following types of information:</p>
               <ul>
                 <li>
                   <span className="legal-card__label">Personal Information</span> 
@@ -62,7 +62,7 @@ export default function PrivacyPage() {
                 </li>
                 <li>
                   <span className="legal-card__label">Automated Data</span> 
-                  IP address, browser type, device information, and website usage analytics.
+                  IP address, browser type, and website usage analytics.
                 </li>
                 <li>
                   <span className="legal-card__label">Mobile Opt-In Data</span> 
@@ -73,9 +73,9 @@ export default function PrivacyPage() {
 
             <section className="legal-card" id="use">
               <h2><span className="legal-card__num">3.</span> How We Use Your Information</h2>
-              <p>We use your information for the following business purposes:</p>
+              <p>We use your information for:</p>
               <ul>
-                <li>Providing, maintaining, and improving our services.</li>
+                <li>Providing and improving our services.</li>
                 <li>Sending marketing communications, updates, and promotions.</li>
                 <li>Responding to inquiries and customer support requests.</li>
                 <li>Compliance with legal and regulatory obligations.</li>
@@ -90,14 +90,14 @@ export default function PrivacyPage() {
               
               <div className="legal-page__callout">
                 <p>
-                  <strong>Mobile Privacy Guarantee:</strong> Your mobile opt-in data and phone number will not be shared, sold, or disclosed to third parties or affiliates for marketing or promotional purposes under any circumstances.
+                  <strong>Mobile Privacy Guarantee:</strong> No mobile information will be shared with third parties/affiliates for marketing/promotional purposes. All OPT-IN requests include text messaging originator opt-in data and consent; this information will not be shared with third parties.
                 </p>
               </div>
 
               <ul>
                 <li>Message frequency may vary. Message and data rates may apply.</li>
                 <li>You may opt-out at any time by replying <strong>STOP</strong> to any SMS message.</li>
-                <li>For assistance, reply <strong>HELP</strong> or contact us at <a href="mailto:info@businessupscalers.com">info@businessupscalers.com</a>.</li>
+                <li>For assistance, reply <strong>HELP</strong> or contact us at <a href="mailto:support@businessupscalersllc.com">support@businessupscalersllc.com</a> or <a href="tel:+19292449454">(929) 244-9454</a>.</li>
               </ul>
             </section>
 
@@ -106,10 +106,17 @@ export default function PrivacyPage() {
               <p>
                 We prioritize protecting your data and keeping it confidential.
               </p>
+
+              <div className="legal-page__callout">
+                <p>
+                  <strong>SMS Opt-In Exclusion:</strong> No mobile information will be shared with third parties/affiliates for marketing/promotional purposes. All other categories exclude text messaging originator opt-in data and consent; this information will not be shared with any third parties.
+                </p>
+              </div>
+
               <ul>
-                <li>We do not sell, rent, or lease your personal data.</li>
-                <li>We may share information with trusted service providers under strict confidentiality agreements to support our operations.</li>
-                <li>We implement industry-standard security measures (physical, technical, and administrative) to protect your data from unauthorized access or breaches.</li>
+                <li>We do not sell or rent your personal data.</li>
+                <li>We may share information with service providers under strict confidentiality agreements to support our operations.</li>
+                <li>We implement industry-standard security measures to protect your data from unauthorized access or breaches.</li>
               </ul>
             </section>
 
@@ -132,9 +139,9 @@ export default function PrivacyPage() {
               <p>If you have any questions about this Privacy Policy, please contact us at:</p>
               <address className="legal-page__address">
                 <strong>Business Upscalers LLC</strong><br />
-                8115 Valburn Drive, Richmond, TX 77406, USA<br />
-                Email: <a href="mailto:info@businessupscalers.com">info@businessupscalers.com</a><br />
-                Phone: (832) 340-9080
+                2442 Brigham Street, Fl 2, Brooklyn NY 11235<br />
+                Email: <a href="mailto:support@businessupscalersllc.com">support@businessupscalersllc.com</a><br />
+                Phone: (929) 244-9454
               </address>
             </section>
           </div>
