@@ -35,7 +35,7 @@ export default function LayoutWrapper({
         gestureOrientation: "vertical",
         smoothWheel: true,
         wheelMultiplier: 1,
-        touchMultiplier: 0, // Keep native touch scroll on mobile for 60fps GPU performance
+        touchMultiplier: 1.5,
       });
 
       const raf = (time: number) => {

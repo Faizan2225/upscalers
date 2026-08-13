@@ -745,19 +745,18 @@ body {
 
   /* ---- mobile hero: cards rise ONE BY ONE, 90vw width centered ---- */
   .hero-wrap {
-    height: 185vh;
+    height: 320vh;
   }
 
   .hero {
-    --travel-vh: 170vh;
+    --travel-vh: 220vh;
   }
 
   .card {
     left: 5vw !important;
     width: 90vw !important;
-    top: calc(105vh + var(--i) * 22vh) !important;
-    transform: translate3d(0, -50%, 0) rotate(0deg) !important;
-    will-change: transform, opacity;
+    top: calc(112vh + var(--i) * 32vh) !important;
+    transform: translateY(-50%) rotate(0deg) !important;
   }
 
   .card.card--ranking,
@@ -1696,25 +1695,21 @@ body {
     min-height: 180px;
     padding: 16px 20px;
     border-radius: 24px;
+    /* Slide-from-sides animation driven by --card-progress */
     filter: none !important;
-    opacity: 0;
+    opacity: var(--card-progress);
     will-change: transform, opacity;
-    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s ease;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
   }
 
   /* Odd visible cards slide from left */
   .stat:nth-child(odd) {
-    transform: translate3d(-40px, 0, 0);
+    transform: translateX(calc((1 - var(--card-progress)) * -60px));
   }
 
   /* Even visible cards slide from right */
   .stat:nth-child(even) {
-    transform: translate3d(40px, 0, 0);
-  }
-
-  .stat.is-visible {
-    opacity: 1 !important;
-    transform: translate3d(0, 0, 0) !important;
+    transform: translateX(calc((1 - var(--card-progress)) * 60px));
   }
 
   /* Hide card-1 on mobile */
