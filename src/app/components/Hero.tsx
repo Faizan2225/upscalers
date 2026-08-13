@@ -222,7 +222,9 @@ export default function Hero({ dark }: { dark: boolean }) {
       const rect = wrap.getBoundingClientRect();
       const dist = wrap.offsetHeight - window.innerHeight;
       const rawP = dist > 0 ? clamp(-rect.top / dist, 0, 1) : 0;
-      smoothP += (rawP - smoothP) * 0.045;
+      const isMobile = cachedViewH <= 768;
+      const lerpSpeed = isMobile ? 0.18 : 0.045;
+      smoothP += (rawP - smoothP) * lerpSpeed;
 
       // cards rise upward through the stage
       cardsScroll.style.transform = `translate3d(0, calc(-${smoothP} * var(--travel-vh, 275vh)), 0)`;

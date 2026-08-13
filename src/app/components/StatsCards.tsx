@@ -52,55 +52,27 @@ export default function StatsCards() {
     const cards = cardRefs.current;
     if (cards.length === 0) return;
 
-    let rafId = 0;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const card = entry.target as HTMLElement;
+          if (entry.isIntersecting) {
+            card.classList.add("is-visible");
+            card.style.setProperty("--card-progress", "1");
+          } else {
+            card.classList.remove("is-visible");
+            card.style.setProperty("--card-progress", "0");
+          }
+        });
+      },
+      { threshold: 0.15, rootMargin: "0px 0px -5% 0px" }
+    );
 
-    const handleScroll = () => {
-      const viewportHeight = window.innerHeight;
-      const startFraction = 0.95;
-      const endFraction = 0.45;
+    cards.forEach((card) => {
+      if (card) observer.observe(card);
+    });
 
-      cards.forEach((card) => {
-        if (!card) return;
-        const rect = card.getBoundingClientRect();
-
-        if (rect.bottom < 0) {
-          card.style.setProperty("--card-progress", "1");
-          return;
-        }
-        if (rect.top > viewportHeight) {
-          card.style.setProperty("--card-progress", "0");
-          return;
-        }
-
-        const currentFraction = rect.top / viewportHeight;
-        let progress = 0;
-        if (currentFraction >= startFraction) {
-          progress = 0;
-        } else if (currentFraction <= endFraction) {
-          progress = 1;
-        } else {
-          progress = (startFraction - currentFraction) / (startFraction - endFraction);
-        }
-
-        card.style.setProperty("--card-progress", progress.toString());
-      });
-    };
-
-    const onScroll = () => {
-      cancelAnimationFrame(rafId);
-      rafId = requestAnimationFrame(handleScroll);
-    };
-
-    handleScroll();
-
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll, { passive: true });
-
-    return () => {
-      cancelAnimationFrame(rafId);
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-    };
+    return () => observer.disconnect();
   }, []);
 
   return (
