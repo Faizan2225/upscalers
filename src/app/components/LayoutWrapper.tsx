@@ -21,6 +21,37 @@ export default function LayoutWrapper({
     }
   }, [dark]);
 
+  /* Initialize Lenis site-wide smooth momentum scroll */
+  useEffect(() => {
+    let lenisInstance: any = null;
+    let rafId: number;
+
+    import("lenis").then((LenisModule) => {
+      const LenisClass = LenisModule.default;
+      lenisInstance = new LenisClass({
+        duration: 1.2,
+        easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        orientation: "vertical",
+        gestureOrientation: "vertical",
+        smoothWheel: true,
+        wheelMultiplier: 1,
+        touchMultiplier: 1.5,
+      });
+
+      const raf = (time: number) => {
+        lenisInstance?.raf(time);
+        rafId = requestAnimationFrame(raf);
+      };
+
+      rafId = requestAnimationFrame(raf);
+    });
+
+    return () => {
+      if (rafId) cancelAnimationFrame(rafId);
+      if (lenisInstance) lenisInstance.destroy();
+    };
+  }, []);
+
   return (
     <>
       <Header dark={dark} setDark={setDark} />

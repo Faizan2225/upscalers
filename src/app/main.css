@@ -14,10 +14,36 @@
   --font-mono: var(--font-geist-mono);
 }
 
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  overflow-x: hidden;
 }
 
 /* ============================================================
@@ -437,14 +463,16 @@ body {
   width: 100%;
   transform: translateY(-50%);
   z-index: 1;
-  overflow: hidden;
+  overflow-x: clip;
+  overflow-y: visible;
 }
 
 .marquee__inner {
   display: flex;
   width: max-content;
   will-change: transform;
-  animation: marquee-scroll 40s linear infinite;
+  --marquee-duration: 50s;
+  animation: marquee-scroll var(--marquee-duration) linear infinite;
 }
 
 @keyframes marquee-scroll {
@@ -464,7 +492,7 @@ body {
   font-size: clamp(2.5rem, 7.5vw, 8rem);
   font-weight: 400;
   letter-spacing: -0.04em;
-  line-height: 1;
+  line-height: 1.2;
   text-transform: lowercase;
   padding-right: 0.18em;
 }
@@ -507,6 +535,8 @@ body {
   --y-spread: 1;
   transform: translateY(-50%) rotate(var(--rot, 0deg));
   transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  opacity: 0.5;
+  will-change: transform, opacity;
 }
 
 .card:nth-child(odd) {
@@ -710,7 +740,7 @@ body {
   }
 
   .hero__object-inner img {
-    width: clamp(190px, 62vw, 300px);
+    width: clamp(240px, 72vw, 340px);
   }
 
   /* ---- mobile hero: cards rise ONE BY ONE, 90vw width centered ---- */
@@ -781,8 +811,11 @@ body {
   align-items: stretch;
   padding: clamp(36px, 6vh, 76px) clamp(20px, 3.4vw, 64px);
   border-radius: 34px;
-  box-shadow: 0 -24px 60px -34px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 -24px 60px -34px rgba(0, 0, 0, 0.4);
   overflow: hidden;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
 }
 
 .svc[data-theme="dark"] {
@@ -857,26 +890,24 @@ body {
   height: 100%;
   border-radius: 22px;
   overflow: hidden;
-  opacity: 0.62;
-  transform: translateY(28px) scale(0.98);
-  transition: opacity 0.6s ease, transform 0.6s ease;
-}
-
-/* row hover: twin cards rise into view */
-.svc:hover .scard {
   opacity: 1;
-  transform: translateY(0) scale(1);
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+  backface-visibility: hidden;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
 }
 
-.svc:hover .scard:nth-child(2) {
-  transition-delay: 0.07s;
+/* card hover elevation */
+.scard:hover {
+  transform: translate3d(0, -6px, 0);
 }
 
 .scard__img {
   position: absolute;
   inset: 0;
   z-index: 2;
-  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* card hover: image zooms inward within the rounded border */
@@ -887,20 +918,20 @@ body {
 /* ambient glow backdrop reflection */
 .scard__glow-bg {
   position: absolute;
-  inset: -15%;
+  inset: -10%;
   background-size: cover;
   background-position: center;
-  filter: blur(28px) saturate(1.3);
   opacity: 0.15;
   pointer-events: none;
   z-index: 1;
-  transform: scale(1.1);
-  transition: opacity 0.6s ease, transform 0.6s ease;
+  transform: scale(1.05);
+  will-change: opacity, transform;
+  transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
 .scard:hover .scard__glow-bg {
   opacity: 0.28;
-  transform: scale(1.15);
+  transform: scale(1.1);
 }
 
 /* pixel-eye reveal */
@@ -1661,12 +1692,24 @@ body {
   }
 
   .stat {
-    min-height: 140px;
+    min-height: 180px;
     padding: 16px 20px;
     border-radius: 24px;
-    opacity: 1 !important;
+    /* Slide-from-sides animation driven by --card-progress */
     filter: none !important;
-    transform: none !important;
+    opacity: var(--card-progress);
+    will-change: transform, opacity;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+  }
+
+  /* Odd visible cards slide from left */
+  .stat:nth-child(odd) {
+    transform: translateX(calc((1 - var(--card-progress)) * -60px));
+  }
+
+  /* Even visible cards slide from right */
+  .stat:nth-child(even) {
+    transform: translateX(calc((1 - var(--card-progress)) * 60px));
   }
 
   /* Hide card-1 on mobile */
@@ -2267,6 +2310,26 @@ body {
 @media (max-width: 760px) {
   .cta__content {
     max-width: 100%;
+    /* Fade content in as the circle expands */
+    opacity: var(--cta-progress, 0);
+    transition: opacity 0.3s ease;
+  }
+
+  .cta__inner {
+    /* Start as a circle, expand to full rectangle */
+    /* Circle size: 80vw diameter → full width */
+    width: calc(80vw + var(--cta-progress, 0) * (100% - 80vw - 32px));
+    /* Height: circle matches width at progress 0, then expands to normal */
+    height: calc(80vw + var(--cta-progress, 0) * (70vh - 80vw));
+    min-height: unset;
+    /* border-radius: 50% (circle) → 24px (rectangle) */
+    border-radius: calc(50% - var(--cta-progress, 0) * (50% - 24px));
+    margin-inline: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    will-change: width, height, border-radius;
+    transition: width 0.15s ease-out, height 0.15s ease-out, border-radius 0.15s ease-out, background 0.4s ease, color 0.4s ease;
   }
 
   .cta__art-object {
@@ -4401,8 +4464,43 @@ body {
 /* ── Contact preview card — already dark by design ── */
 
 /* ── Scroll reveal animations ── */
-[data-theme="dark"] .reveal-up {
-  /* keep the same animation, just ensure colors are inherited */
+.reveal-up {
+  opacity: 0;
+  transform: translate3d(0, 36px, 0);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--reveal-delay, 0s);
+  will-change: opacity, transform;
+}
+
+.reveal-up.is-visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+/* Staggered child text & card items inside reveal-up containers */
+.reveal-up .footer__nav-link,
+.reveal-up .footer__nav-legal,
+.reveal-up .footer__contact,
+.reveal-up .footer__eco h3,
+.reveal-up .footer__eco li,
+.reveal-up .footer__credit,
+.reveal-up .reveal-item {
+  opacity: 0;
+  transform: translate3d(0, 20px, 0);
+  transition: opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1), transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: calc(var(--reveal-delay, 0s) + var(--text-delay, 0s));
+  will-change: opacity, transform;
+}
+
+.reveal-up.is-visible .footer__nav-link,
+.reveal-up.is-visible .footer__nav-legal,
+.reveal-up.is-visible .footer__contact,
+.reveal-up.is-visible .footer__eco h3,
+.reveal-up.is-visible .footer__eco li,
+.reveal-up.is-visible .footer__credit,
+.reveal-up.is-visible .reveal-item {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
 }
 
 /* ── Success checkmark on contact page ── */

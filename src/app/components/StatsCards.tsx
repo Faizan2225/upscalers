@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useRef } from "react";
-import ScrollRevealText from "./ScrollRevealText";
+import CounterNumber from "./CounterNumber";
 
 type Stat = {
   id: string;
@@ -180,7 +180,7 @@ export default function StatsCards() {
               <div className="stat__text">
                 {s.value && (
                   <div className="stat__num">
-                    <ScrollRevealText text={s.value} />
+                    <CounterNumber value={s.value} />
                   </div>
                 )}
                 {s.label && <p className="stat__label">{s.label}</p>}

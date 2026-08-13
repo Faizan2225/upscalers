@@ -127,6 +127,7 @@ export default function Hero({ dark }: { dark: boolean }) {
   const stageRef = useRef<HTMLElement>(null);
   const parallaxRef = useRef<HTMLDivElement>(null);
   const cardsScrollRef = useRef<HTMLDivElement>(null);
+  const marqueeRef = useRef<HTMLDivElement>(null);
 
   const [scrolled, setScrolled] = useState(false);
 
@@ -135,6 +136,7 @@ export default function Hero({ dark }: { dark: boolean }) {
     const stage = stageRef.current;
     const parallax = parallaxRef.current;
     const cardsScroll = cardsScrollRef.current;
+    const marqueeInner = marqueeRef.current;
     if (!wrap || !stage || !parallax || !cardsScroll) return;
 
     // mouse target / current (lerped) and scroll progress (lerped)
@@ -144,6 +146,66 @@ export default function Hero({ dark }: { dark: boolean }) {
     let scrolledLatch = false;
     let raf = 0;
     let running = false;
+
+    /* ---- cached values (avoid per-frame getComputedStyle) ---- */
+    let cachedViewH = window.innerHeight;
+    let cachedTravelPx = 275 * cachedViewH / 100;
+    let cachedCardEls = cardsScroll.querySelectorAll<HTMLElement>('.card');
+    const updateCachedValues = () => {
+      cachedViewH = window.innerHeight;
+      const travelVhStyle = getComputedStyle(stage).getPropertyValue('--travel-vh').trim();
+      cachedTravelPx = (parseFloat(travelVhStyle) || 275) * cachedViewH / 100;
+      cachedCardEls = cardsScroll.querySelectorAll<HTMLElement>('.card');
+    };
+    // Recompute on resize
+    const onResize = () => updateCachedValues();
+    window.addEventListener('resize', onResize, { passive: true });
+    updateCachedValues();
+
+    /* ---- marquee scroll-speed boost ---- */
+    const MARQUEE_NORMAL = 50;  // seconds (default)
+    const MARQUEE_FAST = 22;    // seconds (while scrolling)
+    let scrollIdleTimer: ReturnType<typeof setTimeout> | null = null;
+    let currentMarqueeDuration = MARQUEE_NORMAL;
+
+    const setMarqueeDuration = (dur: number) => {
+      if (!marqueeInner || dur === currentMarqueeDuration) return;
+      // Capture current computed progress to avoid a visible jump
+      const computed = getComputedStyle(marqueeInner);
+      const matrix = computed.transform;
+      let currentX = 0;
+      if (matrix && matrix !== 'none') {
+        const vals = matrix.split(',');
+        currentX = parseFloat(vals[4]) || 0;
+      }
+      const totalWidth = marqueeInner.scrollWidth / 2; // half because keyframe goes to -50%
+      // What fraction of the cycle are we at?
+      const progress = totalWidth > 0 ? ((-currentX % totalWidth) / totalWidth) : 0;
+      // Set negative delay to start from the same visual position
+      const newDelay = -(progress * dur);
+
+      currentMarqueeDuration = dur;
+      marqueeInner.style.setProperty('--marquee-duration', `${dur}s`);
+      marqueeInner.style.animationDelay = `${newDelay}s`;
+      // Force re-trigger animation so the new duration takes effect immediately
+      marqueeInner.style.animation = 'none';
+      // Force reflow
+      void marqueeInner.offsetWidth;
+      marqueeInner.style.animation = '';
+      marqueeInner.style.animationDelay = `${newDelay}s`;
+    };
+
+    const onScroll = () => {
+      if (currentMarqueeDuration !== MARQUEE_FAST) {
+        setMarqueeDuration(MARQUEE_FAST);
+      }
+      if (scrollIdleTimer) clearTimeout(scrollIdleTimer);
+      scrollIdleTimer = setTimeout(() => {
+        setMarqueeDuration(MARQUEE_NORMAL);
+      }, 150);
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
 
     const onMove = (e: PointerEvent) => {
       const r = stage.getBoundingClientRect();
@@ -160,10 +222,19 @@ export default function Hero({ dark }: { dark: boolean }) {
       const rect = wrap.getBoundingClientRect();
       const dist = wrap.offsetHeight - window.innerHeight;
       const rawP = dist > 0 ? clamp(-rect.top / dist, 0, 1) : 0;
-      smoothP += (rawP - smoothP) * 0.08;
+      smoothP += (rawP - smoothP) * 0.045;
 
       // cards rise upward through the stage
       cardsScroll.style.transform = `translate3d(0, calc(-${smoothP} * var(--travel-vh, 275vh)), 0)`;
+
+      // --- per-card opacity: 0.5 at bottom → 1.0 at/above viewport center ---
+      const centerY = cachedViewH * 0.45;
+      cachedCardEls.forEach((card) => {
+        const topVh = parseFloat(card.dataset.topVh || '126');
+        const cardVisualY = (topVh / 100) * cachedViewH - smoothP * cachedTravelPx;
+        const distBelow = clamp((cardVisualY - centerY) / (cachedViewH * 0.6), 0, 1);
+        card.style.opacity = String(1 - distBelow * 0.5);
+      });
 
       // mouse-reactive 3D tilt of the whole track
       current.x += (target.x - current.x) * 0.06;
@@ -207,6 +278,9 @@ export default function Hero({ dark }: { dark: boolean }) {
       vis.disconnect();
       stage.removeEventListener("pointermove", onMove);
       stage.removeEventListener("pointerleave", onLeave);
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onResize);
+      if (scrollIdleTimer) clearTimeout(scrollIdleTimer);
     };
   }, []);
 
@@ -240,6 +314,7 @@ export default function Hero({ dark }: { dark: boolean }) {
       <div
         key={i}
         className={`card card--${c.label === "Google Ranking" ? "ranking" : "calls"}`}
+        data-top-vh={String(c.topVh)}
         style={{
           ["--i" as string]: String(i),
           ["--pair-i" as string]: String(Math.floor(i / 2)),
@@ -292,7 +367,7 @@ export default function Hero({ dark }: { dark: boolean }) {
             using AI-powered optimization systems.
           </p>
           <div className="hero__cta">
-            <a href="tel:+12127089400" className="hero__btn hero__btn--primary">
+            <a href="tel:+19292449454" className="hero__btn hero__btn--primary">
               Get More Calls
               <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <path
@@ -325,7 +400,7 @@ export default function Hero({ dark }: { dark: boolean }) {
 
         {/* ---- giant marquee (deepest) ---- */}
         <div className="hero__marquee" aria-hidden="true">
-          <div className="marquee__inner">
+          <div className="marquee__inner" ref={marqueeRef}>
             {marqueeHalf}
             {marqueeHalf}
           </div>

@@ -81,6 +81,8 @@ export default function Footer() {
 
   /* ── scroll-driven fade-in on wordmark ── */
   useEffect(() => {
+    let rafId = 0;
+
     const handleScroll = () => {
       const footer = containerRef.current;
       const wordmark = wordmarkRef.current;
@@ -101,10 +103,18 @@ export default function Footer() {
       wordmark.style.transform = `translate3d(0, ${translateY}px, 0)`;
     };
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
+    const onScroll = () => {
+      cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(handleScroll);
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
     handleScroll();
 
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => {
+      cancelAnimationFrame(rafId);
+      window.removeEventListener("scroll", onScroll);
+    };
   }, [containerRef]);
 
   return (
@@ -186,11 +196,11 @@ export default function Footer() {
             >
               <Plus />
               <div className="footer__address-text" style={{ display: "flex", flexDirection: "column", gap: "12px", width: "100%" }}>
-                <div>
+                <div className="reveal-item" style={{ ["--text-delay" as string]: "0.28s" }}>
                   <strong style={{ display: "block", fontSize: "11px", fontWeight: "700", textTransform: "uppercase", letterSpacing: "0.05em", color: "var(--accent)", marginBottom: "4px" }}>New York Office</strong>
                   <span style={{ fontSize: "13.5px", lineHeight: "1.4", opacity: 0.95 }}>2442 Brigham Street Fl 2, Brooklyn, NY 11235, USA</span>
                 </div>
-                <div style={{ borderTop: "1px solid rgba(124, 92, 255, 0.12)", paddingTop: "12px" }}>
+                <div className="reveal-item" style={{ ["--text-delay" as string]: "0.36s", borderTop: "1px solid rgba(124, 92, 255, 0.12)", paddingTop: "12px" }}>
                   <strong style={{ display: "block", fontSize: "11px", fontWeight: "700", textTransform: "uppercase", letterSpacing: "0.05em", color: "var(--accent)", marginBottom: "4px" }}>New Jersey Office</strong>
                   <span style={{ fontSize: "13.5px", lineHeight: "1.4", opacity: 0.95 }}>32 Morningside Ave, South River, NJ 08882, USA</span>
                 </div>

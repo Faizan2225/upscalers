@@ -8,19 +8,25 @@ import { useScrollReveal } from "../hooks/useScrollReveal";
 const CONTACT_INFO = [
   {
     title: "Email Us",
-    val: "hello@upscalers.com",
-    href: "mailto:hello@upscalers.com",
+    val: "support@businessupscalersllc.com",
+    href: "mailto:support@businessupscalersllc.com",
     icon: "✉"
   },
   {
     title: "Call Us",
-    val: "+1 212-708-9400",
-    href: "tel:+12127089400",
+    val: "+1 (929) 244-9454",
+    href: "tel:+19292449454",
     icon: "☎"
   },
   {
-    title: "Our HQ",
-    val: "Roosevelt, New York, NY",
+    title: "New York Office",
+    val: "2442 Brigham Street Fl 2, Brooklyn, NY 11235, USA",
+    href: "#",
+    icon: "⚲"
+  },
+  {
+    title: "New Jersey Office",
+    val: "32 Morningside Ave, South River, NJ 08882, USA",
     href: "#",
     icon: "⚲"
   },

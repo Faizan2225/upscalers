@@ -19,6 +19,8 @@ export default function CtaBlock() {
     const section = sectionRef.current;
     if (!section) return;
 
+    let rafId = 0;
+
     const handleScroll = () => {
       const rect = section.getBoundingClientRect();
       const viewportHeight = window.innerHeight;
@@ -31,10 +33,18 @@ export default function CtaBlock() {
       section.style.setProperty("--cta-progress", progress.toString());
     };
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
+    const onScroll = () => {
+      cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(handleScroll);
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
     handleScroll();
 
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => {
+      cancelAnimationFrame(rafId);
+      window.removeEventListener("scroll", onScroll);
+    };
   }, []);
 
   /* magnetic button: the pill is gently pulled toward the cursor when it
@@ -104,7 +114,7 @@ export default function CtaBlock() {
           <h2 className="cta__title">
             <ScrollRevealText text="Let's grow your business." />
           </h2>
-          <a ref={btnRef} href="tel:+12127089400" className="cta__btn">
+          <a ref={btnRef} href="tel:+19292449454" className="cta__btn">
             <span className="cta__btn-label">
               Get More Calls
               <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
