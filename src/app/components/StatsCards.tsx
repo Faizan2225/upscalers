@@ -52,54 +52,50 @@ export default function StatsCards() {
     const cards = cardRefs.current;
     if (cards.length === 0) return;
 
+    const targetProgress = [0, 0, 0];
+    const currentProgress = [0, 0, 0];
     let rafId = 0;
 
-    const handleScroll = () => {
+    const updateTargets = () => {
       const viewportHeight = window.innerHeight;
       const startFraction = 0.95;
       const endFraction = 0.45;
 
-      cards.forEach((card) => {
+      cards.forEach((card, i) => {
         if (!card) return;
         const rect = card.getBoundingClientRect();
 
-        if (rect.bottom < 0) {
-          card.style.setProperty("--card-progress", "1");
+        if (rect.bottom < 0 || rect.top <= endFraction * viewportHeight) {
+          targetProgress[i] = 1;
           return;
         }
-        if (rect.top > viewportHeight) {
-          card.style.setProperty("--card-progress", "0");
+        if (rect.top > startFraction * viewportHeight) {
+          targetProgress[i] = 0;
           return;
         }
 
         const currentFraction = rect.top / viewportHeight;
-        let progress = 0;
-        if (currentFraction >= startFraction) {
-          progress = 0;
-        } else if (currentFraction <= endFraction) {
-          progress = 1;
-        } else {
-          progress = (startFraction - currentFraction) / (startFraction - endFraction);
-        }
-
-        card.style.setProperty("--card-progress", progress.toString());
+        targetProgress[i] = (startFraction - currentFraction) / (startFraction - endFraction);
       });
     };
 
-    const onScroll = () => {
-      cancelAnimationFrame(rafId);
-      rafId = requestAnimationFrame(handleScroll);
+    const tick = () => {
+      updateTargets();
+      cards.forEach((card, i) => {
+        if (!card) return;
+        currentProgress[i] += (targetProgress[i] - currentProgress[i]) * 0.15;
+        if (Math.abs(targetProgress[i] - currentProgress[i]) < 0.001) {
+          currentProgress[i] = targetProgress[i];
+        }
+        card.style.setProperty("--card-progress", currentProgress[i].toFixed(4));
+      });
+      rafId = requestAnimationFrame(tick);
     };
 
-    handleScroll();
-
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll, { passive: true });
+    rafId = requestAnimationFrame(tick);
 
     return () => {
       cancelAnimationFrame(rafId);
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
     };
   }, []);
 

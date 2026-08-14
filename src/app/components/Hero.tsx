@@ -147,12 +147,14 @@ export default function Hero({ dark }: { dark: boolean }) {
     let raf = 0;
     let running = false;
 
-    /* ---- cached values (avoid per-frame getComputedStyle) ---- */
+    /* ---- cached values (avoid per-frame getComputedStyle & layout reads) ---- */
     let cachedViewH = window.innerHeight;
+    let cachedWrapDist = Math.max(1, wrap.offsetHeight - cachedViewH);
     let cachedTravelPx = 275 * cachedViewH / 100;
     let cachedCardEls = cardsScroll.querySelectorAll<HTMLElement>('.card');
     const updateCachedValues = () => {
       cachedViewH = window.innerHeight;
+      cachedWrapDist = Math.max(1, wrap.offsetHeight - cachedViewH);
       const travelVhStyle = getComputedStyle(stage).getPropertyValue('--travel-vh').trim();
       cachedTravelPx = (parseFloat(travelVhStyle) || 275) * cachedViewH / 100;
       cachedCardEls = cardsScroll.querySelectorAll<HTMLElement>('.card');
@@ -198,13 +200,11 @@ export default function Hero({ dark }: { dark: boolean }) {
 
     const tick = () => {
       // --- scroll progress 0..1 over the wrapper's scroll length ---
-      const rect = wrap.getBoundingClientRect();
-      const dist = wrap.offsetHeight - window.innerHeight;
-      const rawP = dist > 0 ? clamp(-rect.top / dist, 0, 1) : 0;
-      smoothP += (rawP - smoothP) * 0.18;
+      const rawP = clamp(window.scrollY / cachedWrapDist, 0, 1);
+      smoothP += (rawP - smoothP) * 0.2;
 
       // cards rise upward through the stage
-      cardsScroll.style.transform = `translate3d(0, calc(-${smoothP} * var(--travel-vh, 275vh)), 0)`;
+      cardsScroll.style.transform = `translate3d(0, calc(-${smoothP.toFixed(4)} * var(--travel-vh, 275vh)), 0)`;
 
       // --- per-card opacity: 0.5 at bottom → 1.0 at/above viewport center ---
       const centerY = cachedViewH * 0.45;
@@ -212,7 +212,7 @@ export default function Hero({ dark }: { dark: boolean }) {
         const topVh = parseFloat(card.dataset.topVh || '126');
         const cardVisualY = (topVh / 100) * cachedViewH - smoothP * cachedTravelPx;
         const distBelow = clamp((cardVisualY - centerY) / (cachedViewH * 0.6), 0, 1);
-        card.style.opacity = String(1 - distBelow * 0.5);
+        card.style.opacity = (1 - distBelow * 0.5).toFixed(3);
       });
 
       // mouse-reactive 3D tilt of the whole track
