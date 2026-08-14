@@ -15,6 +15,9 @@
 }
 
 html {
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -43,7 +46,10 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  width: 100%;
+  max-width: 100vw;
   overflow-x: hidden;
+  position: relative;
 }
 
 /* ============================================================
@@ -54,6 +60,8 @@ body {
 .hero-wrap {
   position: relative;
   width: 100%;
+  max-width: 100vw;
+  overflow: hidden;
   height: 330vh;
   z-index: 1;
 }
@@ -804,6 +812,9 @@ body {
   position: relative;
   z-index: 30;
   background: var(--bg, #f4f1ec);
+  width: 100%;
+  max-width: 100vw;
+  overflow: hidden;
 }
 
 .svc {
@@ -813,8 +824,9 @@ body {
   /* dynamically subtract the top offset so ALL cards align their bottom edges perfectly above the viewport floor */
   height: calc(100vh - 150px - var(--i) * 20px);
   margin-bottom: 80px;
-  /* inset box: off-white gutters around each panel (matches reference) */
-  margin-inline: clamp(16px, 3.8vw, 72px);
+  /* inset box: centered gutters around each panel */
+  width: calc(100% - (2 * clamp(16px, 3.8vw, 72px)));
+  margin-inline: auto;
   display: flex;
   align-items: stretch;
   padding: clamp(36px, 6vh, 76px) clamp(20px, 3.4vw, 64px);
@@ -1038,6 +1050,9 @@ body {
   background: var(--background);
   color: var(--foreground);
   padding: clamp(64px, 9vh, 130px) 0;
+  width: 100%;
+  max-width: 100vw;
+  overflow: hidden;
 }
 
 .cases__head {
@@ -1069,7 +1084,8 @@ body {
 
 .cases__track {
   overflow: hidden;
-  margin-inline: clamp(16px, 3.8vw, 72px);
+  width: calc(100% - (2 * clamp(16px, 3.8vw, 72px)));
+  margin-inline: auto;
   padding: 16px 0 56px;
   -webkit-mask-image: linear-gradient(to right, transparent, black 3%, black 97%, transparent);
   mask-image: linear-gradient(to right, transparent, black 3%, black 97%, transparent);
@@ -1340,6 +1356,9 @@ body {
   background: var(--background);
   color: var(--foreground);
   padding: clamp(32px, 4vh, 64px) clamp(16px, 3.8vw, 72px) clamp(64px, 9vh, 120px);
+  width: 100%;
+  max-width: 100vw;
+  overflow: hidden;
 }
 
 .stats__grid {
@@ -4699,6 +4718,9 @@ body,
   background: var(--background);
   color: var(--foreground);
   padding: clamp(72px, 10vh, 120px) clamp(16px, 3.8vw, 72px);
+  width: 100%;
+  max-width: 100vw;
+  overflow: hidden;
 }
 
 .video-testimonial__panel {
