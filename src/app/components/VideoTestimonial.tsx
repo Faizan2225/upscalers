@@ -71,7 +71,7 @@ export default function VideoTestimonial() {
 
   return (
     <section className="video-testimonial" ref={containerRef}>
-      <div className={`video-testimonial__panel reveal-up ${isVisible(1) ? "is-visible" : ""}`}>
+      <div data-index="0" className={`video-testimonial__panel reveal-up ${isVisible(0) ? "is-visible" : ""}`}>
         <div className="vt-slider">
 
           {/* Left panel: quote & control buttons */}
