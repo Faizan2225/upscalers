@@ -363,15 +363,16 @@ body {
 .hero__bottom {
   position: absolute;
   left: 50%;
-  bottom: clamp(16px, 3vw, 32px);
+  bottom: 0;
   transform: translateX(-50%);
   z-index: 40;
   width: min(92vw, 560px);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 32px;
+  gap: 16px;
   text-align: center;
+  padding-bottom: clamp(12px, 2vh, 24px);
   transition: opacity 0.45s ease, transform 0.45s ease;
 }
 
@@ -764,19 +765,30 @@ body {
     left: 5vw !important;
   }
 
+  .hero__bottom {
+    bottom: 0;
+    padding-bottom: max(8px, env(safe-area-inset-bottom));
+    width: calc(100% - 32px);
+    gap: 10px;
+  }
+
   .hero__support {
     font-size: 13px;
+    line-height: 1.4;
   }
 
   .hero__cta {
     width: 100%;
     flex-direction: column;
+    gap: 8px;
+    margin-bottom: 0;
   }
 
   .hero__btn {
     width: 100%;
     justify-content: center;
-    height: 50px;
+    height: 48px;
+    margin-bottom: 0;
   }
 
 

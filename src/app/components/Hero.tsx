@@ -170,29 +170,8 @@ export default function Hero({ dark }: { dark: boolean }) {
 
     const setMarqueeDuration = (dur: number) => {
       if (!marqueeInner || dur === currentMarqueeDuration) return;
-      // Capture current computed progress to avoid a visible jump
-      const computed = getComputedStyle(marqueeInner);
-      const matrix = computed.transform;
-      let currentX = 0;
-      if (matrix && matrix !== 'none') {
-        const vals = matrix.split(',');
-        currentX = parseFloat(vals[4]) || 0;
-      }
-      const totalWidth = marqueeInner.scrollWidth / 2; // half because keyframe goes to -50%
-      // What fraction of the cycle are we at?
-      const progress = totalWidth > 0 ? ((-currentX % totalWidth) / totalWidth) : 0;
-      // Set negative delay to start from the same visual position
-      const newDelay = -(progress * dur);
-
       currentMarqueeDuration = dur;
       marqueeInner.style.setProperty('--marquee-duration', `${dur}s`);
-      marqueeInner.style.animationDelay = `${newDelay}s`;
-      // Force re-trigger animation so the new duration takes effect immediately
-      marqueeInner.style.animation = 'none';
-      // Force reflow
-      void marqueeInner.offsetWidth;
-      marqueeInner.style.animation = '';
-      marqueeInner.style.animationDelay = `${newDelay}s`;
     };
 
     const onScroll = () => {
@@ -222,7 +201,7 @@ export default function Hero({ dark }: { dark: boolean }) {
       const rect = wrap.getBoundingClientRect();
       const dist = wrap.offsetHeight - window.innerHeight;
       const rawP = dist > 0 ? clamp(-rect.top / dist, 0, 1) : 0;
-      smoothP += (rawP - smoothP) * 0.045;
+      smoothP += (rawP - smoothP) * 0.18;
 
       // cards rise upward through the stage
       cardsScroll.style.transform = `translate3d(0, calc(-${smoothP} * var(--travel-vh, 275vh)), 0)`;
