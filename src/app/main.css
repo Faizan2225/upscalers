@@ -764,19 +764,27 @@ body {
     left: 5vw !important;
   }
 
+  .hero__bottom {
+    bottom: max(12px, env(safe-area-inset-bottom));
+    width: calc(100% - 32px);
+    gap: 10px;
+  }
+
   .hero__support {
     font-size: 13px;
+    line-height: 1.4;
   }
 
   .hero__cta {
     width: 100%;
     flex-direction: column;
+    gap: 8px;
   }
 
   .hero__btn {
     width: 100%;
     justify-content: center;
-    height: 50px;
+    height: 48px;
   }
 
 
